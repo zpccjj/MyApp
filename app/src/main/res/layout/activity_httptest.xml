@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/app_primary_color"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".HttpTestActivity">
+
+    <com.qmuiteam.qmui.widget.QMUITopBar
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/qmui_topbar_height" >
+
+    </com.qmuiteam.qmui.widget.QMUITopBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/qmui_config_color_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/qmui_config_color_white"
+                android:padding="@dimen/common_content_spacing">
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_http_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="测试1"
+                    android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                    app:qmui_isRadiusAdjustBounds="true" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_http_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="测试2"
+                    android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                    app:qmui_isRadiusAdjustBounds="true" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/qmui_config_color_white"
+                android:padding="@dimen/common_content_spacing">
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_http_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="测试3"
+                    android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                    app:qmui_isRadiusAdjustBounds="true" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/button_http_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="测试4"
+                    android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                    app:qmui_isRadiusAdjustBounds="true" />
+            </TableRow>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
