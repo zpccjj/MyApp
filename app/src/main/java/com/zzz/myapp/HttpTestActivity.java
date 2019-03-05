@@ -48,7 +48,7 @@ public class HttpTestActivity extends HttpActivity {
             }
         });
 
-        mTopBar.setTitle("Http测试");
+        mTopBar.setTitle("OkHttp");
     }
 
 

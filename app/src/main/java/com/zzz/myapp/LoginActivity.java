@@ -30,13 +30,13 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "请输入账号密码", Toast.LENGTH_SHORT).show();
         else{
            //login
-            ActivityUtil.JumpToHttpTest(this);
+            ActivityUtil.JumpToMainActivity(this);
         }
     }
 
     @OnClick(R.id.button_register )   //给 button 设置一个点击事件
     public void register(){
-        ActivityUtil.JumpToRegister(this);
+        ActivityUtil.JumpToRegisterActivity(this);
     }
 
 
@@ -53,6 +53,9 @@ public class LoginActivity extends Activity {
         //初始化状态栏
         initTopBar();
         setContentView(root);
+
+        editTexts.get(0).setText("123");
+        editTexts.get(1).setText("111111");
     }
 
     private void initTopBar() {
