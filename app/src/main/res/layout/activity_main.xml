@@ -60,7 +60,7 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Picasso"
+                android:text="PicassoList"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 app:qmui_isRadiusAdjustBounds="true" />
             </TableRow>

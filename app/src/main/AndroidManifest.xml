@@ -50,7 +50,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
         </activity>
         <activity
-            android:name=".PicassoActivity"
+            android:name=".PicassoListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
         </activity>

@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.zzz.myapp.HttpTestActivity;
 import com.zzz.myapp.MainActivity;
-import com.zzz.myapp.PicassoActivity;
+import com.zzz.myapp.PicassoListActivity;
 import com.zzz.myapp.RegisterActivity;
 
 public class ActivityUtil {
@@ -24,8 +24,8 @@ public class ActivityUtil {
         context.startActivity(intent);
     }
 
-    public static void JumpToPicassoActivity(Context context){
-        Intent intent = new Intent(context, PicassoActivity.class);
+    public static void JumpToPicassoListActivity(Context context){
+        Intent intent = new Intent(context, PicassoListActivity.class);
         context.startActivity(intent);
     }
 }

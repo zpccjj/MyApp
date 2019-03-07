@@ -7,7 +7,7 @@
     android:background="?attr/app_primary_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".PicassoActivity">
+    tools:context=".PicassoListActivity">
     <com.qmuiteam.qmui.widget.QMUITopBar
         android:id="@+id/topbar"
         android:layout_width="match_parent"

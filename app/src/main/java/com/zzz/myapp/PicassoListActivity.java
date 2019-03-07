@@ -13,7 +13,7 @@ import com.zzz.myapp.ui.HttpActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PicassoActivity extends HttpActivity {
+public class PicassoListActivity extends HttpActivity {
     @BindView(R.id.topbar) QMUITopBar mTopBar;
     @BindView(R.id.picasso_listview) ListView mListView;
 
@@ -40,7 +40,7 @@ public class PicassoActivity extends HttpActivity {
         // 沉浸式状态栏
         QMUIStatusBarHelper.translucent(this);
 
-        View root = LayoutInflater.from(this).inflate(R.layout.activity_picasso, null);
+        View root = LayoutInflater.from(this).inflate(R.layout.activity_picassolist, null);
         //绑定初始化ButterKnife
         ButterKnife.bind(this, root);
         //初始化状态栏
@@ -62,6 +62,6 @@ public class PicassoActivity extends HttpActivity {
             }
         });
 
-        mTopBar.setTitle("Picasso");
+        mTopBar.setTitle("PicassoList");
     }
 }

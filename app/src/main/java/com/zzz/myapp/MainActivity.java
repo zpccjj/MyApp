@@ -50,6 +50,6 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.button_main_2 )
     public void JumpToPicasso(){
-        ActivityUtil.JumpToPicassoActivity(this);
+        ActivityUtil.JumpToPicassoListActivity(this);
     }
 }

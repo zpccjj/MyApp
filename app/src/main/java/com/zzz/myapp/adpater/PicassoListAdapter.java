@@ -34,9 +34,11 @@ public class PicassoListAdapter extends ArrayAdapter {
             Picasso
                     .get()
                     .load(mImageUrls[position])
+                    //.memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher)
-                    .centerCrop()
+                    //.centerCrop()
+                    //.fit()
                     .into((ImageView) convertView);
         }
         //加载图片
