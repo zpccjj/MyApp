@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TableRow
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:textSize="16sp"
+            android:text="@string/txt_string_03" />
+
+        <TextView
+	        android:id="@+id/task_1"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+
+    </TableRow>
+    <TableRow
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:textSize="16sp"
+            android:text="@string/txt_string_04" />
+
+        <TextView
+	        android:id="@+id/task_2"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+    </TableRow>
+    
+    <TableRow
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:textSize="16sp"
+            android:text="@string/txt_string_05" />
+
+        <TextView
+	        android:id="@+id/task_3"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+    </TableRow>
+    <TableRow
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:textSize="16sp"
+            android:text="@string/txt_string_12" />
+
+        <TextView
+	        android:id="@+id/task_4"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+    </TableRow>
+
+	<TextView
+	    android:layout_marginTop="5dp"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	    android:text="@string/txt_string_13"
+	    android:textSize="20sp"
+	    android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/qp_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1" >
+
+    </ListView>
+    
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+        <Button
+            android:id="@+id/task_btn1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/btn_string_02" />
+    	<Button
+            android:id="@+id/task_btn2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/btn_string_03" />
+    	<Button
+            android:id="@+id/task_btn3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/btn_string_04" />
+    </TableRow>
+
+</LinearLayout>

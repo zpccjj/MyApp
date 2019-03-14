@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -22,7 +23,9 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -187,6 +190,50 @@ public class NetUtils {
                 myNetCall.failed(e.getMessage());
             }
             @Override public void onResponse(Call call, Response response) throws IOException {
+                myNetCall.success(response.body().string());
+            }
+        });
+    }
+
+    /**
+     * post请求，异步方式，上传文件
+     * @param url
+     * @param filename
+     * @param filepath
+     * @param myNetCall
+     */
+    public void postUpdateFile(String  url, String filename, String filepath, final myNetCall myNetCall){
+        File file = new File(filepath);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+//        RequestBody requestBody = new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                .addFormDataPart("filename", filename)
+//                .addFormDataPart("file", filename, fileBody)
+//                .build();
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("userid", "hsic")
+                .addFormDataPart("json", "1234567890")
+//                .addPart(Headers.of(
+//                        "Content-Disposition",
+//                        "form-data; name=\"username\""),
+//                        RequestBody.create(null, "HGR"))
+                .addPart(Headers.of(
+                        "Content-Disposition",
+                        "form-data; name=\"mFile\"; filename=\"" + filename + "\""), fileBody)
+                .build();
+
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback(){
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                myNetCall.failed(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 myNetCall.success(response.body().string());
             }
         });

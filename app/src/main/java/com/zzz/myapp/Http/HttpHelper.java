@@ -84,4 +84,26 @@ public class HttpHelper {
                     }
                 });
     }
+
+    public static void updateFile(String url, final String fun, final Handler handler, String filename, String filepath){
+        NetUtils.getInstance().postUpdateFile(url, filename, filepath,
+                new NetUtils.myNetCall(){
+
+                    @Override
+                    public void success(String dataJson) {
+                        HttpData data = new HttpData(true, fun, dataJson, null);
+                        Message msg = new Message() ;
+                        msg.what = 1 ; msg.obj = data;
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void failed(String err) {
+                        HttpData data = new HttpData(false, fun, null, err);
+                        Message msg = new Message() ;
+                        msg.what = 1 ; msg.obj = data;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
 }

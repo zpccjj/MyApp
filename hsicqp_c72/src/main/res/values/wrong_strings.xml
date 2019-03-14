@@ -1,0 +1,3 @@
+<resources>
+    <string name="wrong_login">用户名和密码不能为空</string>
+</resources>

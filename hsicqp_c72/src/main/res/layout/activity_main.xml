@@ -1,0 +1,69 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/main_tabbar_height" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.0"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/llyt_tab_group"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_tabbar_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/ic_tabbar_bg"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rbtn_tab_1"
+                style="@style/MMTabButton"
+                android:drawablePadding="-2.0dip"
+                android:layout_weight="1"
+                android:text="首页" />
+            <RadioButton
+                android:id="@+id/rbtn_tab_2"
+                style="@style/MMTabButton"
+                android:drawablePadding="-2.0dip"
+                android:layout_weight="1"
+                android:text="查询" />
+            <RadioButton
+              android:id="@+id/rbtn_tab_3"
+              style="@style/MMTabButton"
+              android:drawablePadding="-2.0dip"
+              android:layout_weight="1"
+              android:text="统计" />
+
+            <RadioButton
+                android:id="@+id/rbtn_tab_4"
+                style="@style/MMTabButton"
+                android:drawablePadding="-2.0dip"
+                android:layout_weight="1"
+                android:text="我的" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/llyt_tab_group"
+            android:background="@color/lucency_black"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_tabbar_bg_shadow" />
+    </RelativeLayout>
+
+</TabHost>

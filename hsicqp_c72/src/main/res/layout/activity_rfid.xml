@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+             <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:layout_marginTop="5dp"
+		        android:text="@string/txt_home_6"
+		        android:textSize="24sp" />
+
+           <TableRow
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp" >
+
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_marginRight="5dp"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_qp_8"
+		            android:textSize="16sp" />
+		
+		        <EditText
+		            android:id="@+id/rfid_1"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:inputType="text"
+		            android:maxLength="12"
+		            android:textSize="16sp" />
+		   </TableRow>
+
+           <TableRow
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:layout_marginTop="10dp" >
+
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_marginRight="5dp"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_qp_12"
+		            android:textSize="16sp" />
+		
+		        <TextView
+		            android:id="@+id/rfid_5"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textSize="16sp" />
+		   </TableRow>
+           
+		   <TableRow
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:layout_marginTop="10dp" >
+
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_marginRight="5dp"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_qp_9"
+		            android:textSize="16sp" />
+		
+		        <TextView
+		            android:id="@+id/rfid_2"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textSize="16sp" />
+		   </TableRow>
+
+		   <TableRow
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:layout_marginTop="10dp" >
+
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_marginRight="5dp"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_qp_10"
+		            android:textSize="16sp" />
+		
+		        <TextView
+		            android:id="@+id/rfid_3"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textSize="16sp" />
+		   </TableRow>
+
+		   <TableRow
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:layout_marginTop="10dp" >
+
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_marginRight="5dp"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_qp_11"
+		            android:textSize="16sp" />
+		
+		        <TextView
+		            android:id="@+id/rfid_4"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textSize="16sp" />
+		   </TableRow>
+        </LinearLayout>
+    </ScrollView>
+    	 <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+		<Button
+		    android:id="@+id/rfid_btn1"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="5dp"
+		    android:layout_marginRight="5dp"
+		    android:layout_weight="1"
+		    android:text="@string/btn_string_15"
+		    android:textSize="14sp" />
+
+		<Button
+            android:id="@+id/rfid_btn2"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_16" />
+    	<Button
+            android:id="@+id/rfid_btn3"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_17" />
+    </TableRow>
+</LinearLayout>

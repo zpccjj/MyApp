@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/title_server" >
+
+        
+        <EditTextPreference
+            android:defaultValue="@string/config_ws"
+            android:dialogTitle="@string/text_webserver"
+            android:key="webServer"
+            android:summary="@string/hint_webserver"
+            android:title="@string/title_webserver" />
+        
+        <EditTextPreference
+            android:defaultValue="@string/config_time"
+            android:dialogTitle="@string/text_ws_time"
+            android:key="overTime"
+            android:inputType="number"
+            android:summary="@string/hint_ws_time"
+            android:title="@string/title_ws_time" />
+        
+        <Preference
+            android:key="DeviceID"
+            android:title="@string/title_no" />
+         
+        <Preference
+	        android:key="bluetooth_mac"
+	        android:title="@string/bluetooth_add" />
+        
+         <Preference
+	        android:key="version"
+	        android:title="@string/title_show" />
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>
