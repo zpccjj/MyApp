@@ -155,7 +155,7 @@ public class HttpTestActivity extends HttpActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
+    //msg------------
     private ProgressDialog dialog;
 
     private void showDialog(String Title){
