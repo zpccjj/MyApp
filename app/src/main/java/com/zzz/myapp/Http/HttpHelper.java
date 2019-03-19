@@ -85,8 +85,8 @@ public class HttpHelper {
                 });
     }
 
-    public static void updateFile(String url, final String fun, final Handler handler, String filename, String filepath){
-        NetUtils.getInstance().postUpdateFile(url, filename, filepath,
+    public static void updateFile(String url, final String fun, final Handler handler, String filename, String filepath, String  json){
+        NetUtils.getInstance().postUpdateFile(url, filename, filepath, json,
                 new NetUtils.myNetCall(){
 
                     @Override

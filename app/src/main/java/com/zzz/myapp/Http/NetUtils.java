@@ -200,9 +200,10 @@ public class NetUtils {
      * @param url
      * @param filename
      * @param filepath
+     * @param json
      * @param myNetCall
      */
-    public void postUpdateFile(String  url, String filename, String filepath, final myNetCall myNetCall){
+    public void postUpdateFile(String  url, String filename, String filepath, String  json, final myNetCall myNetCall){
         File file = new File(filepath);
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
 //        RequestBody requestBody = new MultipartBody.Builder()
@@ -212,8 +213,8 @@ public class NetUtils {
 //                .build();
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("userid", "hsic")
-                .addFormDataPart("json", "1234567890")
+                .addFormDataPart("app", "com.zzz.myapp")
+                .addFormDataPart("json", json)
 //                .addPart(Headers.of(
 //                        "Content-Disposition",
 //                        "form-data; name=\"username\""),

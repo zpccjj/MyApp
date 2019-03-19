@@ -148,7 +148,8 @@ public class HttpTestActivity extends HttpActivity {
                     // File file = new File(path);
                     // Initiate the upload
                     showDialog("Uploading...");
-                    HttpHelper.updateFile("http://192.168.1.84:8080/eciqTransServer/post/jcjf/Upload", "UpdateFile", myHandler, filename,filepath);
+                    HttpHelper.updateFile("http://192.168.1.84:8080/eciqTransServer/post/jcjf/Upload",
+                            "UpdateFile", myHandler, filename,filepath, "123456");
                 }
                 break;
         }
