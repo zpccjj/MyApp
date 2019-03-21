@@ -51,6 +51,9 @@ public class ListActivity extends HsicActivity {
         mList.add("No.000004"); mList.add("No.000005"); mList.add("No.000006");
         mList.add("No.000007"); mList.add("No.000008"); mList.add("No.000009");
         mList.add("No.000010"); mList.add("No.000011"); mList.add("No.000012");
+        mList.add("No.000013"); mList.add("No.000014"); mList.add("No.000015");
+        mList.add("No.000016"); mList.add("No.000017"); mList.add("No.000018");
+        mList.add("No.000019"); mList.add("No.000020"); mList.add("No.000021");
 
         mAdapter = new SwipeListAdapter(getContext(), mList, sets);
 
