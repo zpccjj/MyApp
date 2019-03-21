@@ -47,6 +47,7 @@ public class ListActivity extends HsicActivity {
     }
 
     private void initListView(){
+        //初始化数据
         mList.add("No.000001"); mList.add("No.000002"); mList.add("No.000003");
         mList.add("No.000004"); mList.add("No.000005"); mList.add("No.000006");
         mList.add("No.000007"); mList.add("No.000008"); mList.add("No.000009");
