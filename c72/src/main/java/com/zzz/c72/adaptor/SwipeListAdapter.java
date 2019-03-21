@@ -53,8 +53,21 @@ public class SwipeListAdapter extends BaseAdapter {
         LinearLayout slip_item = (LinearLayout) view.findViewById(R.id.slip_item);
         final SwipeListLayout sll_main = (SwipeListLayout) view
                 .findViewById(R.id.sll_main);
+        TextView tv_top = (TextView) view.findViewById(R.id.tv_top);
         TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
         sll_main.setOnSwipeStatusListener(new MyOnSlipStatusListener(sll_main, mSets));
+
+        tv_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sll_main.setStatus(SwipeListLayout.Status.Close, true);
+                String str = mList.get(arg0);
+                mList.remove(arg0);
+                mList.add(0, str);
+                notifyDataSetChanged();
+                mSets.clear();
+            }
+        });
 
         tv_delete.setOnClickListener(new View.OnClickListener() {
 

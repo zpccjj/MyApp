@@ -248,6 +248,7 @@ public class SwipeListLayout extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        //布局只支持拥有两个子布局
         hiddenView = getChildAt(0); // 得到隐藏按钮的linearlayout
         itemView = getChildAt(1); // 得到最上层的linearlayout
     }
@@ -265,6 +266,6 @@ public class SwipeListLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right,
                             int bottom) {
-        layout(Status.Close);
+        layout(Status.Close);//初始化位置，状态为关闭
     }
 }
