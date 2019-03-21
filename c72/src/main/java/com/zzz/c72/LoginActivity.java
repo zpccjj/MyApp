@@ -1,9 +1,8 @@
 package com.zzz.c72;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,18 @@ import android.widget.Toast;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zzz.c72.utils.ActivityUtil;
 
 import java.util.List;
 
+import app.ui.HttpActivity;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends HttpActivity {
     @BindView(R.id.topbar) QMUITopBar mTopBar;
 
     @BindViews({ R.id.edittext_user, R.id.edittext_password})
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "请输入账号密码", Toast.LENGTH_SHORT).show();
         else{
            //login
+            ActivityUtil.JumpToMainActivity(getContext());
         }
     }
 
@@ -61,6 +63,8 @@ public class LoginActivity extends Activity {
         editTexts.get(1).setText("111111");
 
         requestPermissions();
+
+        Log.e("getExternalFilesDir",getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath());
     }
 
     private void requestPermissions() {
@@ -100,10 +104,6 @@ public class LoginActivity extends Activity {
                 }
             }
         });
-    }
-
-    private Context getContext(){
-        return this;
     }
 
     private void initTopBar() {

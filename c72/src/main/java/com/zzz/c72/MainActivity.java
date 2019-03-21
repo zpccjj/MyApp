@@ -1,21 +1,19 @@
 package com.zzz.c72;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
-import com.rscja.deviceapi.RFIDWithUHF;
+import com.zzz.c72.utils.ActivityUtil;
 
-import app.bean.HttpData;
-import app.ui.HsicActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends HsicActivity {
-    private RFIDWithUHF mReader;
+public class MainActivity extends Activity {
 
     @BindView(R.id.topbar) QMUITopBar mTopBar;
 
@@ -47,7 +45,7 @@ public class MainActivity extends HsicActivity {
 
     @OnClick(R.id.button_main_1 )
     public void JumpToMenu1(){
-
+        ActivityUtil.JumpToListActivity(this);
     }
 
     @OnClick(R.id.button_main_2 )
@@ -55,23 +53,4 @@ public class MainActivity extends HsicActivity {
 
     }
 
-    @Override
-    public void FinishHttp(HttpData data){
-
-    }
-
-    @Override
-    public void getRFID(String txt){
-        //	Log.e("HsicActivity getRFID", txt);
-    }
-
-    @Override
-    public void closeRFID(){
-        //	Log.e("HsicActivity closeRFID", txt);
-    }
-
-    @Override
-    public void ScanRfid(){
-
-    }
 }

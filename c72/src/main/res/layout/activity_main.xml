@@ -41,7 +41,7 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="OkHttp"
+                    android:text="菜单1"
                     android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                     app:qmui_isRadiusAdjustBounds="true" />
             </TableRow>
@@ -60,7 +60,7 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="PicassoList"
+                android:text="菜单2"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                 app:qmui_isRadiusAdjustBounds="true" />
             </TableRow>
