@@ -1,1 +1,1 @@
-include ':app', ':actionbarsherlock', ':multichoiceadapter', ':wheel', ':hsicqp_c72'
+include ':app', ':actionbarsherlock', ':multichoiceadapter', ':wheel', ':hsicqp_c72', ':c72'
