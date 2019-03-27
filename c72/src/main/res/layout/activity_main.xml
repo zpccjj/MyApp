@@ -41,7 +41,7 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="菜单1"
+                    android:text="RFID扫描"
                     android:textSize="?attr/qmui_common_list_item_title_h_text_size"
                     app:qmui_isRadiusAdjustBounds="true" />
             </TableRow>

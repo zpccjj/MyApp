@@ -13,14 +13,15 @@ import com.zzz.c72.R;
 import java.util.List;
 import java.util.Set;
 
+import app.bean.RfidData;
 import app.ui.MyOnSlipStatusListener;
 import app.ui.SwipeListLayout;
 
 public class SwipeListAdapter extends BaseAdapter {
     Context mContext;
-    List<String> mList;
+    List<RfidData> mList;
     Set<SwipeListLayout> mSets;
-    public SwipeListAdapter(Context context, List<String> list, Set<SwipeListLayout> sets) {
+    public SwipeListAdapter(Context context, List<RfidData> list, Set<SwipeListLayout> sets) {
         mContext = context;
         mList = list;
         mSets = sets;
@@ -49,7 +50,9 @@ public class SwipeListAdapter extends BaseAdapter {
                     R.layout.item_slip_list, null);
         }
         TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-        tv_name.setText(mList.get(arg0));
+        TextView tv_num = (TextView) view.findViewById(R.id.tv_num);
+        tv_name.setText(mList.get(arg0).getEPC());
+        tv_num.setText(String.valueOf(mList.get(arg0).getNUM()));
         LinearLayout slip_item = (LinearLayout) view.findViewById(R.id.slip_item);
         final SwipeListLayout sll_main = (SwipeListLayout) view
                 .findViewById(R.id.sll_main);
@@ -57,18 +60,18 @@ public class SwipeListAdapter extends BaseAdapter {
         TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
         sll_main.setOnSwipeStatusListener(new MyOnSlipStatusListener(sll_main, mSets));
 
-        tv_top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sll_main.setStatus(SwipeListLayout.Status.Close, true);
-                String str = mList.get(arg0);
-                mList.remove(arg0);
-                mList.add(0, str);
-                notifyDataSetChanged();
-                mSets.clear();
-            }
-        });
-
+//        tv_top.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sll_main.setStatus(SwipeListLayout.Status.Close, true);
+//                RfidData rfid = mList.get(arg0);
+//                mList.remove(arg0);
+//                mList.add(0, rfid);
+//                notifyDataSetChanged();
+//                mSets.clear();
+//            }
+//        });
+        tv_top.setVisibility(View.GONE);
         tv_delete.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,12 +80,6 @@ public class SwipeListAdapter extends BaseAdapter {
                 mList.remove(arg0);
                 notifyDataSetChanged();
                 mSets.clear();
-//                if (mSets.size() > 0) {
-//                    for (SwipeListLayout s : mSets) {
-//                        s.setStatus(SwipeListLayout.Status.Close, true);
-//                        mSets.remove(s);
-//                    }
-//                }
             }
         });
 

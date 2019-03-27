@@ -1,9 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     compileSdkVersion 26
-
-
 
     defaultConfig {
         applicationId "com.zzz.c72"

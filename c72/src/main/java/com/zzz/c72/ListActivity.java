@@ -1,5 +1,8 @@
 package com.zzz.c72;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +15,29 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.rscja.deviceapi.RFIDWithUHF;
 import com.zzz.c72.adaptor.SwipeListAdapter;
+import com.zzz.c72.task.ScanTask;
+import com.zzz.c72.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import app.bean.RfidData;
 import app.ui.HsicActivity;
 import app.ui.SwipeListLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ListActivity extends HsicActivity {
-    private RFIDWithUHF mReader;
     private Set<SwipeListLayout> sets = new HashSet();
-    private List<String> mList = new ArrayList<String>();
+    private List<RfidData> mList = new ArrayList<RfidData>();
     private SwipeListAdapter mAdapter;
+
+    private RFIDWithUHF mReader;
+    ScanTask rfidTask;
+    boolean hasPow = false;
+    boolean isStart = false;
 
     @BindView(R.id.topbar) QMUITopBar mTopBar;
     @BindView(R.id.listview) ListView mListView;
@@ -40,21 +50,38 @@ public class ListActivity extends HsicActivity {
         View root = LayoutInflater.from(this).inflate(R.layout.activity_list, null);
         //绑定初始化ButterKnife
         ButterKnife.bind(this, root);
-        //初始化状态栏
-        initTopBar();
+
         setContentView(root);
         initListView();
+
+        //初始化状态栏
+        initTopBar();
+        new InitTask(getContext()).execute();
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
+            rfidTask.cancel(true);
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        if (mReader != null) {
+            mReader.free();
+            hasPow = false;
+            ToastUtil.showToast(getContext(), "设备下电");
+        }
+
+        super.onDestroy();
     }
 
     private void initListView(){
         //初始化数据
-        mList.add("No.000001"); mList.add("No.000002"); mList.add("No.000003");
-        mList.add("No.000004"); mList.add("No.000005"); mList.add("No.000006");
-        mList.add("No.000007"); mList.add("No.000008"); mList.add("No.000009");
-        mList.add("No.000010"); mList.add("No.000011"); mList.add("No.000012");
-        mList.add("No.000013"); mList.add("No.000014"); mList.add("No.000015");
-        mList.add("No.000016"); mList.add("No.000017"); mList.add("No.000018");
-        mList.add("No.000019"); mList.add("No.000020"); mList.add("No.000021");
 
         mAdapter = new SwipeListAdapter(getContext(), mList, sets);
 
@@ -75,7 +102,6 @@ public class ListActivity extends HsicActivity {
                             sets.clear();
                         }
                         break;
-
                 }
             }
 
@@ -95,11 +121,12 @@ public class ListActivity extends HsicActivity {
             }
         });
 
-        mTopBar.addRightTextButton("设置", R.id.topbar_right_about_button).setOnClickListener(new View.OnClickListener(){
+        mTopBar.addRightTextButton("清空", R.id.topbar_right_about_button).setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-
+                mList.clear();
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -128,4 +155,122 @@ public class ListActivity extends HsicActivity {
 
 
 
+    /**
+     * 设备上电异步类
+     */
+    private class InitTask extends AsyncTask<String, Integer, Integer> {
+        ProgressDialog mypDialog;
+        Context mContext;
+
+        public InitTask(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            try {
+                mReader = RFIDWithUHF.getInstance();
+            } catch (Exception ex) {
+
+                return 1;
+            }
+
+            boolean init = mReader.init();
+            if (!init) return 2;
+
+            boolean pow = mReader.setPower(30);//5-30
+            if (!pow) return 3;
+
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            mypDialog.cancel();
+
+            if (result != 0) {
+                String txt = "设备打开失败：";
+                switch (result) {
+                    case 1:
+                        txt += "初始化失败";
+                        break;
+                    case 2:
+                        txt += "上电失败";
+                        break;
+                    case 3:
+                        txt += "设置频率失败";
+                        break;
+                }
+                ToastUtil.showToast(mContext, txt);
+            } else {
+                ToastUtil.showToast(mContext, "RFID设备开启");
+                hasPow = true;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+
+            mypDialog = new ProgressDialog(mContext);
+            mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mypDialog.setMessage("正在打开RFID设备...");
+            mypDialog.setCanceledOnTouchOutside(false);
+            mypDialog.show();
+        }
+    }
+
+    @Override
+    public void ScanRfid(){
+        if(hasPow) {
+            if (isStart) {
+                if (mReader != null && rfidTask != null && rfidTask.getStatus() == AsyncTask.Status.RUNNING) {
+                    rfidTask.cancel(true);
+                }
+                rfidTask = null;
+                isStart = false;
+                ToastUtil.showToast(getContext(), "暂停扫描");
+            } else {
+                if (mReader != null && rfidTask == null) {
+                    isStart = true;
+                    rfidTask = new ScanTask(rfidHandler);
+                    rfidTask.execute(mReader);
+                    ToastUtil.showToast(getContext(), "开始扫描");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void closeRFID(){
+        super.closeRFID();
+        rfidTask = null;
+        isStart = false;
+    }
+
+    @Override
+    public void getRFID(String txt) {
+        // TODO Auto-generated method stub
+        super.getRFID(txt);
+        boolean hasRfid = false;
+        for (int i=0; i<mList.size(); i++){
+            if(mList.get(i).getEPC().equals(txt)){
+                int num = mList.get(i).getNUM() + 1;
+                mList.get(i).setNUM(num);
+                hasRfid = true;
+                break;
+            }
+        }
+        if(!hasRfid){
+            RfidData rfid = new RfidData();
+            rfid.setEPC(txt);
+            mList.add(rfid);
+        }
+
+        mAdapter.notifyDataSetChanged();
+    }
 }
