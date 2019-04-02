@@ -1,14 +1,5 @@
 package com.hsic.qp;
 
-import java.util.List;
-
-import util.ToastUtil;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.PrintAdapter;
-import com.hsic.qp.task.PrintfTask;
-
-import bean.InfoItem;
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -18,10 +9,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.adapter.PrintAdapter;
+import com.hsic.qp.task.PrintfTask;
+
+import java.util.List;
+
+import bean.InfoItem;
 import hsic.ui.HsicActivity;
+import util.ToastUtil;
 
 public class ActivityPrint extends HsicActivity{
-	private final static String TITLE = "µ•æ›¥Ú”°";
+	private final static String TITLE = "ÂçïÊçÆÊâìÂç∞";
 
 	static class mView{
 		TextView txt;
@@ -69,7 +69,7 @@ public class ActivityPrint extends HsicActivity{
 		if(BluetoothAdapter.getDefaultAdapter()==null){
 			mV.printBtn.setEnabled(false);
 		}
-		mV.txt.setText("∂©µ•∫≈:"+SaleID);
+		mV.txt.setText("ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ:"+SaleID);
 		mV.list.setAdapter(new PrintAdapter(getContext(), infoList));
 	}
 	
@@ -89,11 +89,11 @@ public class ActivityPrint extends HsicActivity{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(SaleID==null || SaleID.length()==0){
-					ToastUtil.showToast(getContext(), "Œﬁ∂©µ•∫≈");
+					ToastUtil.showToast(getContext(), "Êó†ËÆ¢ÂçïÂè∑");
 					return ;
 				}
 				if(infoList==null || infoList.size()==0){
-					ToastUtil.showToast(getContext(), "Œﬁ¥Ú”°–≈œ¢");
+					ToastUtil.showToast(getContext(), "Êó†ÊâìÂç∞‰ø°ÊÅØ");
 					return ;
 				}
 					

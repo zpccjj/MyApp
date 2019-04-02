@@ -1,34 +1,6 @@
 package com.hsic.qp;
 
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import util.RfidUtils;
-import util.ToastUtil;
-import util.UiUtil;
-import util.WsUtils;
-
-import bean.GasBaseInfo;
-import bean.QPDJCode;
-import bean.ResponseData;
-import bean.Rfid;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.listener.WsListener;
-import com.hsic.qp.task.CallRfidWsTask;
-import com.hsic.qp.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
-
-import data.ConfigData;
-
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -44,10 +16,35 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.listener.WsListener;
+import com.hsic.qp.task.CallRfidWsTask;
+import com.hsic.qp.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
+
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import bean.GasBaseInfo;
+import bean.QPDJCode;
+import bean.ResponseData;
+import bean.Rfid;
+import data.ConfigData;
 import hsic.ui.HsicActivity;
+import util.RfidUtils;
+import util.ToastUtil;
+import util.UiUtil;
+import util.WsUtils;
 
 public class ActivityRfid extends HsicActivity implements WsListener{
-	private final static String MenuHOME = "∑µªÿ";
+	private final static String MenuHOME = "ËøîÂõû";
 	private RFIDWithUHF mReader;
 	ScanTask rfidTask;
 	static class mView{
@@ -56,41 +53,41 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		TextView rfid_3;
 		TextView rfid_4;
 		TextView rfid_5;
-		
-		
+
+
 		Button btn1;
 		Button btn2;
 		Button btn3;
 	}
 	mView mV;
 	String DeviceID;
-	
+
 	private Context getContext(){
 		return ActivityRfid.this;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rfid);
-		
+
 		ActionBar actionBar = this.getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(MenuHOME);
-        
-        initViews();
-        
-        DeviceID = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
-        
-        new InitTask(getContext()).execute();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(MenuHOME);
+
+		initViews();
+
+		DeviceID = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
+
+		new InitTask(getContext()).execute();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -103,12 +100,12 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			ToastUtil.showToast(getContext(), "…Ë±∏œ¬µÁ");
+			ToastUtil.showToast(getContext(), "ËÆæÂ§á‰∏ãÁîµ");
 		}
-		
+
 		super.onDestroy();
 	}
-	
+
 	private void initViews(){
 		mV = new mView();
 		mV.rfid_1 = (EditText) findViewById(R.id.rfid_1);
@@ -116,18 +113,18 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		mV.rfid_3 = (TextView) findViewById(R.id.rfid_3);
 		mV.rfid_4 = (TextView) findViewById(R.id.rfid_4);
 		mV.rfid_5 = (TextView) findViewById(R.id.rfid_5);
-		
-		
+
+
 		mV.btn1 = (Button) findViewById(R.id.rfid_btn1);
 		mV.btn2 = (Button) findViewById(R.id.rfid_btn2);
 		mV.btn3 = (Button) findViewById(R.id.rfid_btn3);
-		
+
 		mV.btn1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(mV.rfid_1.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "«Î ‰»Î∏÷∆ø∫≈");
+					ToastUtil.showToast(getContext(), "ËØ∑ËæìÂÖ•Èí¢Áì∂Âè∑");
 					return;
 				}
 				setQpInfo(null);
@@ -135,7 +132,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			}
 		});
 		mV.btn2.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -143,42 +140,42 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			}
 		});
 		mV.btn3.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(GBI==null){
-					ToastUtil.showToast(getContext(), "«Îœ»ªÒ»°∆¯∆ø–≈œ¢");
+					ToastUtil.showToast(getContext(), "ËØ∑ÂÖàËé∑ÂèñÊ∞îÁì∂‰ø°ÊÅØ");
 					return;
 				}
 				if(LastRfid==null){
-					ToastUtil.showToast(getContext(), "«Îœ»∂¡»°±Í«©");
+					ToastUtil.showToast(getContext(), "ËØ∑ÂÖàËØªÂèñÊ†áÁ≠æ");
 					return;
 				}
-				
+
 				if(GBI.getCZDW().equals(LastRfid.getCQDW())){
 					new RfidTask(DeviceID, getContext(), LastRfid, GBI, UII).execute(mReader);
 				}else{
-					ToastUtil.showToast(getContext(), "±Í«©≤˙»®µ•Œª”Î∆¯∆ø≤˙»®µ•Œª≤ªœ‡∑˚");
+					ToastUtil.showToast(getContext(), "Ê†áÁ≠æ‰∫ßÊùÉÂçï‰Ωç‰∏éÊ∞îÁì∂‰∫ßÊùÉÂçï‰Ωç‰∏çÁõ∏Á¨¶");
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public void closeRFID(){
-	//	Log.e("HsicActivity closeRFID", txt);
-	//	ToastUtil.showToast(getContext(), "finish scan");
+		//	Log.e("HsicActivity closeRFID", txt);
+		//	ToastUtil.showToast(getContext(), "finish scan");
 		rfidTask = null;
 	}
-	
+
 	Rfid LastRfid = null;
 	String UII = "";
-	
+
 	public void getRfid(String txt) {
 		// TODO Auto-generated method stub
-		Rfid rfid;
-		
+		Rfid rfid = null;
+
 		try {
 			rfid = (Rfid) util.json.JSONUtils.toObjectWithGson(txt, Rfid.class);
 		} catch (Exception e) {
@@ -186,34 +183,47 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			e.printStackTrace();
 			return ;
 		}
-		if(rfid==null ||rfid.getCQDW()==null || rfid.getLabelNo()==null) return ;
-		rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
-		
-		if(!rfid.getVersion().equals("0101")){
-			ToastUtil.showToast(getContext(), "±Í«©∞Ê±æ¥ÌŒÛ");
+		if(rfid==null ||rfid.getCQDW()==null || rfid.getLabelNo()==null){
+
+			LastRfid = null;
+			mV.rfid_5.setText("");
+
 			return ;
 		}
-		
+		rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
+
+		if(!rfid.getVersion().equals("0101")){
+
+			LastRfid = null;
+			mV.rfid_5.setText("");
+
+			return ;
+		}
+
 		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
-			ToastUtil.showToast(getContext(), "∑«≤˙»®µ•Œª±Í«©");
+			ToastUtil.showToast(getContext(), "Èùû‰∫ßÊùÉÂçï‰ΩçÊ†áÁ≠æ");
+
+			LastRfid = null;
+			mV.rfid_5.setText("");
+
 			return;
 		}
-		
+
 		LastRfid = rfid;
 		mV.rfid_5.setText(rfid.getQPDJCode());
 		util.SoundUtil.play();
 	}
 
 	/**
-	 * …Ë±∏…œµÁ“Ï≤Ω¿‡
-	 */	
+	 * ËÆæÂ§á‰∏äÁîµÂºÇÊ≠•Á±ª
+	 */
 	private class InitTask extends AsyncTask<String, Integer, Integer> {
 		ProgressDialog mypDialog;
 		Context mContext;
 		public InitTask(Context context){
 			mContext = context;
 		}
-		
+
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
@@ -223,13 +233,22 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 
 				return 1;
 			}
-			
+
 			boolean init = mReader.init();
 			if(!init) return 2;
-			
-			boolean pow = mReader.setPower(20);
+
+			String txt = PreferenceManager.getDefaultSharedPreferences(mContext).getString("power_w", mContext.getResources().getString(R.string.config_power_w));
+			int power = 30;
+			try {
+				power = Integer.valueOf(txt);
+				if(power>30) power = 30;
+				else if (power<5) power = 5;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			boolean pow = mReader.setPower(power);
 			if(!pow) return 3;
-			
+
 			return 0;
 		}
 
@@ -238,23 +257,23 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			super.onPostExecute(result);
 
 			mypDialog.cancel();
-			
+
 			if (result!=0){
-				String txt="…Ë±∏¥Úø™ ß∞‹£∫";
+				String txt="ËÆæÂ§áÊâìÂºÄÂ§±Ë¥•Ôºö";
 				switch (result) {
-				case 1:
-					txt+="≥ı ºªØ ß∞‹";
-					break;
-				case 2:
-					txt+="…œµÁ ß∞‹";
-					break;
-				case 3:
-					txt+="…Ë÷√∆µ¬  ß∞‹";
-					break;
+					case 1:
+						txt+="ÂàùÂßãÂåñÂ§±Ë¥•";
+						break;
+					case 2:
+						txt+="‰∏äÁîµÂ§±Ë¥•";
+						break;
+					case 3:
+						txt+="ËÆæÁΩÆÈ¢ëÁéáÂ§±Ë¥•";
+						break;
 				}
 				ToastUtil.showToast(getContext(), txt);
 			}else{
-				ToastUtil.showToast(getContext(), "RFID…Ë±∏ø™∆Ù");
+				ToastUtil.showToast(getContext(), "RFIDËÆæÂ§áÂºÄÂêØ");
 				mV.btn1.setEnabled(true);
 				mV.btn2.setEnabled(true);
 				mV.btn3.setEnabled(true);
@@ -265,32 +284,32 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			
+
 			mV.btn1.setEnabled(false);
 			mV.btn2.setEnabled(false);
 			mV.btn3.setEnabled(false);
 
 			mypDialog = new ProgressDialog(mContext);
 			mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			mypDialog.setMessage("’˝‘⁄¥Úø™RFID…Ë±∏...");
+			mypDialog.setMessage("Ê≠£Âú®ÊâìÂºÄRFIDËÆæÂ§á...");
 			mypDialog.setCanceledOnTouchOutside(false);
 			mypDialog.show();
 		}
 	}
-	
-	
+
+
 
 	public class RfidTask  extends AsyncTask<RFIDWithUHF, Void, ResponseData> {
 		String TagID;
-		
+
 		String mID;
 		Context mContext;
 		Rfid mRfid;
 		String mUII;
 		GasBaseInfo mGbi;
-		
+
 		ProgressDialog dialog;
-		
+
 		public RfidTask(String id, Context context, Rfid rfid, GasBaseInfo gbi, String uii){
 			mID = id;
 			mContext = context;
@@ -302,61 +321,61 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		protected ResponseData doInBackground(RFIDWithUHF... params) {
 			// TODO Auto-generated method stub
 			ResponseData msg = new ResponseData();
-			
-			//∂¡TagID
+
+			//ËØªTagID
 			TagID = mReader.readData("00000000",
 					BankEnum.valueOf("UII"), 4*8, 96, mRfid.getEPC(),
 					BankEnum.valueOf("TID"), 0, 6);
 			if(TagID==null){
 				msg.setRespCode(1);
-				msg.setRespMsg("Œ¥∂¡»°µΩTagID");
+				msg.setRespMsg("Êú™ËØªÂèñÂà∞TagID");
 				return msg;
 			}
 
-			//ws ≤È—ØTagID «∑Ò“— π”√
+			//ws Êü•ËØ¢TagIDÊòØÂê¶Â∑≤‰ΩøÁî®
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		    HashMap<String, Object> m1 = new HashMap<String, Object>();
-		    m1.put("propertyName", "DeviceID");
-		    m1.put("propertyValue", mID);
-		    list.add(m1);
-		    
-		    HashMap<String, Object> m2 = new HashMap<String, Object>();
-		    m2.put("propertyName", "TagID");
-		    m2.put("propertyValue", TagID);
-		    list.add(m2);
+			HashMap<String, Object> m1 = new HashMap<String, Object>();
+			m1.put("propertyName", "DeviceID");
+			m1.put("propertyValue", mID);
+			list.add(m1);
+
+			HashMap<String, Object> m2 = new HashMap<String, Object>();
+			m2.put("propertyName", "TagID");
+			m2.put("propertyValue", TagID);
+			list.add(m2);
 			msg = WsUtils.CallWs(mContext, "getTagIDInfo", list);
 			if(msg.getRespCode()!=0) return msg;
-			
-			//–¥User«¯
-			
-			//User«¯–¥ƒ⁄»›◊È◊∞
+
+			//ÂÜôUserÂå∫
+
+			//UserÂå∫ÂÜôÂÜÖÂÆπÁªÑË£Ö
 			byte[] user = new byte[26];
-			//±Í«©¿‡± + πÊ∑∂∞Ê±æ
+			//Ê†áÁ≠æÁ±ªÂà´ + ËßÑËåÉÁâàÊú¨
 			String p1 = "0101";
-			//±Í«©∞Û∂®»’∆⁄
+			//Ê†áÁ≠æÁªëÂÆöÊó•Êúü
 			SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd");
 			String p2 = RfidUtils.LeftAddString(Integer.toBinaryString(Integer.valueOf(sdf.format(new Date()))), 20, "0");
 			BigInteger b1_2 = new BigInteger(p1 + p2, 2);
-			byte[] byte0_2 = RfidUtils.hexStringToBytes(b1_2.toString(16));		
-			
+			byte[] byte0_2 = RfidUtils.hexStringToBytes(b1_2.toString(16));
+
 			System.arraycopy(byte0_2, 0, user, 0, byte0_2.length);
-			
-			//∆¯∆ø÷∆‘Ï»’∆⁄
+
+			//Ê∞îÁì∂Âà∂ÈÄ†Êó•Êúü
 			String makeDate = mGbi.getMakeDate();
 			makeDate = makeDate.replaceAll("-", "").substring(2,8);
-			
+
 			//Standno
 			String Standno = mGbi.getStandNo();
-			String p3_4 = RfidUtils.LeftAddString(Integer.toBinaryString(Integer.valueOf(makeDate)), 20, "0") 
+			String p3_4 = RfidUtils.LeftAddString(Integer.toBinaryString(Integer.valueOf(makeDate)), 20, "0")
 					+ RfidUtils.LeftAddString(Integer.toBinaryString(Integer.valueOf(Standno)), 12, "0");
-			
+
 			BigInteger b3_6 = new BigInteger(p3_4, 2);
-			
-			byte[] byte3_6 = RfidUtils.hexStringToBytes(b3_6.toString(16));			
+
+			byte[] byte3_6 = RfidUtils.hexStringToBytes(b3_6.toString(16));
 			//3-6
 			System.arraycopy(byte3_6, 0, user, 3, byte3_6.length);
-			
-			//∆¯∆ø∏÷∫≈
+
+			//Ê∞îÁì∂Èí¢Âè∑
 			String qp = mGbi.getGPNO();
 			qp = RfidUtils.LeftAddString(qp, 12, " ");
 
@@ -368,80 +387,80 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			
-			//4Œªµ•Œª¥˙¬Î+7Œª◊∑À›¬Î 19-23
+
+			//4‰ΩçÂçï‰Ωç‰ª£Á†Å+7‰ΩçËøΩÊ∫ØÁ†Å 19-23
 			String QPDJCODE = mRfid.getQPDJCode();
 			//5 byte
 			BigInteger big = new BigInteger(QPDJCODE, 10);
-			
+
 			byte[] b = RfidUtils.hexStringToBytes( RfidUtils.LeftAddString(big.toString(16), 10, "0") );
-			
+
 			//19-23
 			System.arraycopy(b, 0, user, 19, b.length);
-		
-			//≥‰◊∞ΩÈ÷  24-25
+
+			//ÂÖÖË£Ö‰ªãË¥® 24-25
 			BigInteger jz = new BigInteger(mGbi.getMediumCode(), 10);
-			byte[] c = RfidUtils.hexStringToBytes( RfidUtils.LeftAddString(jz.toString(16), 4, "0") );	
+			byte[] c = RfidUtils.hexStringToBytes( RfidUtils.LeftAddString(jz.toString(16), 4, "0") );
 			//24-25
 			System.arraycopy(c, 0, user, 24, c.length);
-			
+
 			//xor 0x34
 			for (int i = 0; i < user.length; i++) {
 				user[i] = (byte)(user[i] ^ 0x34);
 			}
-			
+
 			boolean wuser = mReader.writeData("00000000",
 					BankEnum.valueOf("TID"), 0, 96, TagID,
-					BankEnum.valueOf("USER"),0, 13, 
+					BankEnum.valueOf("USER"),0, 13,
 					RfidUtils.bytesToHexString(user));
-					
+
 			if(wuser) {
 				msg.setRespCode(0);
-				msg.setRespMsg("–¥±Í«©USER«¯≥…π¶");
+				msg.setRespMsg("ÂÜôÊ†áÁ≠æUSERÂå∫ÊàêÂäü");
 			}else{
 				msg.setRespCode(1);
-				msg.setRespMsg("–¥±Í«©USER«¯ ß∞‹");
+				msg.setRespMsg("ÂÜôÊ†áÁ≠æUSERÂå∫Â§±Ë¥•");
 				return msg;
 			}
-			
-			//–¥EPC
-			//epc ∫Û12Œª
+
+			//ÂÜôEPC
+			//epc Âêé12‰Ωç
 			byte[] write_epc = new byte[6];
-			
-			//0-1 ≥‰◊∞ΩÈ÷ 
+
+			//0-1 ÂÖÖË£Ö‰ªãË¥®
 			System.arraycopy(c, 0, write_epc, 0, c.length);
-			
-			//2-3 œ¬ºÏ÷‹∆⁄+∏÷∆ø◊¥Ã¨
+
+			//2-3 ‰∏ãÊ£ÄÂë®Êúü+Èí¢Áì∂Áä∂ÊÄÅ
 			String NextCheckDate = mGbi.getNextCheckDate();
 			NextCheckDate = NextCheckDate.replaceAll("-", "").substring(2,6);
 			BigInteger next = new BigInteger(NextCheckDate, 10);
-			BigInteger w2 = new BigInteger(RfidUtils.LeftAddString(next.toString(2), 14, "0") + "00", 2);//00∫œ∏Ò01±®∑œ10Õ£”√
+			BigInteger w2 = new BigInteger(RfidUtils.LeftAddString(next.toString(2), 14, "0") + "00", 2);//00ÂêàÊ†º01Êä•Â∫ü10ÂÅúÁî®
 			byte[] write2 = RfidUtils.hexStringToBytes(RfidUtils.LeftAddString(w2.toString(16), 4, "0"));
 			System.arraycopy(write2, 0, write_epc, 2, write2.length);
-			
-			//4-5 ∆¯∆ø÷÷¿‡+«©∑¢–£—È«¯
-			BigInteger w3 = new BigInteger("0011111111111111", 2);//∆ º2Œª∂˛Ω¯÷∆£∫00…¢∆ø01ºØ∏Ò02ºØ∏Òƒ⁄∆ø
-			byte[] write3  = RfidUtils.hexStringToBytes(RfidUtils.LeftAddString(w3.toString(16), 4, "0"));//			
+
+			//4-5 Ê∞îÁì∂ÁßçÁ±ª+Á≠æÂèëÊ†°È™åÂå∫
+			BigInteger w3 = new BigInteger("0011111111111111", 2);//Ëµ∑Âßã2‰Ωç‰∫åËøõÂà∂Ôºö00Êï£Áì∂01ÈõÜÊ†º02ÈõÜÊ†ºÂÜÖÁì∂
+			byte[] write3  = RfidUtils.hexStringToBytes(RfidUtils.LeftAddString(w3.toString(16), 4, "0"));//
 			System.arraycopy(write3, 0, write_epc, 4, write3.length);
-			
+
 			for (int i = 0; i < write_epc.length; i++) {
 				write_epc[i] = (byte) (write_epc[i] ^ 0x34);
 			}
-			
+
 			boolean wepc = mReader.writeData("31064434",
 					BankEnum.valueOf("TID"), 0, 96, TagID,
-					BankEnum.valueOf("UII"),5, 3, 
+					BankEnum.valueOf("UII"),5, 3,
 					RfidUtils.bytesToHexString(write_epc));
-			
+
 			if(wepc) {
 				msg.setRespCode(0);
-				msg.setRespMsg("–¥±Í«©EPC«¯≥…π¶");
+				msg.setRespMsg("ÂÜôÊ†áÁ≠æEPCÂå∫ÊàêÂäü");
 			}else{
 				msg.setRespCode(1);
-				msg.setRespMsg("–¥±Í«©EPC«¯ ß∞‹");
+				msg.setRespMsg("ÂÜôÊ†áÁ≠æEPCÂå∫Â§±Ë¥•");
 				return msg;
 			}
-			
+
 			//ws
 			QPDJCode info = new QPDJCode();
 			info.setBottleKindCode(mGbi.getStandNo().substring(0,2));
@@ -455,38 +474,38 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			info.setTagID(TagID);
 
 			List<Map<String, Object>> propertyList = new ArrayList<Map<String, Object>>();
-		    HashMap<String, Object> map1 = new HashMap<String, Object>();
-		    map1.put("propertyName", "DeviceID");
-		    map1.put("propertyValue", mID);
-		    propertyList.add(map1);
-		    
-		    ResponseData rd = new ResponseData();
-		    rd.setRespMsg(util.json.JSONUtils.toJsonWithGson(info));
-		    HashMap<String, Object> map2 = new HashMap<String, Object>();
-		    map2.put("propertyName", "RequestData");
-		    map2.put("propertyValue", util.json.JSONUtils.toJsonWithGson(rd));
-		    propertyList.add(map2);
+			HashMap<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("propertyName", "DeviceID");
+			map1.put("propertyValue", mID);
+			propertyList.add(map1);
+
+			ResponseData rd = new ResponseData();
+			rd.setRespMsg(util.json.JSONUtils.toJsonWithGson(info));
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("propertyName", "RequestData");
+			map2.put("propertyValue", util.json.JSONUtils.toJsonWithGson(rd));
+			propertyList.add(map2);
 			msg = WsUtils.CallWs(mContext, "QPXXCJ", propertyList);
-			
+
 			return msg;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			
+
 			dialog = new ProgressDialog(mContext);
-			dialog.setMessage("«ÎŒ“∆∂Ø£¨’˝‘⁄∞Û∂®±Í«©...");
+			dialog.setMessage("ËØ∑ÂãøÁßªÂä®ÔºåÊ≠£Âú®ÁªëÂÆöÊ†áÁ≠æ...");
 			dialog.setCancelable(false);
-		    dialog.show();
-		    
-		    mV.btn1.setEnabled(false);
-		    mV.btn2.setEnabled(false);
+			dialog.show();
+
+			mV.btn1.setEnabled(false);
+			mV.btn2.setEnabled(false);
 			mV.btn3.setEnabled(false);
 			TagID = "";
 			super.onPreExecute();
 		}
-		
+
 		@Override
 		protected void onPostExecute(ResponseData result) {
 			// TODO Auto-generated method stub
@@ -494,22 +513,22 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			mV.btn2.setEnabled(true);
 			mV.btn3.setEnabled(true);
 			dialog.setCancelable(true);
-			
+
 			if(result.getRespCode()==0){
 				dialog.dismiss();
-				ToastUtil.showToast(getContext(), "∞Û∂®±Í«©≥…π¶");
+				ToastUtil.showToast(getContext(), "ÁªëÂÆöÊ†áÁ≠æÊàêÂäü");
 				setQpInfo(null);
 				mV.rfid_1.setText("");
 				LastRfid = null;
 				mV.rfid_5.setText("");
 			}else{
-				dialog.setMessage("∞Û∂®±Í«© ß∞‹£∫"+result.getRespMsg());
+				dialog.setMessage("ÁªëÂÆöÊ†áÁ≠æÂ§±Ë¥•Ôºö"+result.getRespMsg());
 				UiUtil.CloseDiag(dialog);
 			}
-			
+
 			super.onPostExecute(result);
 		}
-		
+
 	}
 	@Override
 	public void WsFinish(boolean isSuccess, int code, String retData) {
@@ -524,12 +543,12 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 						DialogChoice(getContext(), list);
 					}
 				}else{
-					ToastUtil.showToast(getContext(), "Œﬁ∆¯∆ø∆ø–≈œ¢");
+					ToastUtil.showToast(getContext(), "Êó†Ê∞îÁì∂Áì∂‰ø°ÊÅØ");
 				}
 			}
 		}
 	}
-	
+
 	GasBaseInfo GBI = null;
 	private void setQpInfo(GasBaseInfo gbi){
 		GBI = gbi;
@@ -544,59 +563,59 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			mV.rfid_4.setText("");
 		}
 	}
-	
+
 	AlertDialog mDialogChoice;
 	private void DialogChoice(final Context context, final List<GasBaseInfo> list) {
 		final int[] ChoiceID = {-1};
 		final String items[] = new String[list.size()];
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			items[i] = list.get(i).getGPNO();
-		}	
-		
-        AlertDialog.Builder builder = new AlertDialog.Builder(context,3);
-        builder.setTitle("—°‘Ò∆¯∆ø");
-        builder.setSingleChoiceItems(items, ChoiceID[0],
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    	ChoiceID[0] = which;
-                    }
-                });
-        builder.setPositiveButton("»∑∂®", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            	if(ChoiceID[0]==-1){
-        			ToastUtil.showToast(getContext(),  "«Î—°‘Ò∆¯∆ø∫≈");
-        			UiUtil.setDiagBtn(dialog, false);
-            	}else{
-            		setQpInfo(list.get(ChoiceID[0]));
-            		UiUtil.setDiagBtn(dialog, true);
-            	}
-            }
-        });
-        builder.setNegativeButton("πÿ±’", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            	UiUtil.setDiagBtn(dialog, true);
-            }
-        });
-        
-        mDialogChoice = builder.create();
-        mDialogChoice.show();
+		}
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context,3);
+		builder.setTitle("ÈÄâÊã©Ê∞îÁì∂");
+		builder.setSingleChoiceItems(items, ChoiceID[0],
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ChoiceID[0] = which;
+					}
+				});
+		builder.setPositiveButton("Á°ÆÂÆö", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(ChoiceID[0]==-1){
+					ToastUtil.showToast(getContext(),  "ËØ∑ÈÄâÊã©Ê∞îÁì∂Âè∑");
+					UiUtil.setDiagBtn(dialog, false);
+				}else{
+					setQpInfo(list.get(ChoiceID[0]));
+					UiUtil.setDiagBtn(dialog, true);
+				}
+			}
+		});
+		builder.setNegativeButton("ÂÖ≥Èó≠", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				UiUtil.setDiagBtn(dialog, true);
+			}
+		});
+
+		mDialogChoice = builder.create();
+		mDialogChoice.show();
 	}
 
 	@Override
 	public void ScanRfid(){
 		LastRfid = null;
 		UII = "";
-		
+
 		String uii = mReader.inventorySingleTag();
 		if (!TextUtils.isEmpty(uii)){
 			String epc = mReader.convertUiiToEPC(uii);
 			Log.e("inventorySingleTag", uii);
 			Log.e("convertUiiToEPC", epc);
-			
+
 			getRfid(RfidUtils.getDataFromEPC(epc));
 		}
 	}

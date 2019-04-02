@@ -2,7 +2,6 @@ package util;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;

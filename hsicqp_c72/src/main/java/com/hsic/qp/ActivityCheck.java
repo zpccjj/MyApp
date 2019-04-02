@@ -1,28 +1,16 @@
 package com.hsic.qp;
 
-import hsic.ui.HsicActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import util.ToastUtil;
-import util.UiUtil;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-import bean.FHLX;
-import bean.Rfid;
 
 import com.google.gson.reflect.TypeToken;
 import com.hsic.qp.adapter.RfidAdapter;
@@ -31,7 +19,16 @@ import com.hsic.qp.task.CallRfidWsTask;
 import com.hsic.qp.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import bean.FHLX;
+import bean.Rfid;
 import data.ConfigData;
+import hsic.ui.HsicActivity;
+import util.ToastUtil;
 
 public class ActivityCheck extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";

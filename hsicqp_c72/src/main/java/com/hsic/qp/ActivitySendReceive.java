@@ -1,17 +1,5 @@
 package com.hsic.qp;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import util.ToastUtil;
-import util.UiUtil;
-
-import com.baidu.location.f;
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.SRAdapter;
-import com.hsic.qp.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -32,12 +20,23 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.adapter.SRAdapter;
+import com.hsic.qp.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import bean.InfoItem;
 import bean.QPInfo;
 import bean.Rfid;
 import bean.SaleDetail;
 import hsic.ui.ConfirmDialog;
 import hsic.ui.HsicActivity;
+import util.ToastUtil;
+import util.UiUtil;
 
 public class ActivitySendReceive extends HsicActivity {
 	private String TITLE = "发瓶";

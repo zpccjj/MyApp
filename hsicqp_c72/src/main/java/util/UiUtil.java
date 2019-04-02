@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 public class UiUtil {
 	public static void CloseDiag(final ProgressDialog dialog){

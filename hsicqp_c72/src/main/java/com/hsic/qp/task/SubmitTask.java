@@ -7,13 +7,11 @@ import java.util.Map;
 
 import util.WsUtils;
 
-import com.hsic.qp.R;
 import com.hsic.qp.listener.WsListener;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import bean.ResponseData;
 
