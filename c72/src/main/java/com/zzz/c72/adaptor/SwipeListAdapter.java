@@ -21,10 +21,12 @@ public class SwipeListAdapter extends BaseAdapter {
     Context mContext;
     List<RfidData> mList;
     Set<SwipeListLayout> mSets;
-    public SwipeListAdapter(Context context, List<RfidData> list, Set<SwipeListLayout> sets) {
+    boolean mChangeStatus;//是否点击执行侧滑
+    public SwipeListAdapter(Context context, List<RfidData> list, Set<SwipeListLayout> sets, boolean changeStatus) {
         mContext = context;
         mList = list;
         mSets = sets;
+        mChangeStatus = changeStatus;
     }
 
 
@@ -83,13 +85,15 @@ public class SwipeListAdapter extends BaseAdapter {
             }
         });
 
-        slip_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sll_main.changeStatus(true);
-                notifyDataSetChanged();
-            }
-        });
+        if(mChangeStatus) {
+            slip_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sll_main.changeStatus(true);
+                    notifyDataSetChanged();
+                }
+            });
+        }
 
         return view;
     }

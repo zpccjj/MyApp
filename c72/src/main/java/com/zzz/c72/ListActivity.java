@@ -83,7 +83,7 @@ public class ListActivity extends HsicActivity {
     private void initListView(){
         //初始化数据
 
-        mAdapter = new SwipeListAdapter(getContext(), mList, sets);
+        mAdapter = new SwipeListAdapter(getContext(), mList, sets, true);
 
         mListView.setAdapter(mAdapter);
 
