@@ -19,7 +19,7 @@ public class RfidUtils {
 			rfid.setEPC(epc);
 			rfid.setVersion(bitString.substring(0, 4));//0101 标签类别 + 规范版本
 			rfid.setCQDW(String.format("%04d", binaryToDecimal(bitString.substring(4, 18))));//4位单位代码
-			rfid.setLabelNo(String.format("%07d", binaryToDecimal(bitString.substring(18, 45))));//8位追溯码
+			rfid.setLabelNo(String.format("%08d", binaryToDecimal(bitString.substring(18, 45))));//8位追溯码
 			rfid.setCZJZCode(String.format("%05d", binaryToDecimal(bitString.substring(48, 64))));//5位充装介质
 			rfid.setNextCheckDate(String.format("%04d", binaryToDecimal(bitString.substring(64, 78))));//4位下次检验日期
 			rfid.setState(bitString.substring(78, 80)); //钢瓶状态 00合格 01 报废 10 停用

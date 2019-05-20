@@ -1,10 +1,11 @@
-package com.hsic.qp;
-
-import com.hsic.fragment.FragmentConfig;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.hsic.fragment.FragmentConfig;
+
 import hsic.ui.HsicActivity;
 
 public class ActivityConfig extends HsicActivity{

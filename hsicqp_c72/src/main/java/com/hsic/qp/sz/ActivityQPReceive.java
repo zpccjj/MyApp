@@ -1,13 +1,4 @@
-package com.hsic.qp;
-
-import java.util.List;
-
-import util.ToastUtil;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.ReceiveAdapter;
-
-import bean.QPGoods;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -26,7 +17,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableRow;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.adapter.ReceiveAdapter;
+
+import java.util.List;
+
+import bean.QPGoods;
 import hsic.ui.HsicActivity;
+import util.ToastUtil;
 
 public class ActivityQPReceive  extends HsicActivity {
 	private final static String TITLE = "收瓶";

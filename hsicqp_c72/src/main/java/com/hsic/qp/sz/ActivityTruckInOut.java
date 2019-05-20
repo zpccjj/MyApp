@@ -1,25 +1,4 @@
-package com.hsic.qp;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import util.ToastUtil;
-import bean.FHLX;
-import bean.InfoItem;
-import bean.MediumStatistics;
-import bean.Rfid;
-import bean.TruckNoInfo;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.RfidAdapter;
-import com.hsic.qp.listener.WsListener;
-import com.hsic.qp.task.CallRfidWsTask;
-import com.hsic.qp.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-
-import data.ConfigData;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -36,8 +15,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.adapter.RfidAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import bean.FHLX;
+import bean.InfoItem;
+import bean.MediumStatistics;
+import bean.Rfid;
+import bean.TruckNoInfo;
+import data.ConfigData;
 import hsic.ui.ConfirmDialog;
 import hsic.ui.HsicActivity;
+import util.ToastUtil;
 
 public class ActivityTruckInOut extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";

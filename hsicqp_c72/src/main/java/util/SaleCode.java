@@ -19,7 +19,7 @@ import java.util.Hashtable;
 public class SaleCode {
     private static final int BARCODE_WIDTH = 400;
     private static final int BARCODE_HEIGHT = 80;
- 
+
     public static byte[] getSaleCode(String SaleID){
         byte[] code=null;
         try{
@@ -67,10 +67,10 @@ public class SaleCode {
         byte[] cmd = {0x1D, 0x76, 0x30, 0x00, (byte)(pitch&0xff), (byte)((pitch>>8)&0xff), (byte) (bith&0xff), (byte) ((bith>>8)&0xff)};
         byte[] bits = new byte[bith*pitch];
 
-        // ±¶¿í
+        // å€å®½
         if(doubleWidth)
             cmd[3] |= 0x01;
-        // ±¶¸ß
+        // å€é«˜
         if(doubleHeight)
             cmd[3] |= 0x02;
 

@@ -1,4 +1,4 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 
 import android.app.ActionBar;
@@ -18,9 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.listener.WsListener;
-import com.hsic.qp.task.CallRfidWsTask;
-import com.hsic.qp.task.ScanTask;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
 

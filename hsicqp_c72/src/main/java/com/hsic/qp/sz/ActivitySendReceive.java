@@ -1,4 +1,4 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -22,8 +22,8 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 
 import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.SRAdapter;
-import com.hsic.qp.task.ScanTask;
+import com.hsic.qp.sz.adapter.SRAdapter;
+import com.hsic.qp.sz.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 
 import java.util.ArrayList;
@@ -424,9 +424,9 @@ public class ActivitySendReceive extends HsicActivity {
 					return;
 				}
 				String lno = mV.number.getText().toString().trim();
-				if(lno.length()<7){
+				if(lno.length()<8){
 					String txt = "";
-					for(int i=0; i<(7-lno.length()); i++){
+					for(int i=0; i<(8-lno.length()); i++){
 						txt += "0";
 					}
 					mV.number.setText(txt + lno);

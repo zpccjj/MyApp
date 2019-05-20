@@ -11,13 +11,13 @@ public class MD5Utils {
 	public static String toMD5(String plainText, String flag) {
 		String result = "";
 		try {
-			// Éú³ÉÊµÏÖÖ¸¶¨ÕªÒªËã·¨µÄ MessageDigest ¶ÔÏó¡£
+			// ç”Ÿæˆå®ç°æŒ‡å®šæ‘˜è¦ç®—æ³•çš„ MessageDigest å¯¹è±¡ã€‚
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			// Ê¹ÓÃÖ¸¶¨µÄ×Ö½ÚÊı×é¸üĞÂÕªÒª¡£
+			// ä½¿ç”¨æŒ‡å®šçš„å­—èŠ‚æ•°ç»„æ›´æ–°æ‘˜è¦ã€‚
 			md5.update(plainText.getBytes());
-			// Í¨¹ıÖ´ĞĞÖîÈçÌî³äÖ®ÀàµÄ×îÖÕ²Ù×÷Íê³É¹şÏ£¼ÆËã¡£
+			// é€šè¿‡æ‰§è¡Œè¯¸å¦‚å¡«å……ä¹‹ç±»çš„æœ€ç»ˆæ“ä½œå®Œæˆå“ˆå¸Œè®¡ç®—ã€‚
 			byte md5Byte[] = md5.digest();
-			// Éú³É¾ßÌåµÄmd5ÃÜÂëµ½bufÊı×é
+			// ç”Ÿæˆå…·ä½“çš„md5å¯†ç åˆ°bufæ•°ç»„
 			int i;
 			StringBuffer buf = new StringBuffer("");
 			for (int offset = 0; offset < md5Byte.length; offset++) {
@@ -28,11 +28,11 @@ public class MD5Utils {
 					buf.append("0");
 				buf.append(Integer.toHexString(i));
 			}
-			if (flag.equals("32")) {// 32Î»µÄ¼ÓÃÜ
+			if (flag.equals("32")) {// 32ä½çš„åŠ å¯†
 				result = buf.toString();
-			} else if (flag.equals("16")) {// 16Î»µÄ¼ÓÃÜ£¬ÆäÊµ¾ÍÊÇ32Î»¼ÓÃÜºóµÄ½ØÈ¡
+			} else if (flag.equals("16")) {// 16ä½çš„åŠ å¯†ï¼Œå…¶å®å°±æ˜¯32ä½åŠ å¯†åçš„æˆªå–
 				result = buf.toString().substring(8, 24);
-			} else {// ÆäËû£º32Î»µÄ¼ÓÃÜ
+			} else {// å…¶ä»–ï¼š32ä½çš„åŠ å¯†
 				result = buf.toString();
 			}
 		} catch (Exception e) {

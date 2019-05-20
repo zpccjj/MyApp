@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 public class PrintUtils {
 
     /**
-     * ´òÓ¡Ö½Ò»ĞĞ×î´óµÄ×Ö½Ú
+     * æ‰“å°çº¸ä¸€è¡Œæœ€å¤§çš„å­—èŠ‚
      */
     private static final int LINE_BYTE_SIZE = 32;
 
@@ -23,12 +23,12 @@ public class PrintUtils {
     private static final int RIGHT_LENGTH = 12;
 
     /**
-     * ×ó²àºº×Ö×î¶àÏÔÊ¾¼¸¸öÎÄ×Ö
+     * å·¦ä¾§æ±‰å­—æœ€å¤šæ˜¾ç¤ºå‡ ä¸ªæ–‡å­—
      */
     private static final int LEFT_TEXT_MAX_LENGTH = 8;
 
     /**
-     * Ğ¡Æ±´òÓ¡²ËÆ·µÄÃû³Æ£¬ÉÏÏŞµ÷µ½8¸ö×Ö
+     * å°ç¥¨æ‰“å°èœå“çš„åç§°ï¼Œä¸Šé™è°ƒåˆ°8ä¸ªå­—
      */
     public static final int MEAL_NAME_MAX_LENGTH = 8;
 
@@ -44,9 +44,9 @@ public class PrintUtils {
 
 
     /**
-     * ´òÓ¡ÎÄ×Ö
+     * æ‰“å°æ–‡å­—
      *
-     * @param text Òª´òÓ¡µÄÎÄ×Ö
+     * @param text è¦æ‰“å°çš„æ–‡å­—
      */
     public static void printText(String text) {
         try {
@@ -54,111 +54,111 @@ public class PrintUtils {
             outputStream.write(data, 0, data.length);
             outputStream.flush();
         } catch (IOException e) {
-            //Toast.makeText(this.context, "·¢ËÍÊ§°Ü£¡", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this.context, "å‘é€å¤±è´¥ï¼", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
     /**
-     * ÉèÖÃ´òÓ¡¸ñÊ½
+     * è®¾ç½®æ‰“å°æ ¼å¼
      *
-     * @param command ¸ñÊ½Ö¸Áî
+     * @param command æ ¼å¼æŒ‡ä»¤
      */
     public static void selectCommand(byte[] command) {
         try {
             outputStream.write(command);
             outputStream.flush();
         } catch (IOException e) {
-            //Toast.makeText(this.context, "·¢ËÍÊ§°Ü£¡", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this.context, "å‘é€å¤±è´¥ï¼", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
     /**
-     * ¸´Î»´òÓ¡»ú
+     * å¤ä½æ‰“å°æœº
      */
     public static final byte[] RESET = {0x1b, 0x40};
 
     /**
-     * ×ó¶ÔÆë
+     * å·¦å¯¹é½
      */
     public static final byte[] ALIGN_LEFT = {0x1b, 0x61, 0x00};
 
     /**
-     * ÖĞ¼ä¶ÔÆë
+     * ä¸­é—´å¯¹é½
      */
     public static final byte[] ALIGN_CENTER = {0x1b, 0x61, 0x01};
 
     /**
-     * ÓÒ¶ÔÆë
+     * å³å¯¹é½
      */
     public static final byte[] ALIGN_RIGHT = {0x1b, 0x61, 0x02};
 
     /**
-     * Ñ¡Ôñ¼Ó´ÖÄ£Ê½
+     * é€‰æ‹©åŠ ç²—æ¨¡å¼
      */
     public static final byte[] BOLD = {0x1b, 0x45, 0x01};
 
     /**
-     * È¡Ïû¼Ó´ÖÄ£Ê½
+     * å–æ¶ˆåŠ ç²—æ¨¡å¼
      */
     public static final byte[] BOLD_CANCEL = {0x1b, 0x45, 0x00};
 
     /**
-     * ¿í¸ß¼Ó±¶
+     * å®½é«˜åŠ å€
      */
     public static final byte[] DOUBLE_HEIGHT_WIDTH = {0x1d, 0x21, 0x11};
 
     /**
-     * ¿í¼Ó±¶
+     * å®½åŠ å€
      */
     public static final byte[] DOUBLE_WIDTH = {0x1d, 0x21, 0x10};
 
     /**
-     * ¸ß¼Ó±¶
+     * é«˜åŠ å€
      */
     public static final byte[] DOUBLE_HEIGHT = {0x1d, 0x21, 0x01};
 
     /**
-     * ×ÖÌå²»·Å´ó
+     * å­—ä½“ä¸æ”¾å¤§
      */
     public static final byte[] NORMAL = {0x1d, 0x21, 0x00};
 
     /**
-     * ÉèÖÃÄ¬ÈÏĞĞ¼ä¾à
+     * è®¾ç½®é»˜è®¤è¡Œé—´è·
      */
     public static final byte[] LINE_SPACING_DEFAULT = {0x1b, 0x32};
 
     /**
-     * ÉèÖÃĞĞ¼ä¾à
+     * è®¾ç½®è¡Œé—´è·
      */
-//	public static final byte[] LINE_SPACING = {0x1b, 0x32};//{0x1b, 0x33, 0x14};  // 20µÄĞĞ¼ä¾à£¨0£¬255£©
+//	public static final byte[] LINE_SPACING = {0x1b, 0x32};//{0x1b, 0x33, 0x14};  // 20çš„è¡Œé—´è·ï¼ˆ0ï¼Œ255ï¼‰
 
 
 //	final byte[][] byteCommands = {
-//			{ 0x1b, 0x61, 0x00 }, // ×ó¶ÔÆë
-//			{ 0x1b, 0x61, 0x01 }, // ÖĞ¼ä¶ÔÆë
-//			{ 0x1b, 0x61, 0x02 }, // ÓÒ¶ÔÆë
-//			{ 0x1b, 0x40 },// ¸´Î»´òÓ¡»ú
-//			{ 0x1b, 0x4d, 0x00 },// ±ê×¼ASCII×ÖÌå
-//			{ 0x1b, 0x4d, 0x01 },// Ñ¹ËõASCII×ÖÌå
-//			{ 0x1d, 0x21, 0x00 },// ×ÖÌå²»·Å´ó
-//			{ 0x1d, 0x21, 0x11 },// ¿í¸ß¼Ó±¶
-//			{ 0x1b, 0x45, 0x00 },// È¡Ïû¼Ó´ÖÄ£Ê½
-//			{ 0x1b, 0x45, 0x01 },// Ñ¡Ôñ¼Ó´ÖÄ£Ê½
-//			{ 0x1b, 0x7b, 0x00 },// È¡Ïûµ¹ÖÃ´òÓ¡
-//			{ 0x1b, 0x7b, 0x01 },// Ñ¡Ôñµ¹ÖÃ´òÓ¡
-//			{ 0x1d, 0x42, 0x00 },// È¡ÏûºÚ°×·´ÏÔ
-//			{ 0x1d, 0x42, 0x01 },// Ñ¡ÔñºÚ°×·´ÏÔ
-//			{ 0x1b, 0x56, 0x00 },// È¡ÏûË³Ê±ÕëĞı×ª90¡ã
-//			{ 0x1b, 0x56, 0x01 },// Ñ¡ÔñË³Ê±ÕëĞı×ª90¡ã
+//			{ 0x1b, 0x61, 0x00 }, // å·¦å¯¹é½
+//			{ 0x1b, 0x61, 0x01 }, // ä¸­é—´å¯¹é½
+//			{ 0x1b, 0x61, 0x02 }, // å³å¯¹é½
+//			{ 0x1b, 0x40 },// å¤ä½æ‰“å°æœº
+//			{ 0x1b, 0x4d, 0x00 },// æ ‡å‡†ASCIIå­—ä½“
+//			{ 0x1b, 0x4d, 0x01 },// å‹ç¼©ASCIIå­—ä½“
+//			{ 0x1d, 0x21, 0x00 },// å­—ä½“ä¸æ”¾å¤§
+//			{ 0x1d, 0x21, 0x11 },// å®½é«˜åŠ å€
+//			{ 0x1b, 0x45, 0x00 },// å–æ¶ˆåŠ ç²—æ¨¡å¼
+//			{ 0x1b, 0x45, 0x01 },// é€‰æ‹©åŠ ç²—æ¨¡å¼
+//			{ 0x1b, 0x7b, 0x00 },// å–æ¶ˆå€’ç½®æ‰“å°
+//			{ 0x1b, 0x7b, 0x01 },// é€‰æ‹©å€’ç½®æ‰“å°
+//			{ 0x1d, 0x42, 0x00 },// å–æ¶ˆé»‘ç™½åæ˜¾
+//			{ 0x1d, 0x42, 0x01 },// é€‰æ‹©é»‘ç™½åæ˜¾
+//			{ 0x1b, 0x56, 0x00 },// å–æ¶ˆé¡ºæ—¶é’ˆæ—‹è½¬90Â°
+//			{ 0x1b, 0x56, 0x01 },// é€‰æ‹©é¡ºæ—¶é’ˆæ—‹è½¬90Â°
 //	};
 
     /**
-     * ´òÓ¡Á½ÁĞ
+     * æ‰“å°ä¸¤åˆ—
      *
-     * @param leftText  ×ó²àÎÄ×Ö
-     * @param rightText ÓÒ²àÎÄ×Ö
+     * @param leftText  å·¦ä¾§æ–‡å­—
+     * @param rightText å³ä¾§æ–‡å­—
      * @return
      */
     @SuppressLint("NewApi")
@@ -168,7 +168,7 @@ public class PrintUtils {
         int rightTextLength = getBytesLength(rightText);
         sb.append(leftText);
 
-        // ¼ÆËãÁ½²àÎÄ×ÖÖĞ¼äµÄ¿Õ¸ñ
+        // è®¡ç®—ä¸¤ä¾§æ–‡å­—ä¸­é—´çš„ç©ºæ ¼
         int marginBetweenMiddleAndRight = LINE_BYTE_SIZE - leftTextLength - rightTextLength;
 
         for (int i = 0; i < marginBetweenMiddleAndRight; i++) {
@@ -179,17 +179,17 @@ public class PrintUtils {
     }
 
     /**
-     * ´òÓ¡ÈıÁĞ
+     * æ‰“å°ä¸‰åˆ—
      *
-     * @param leftText   ×ó²àÎÄ×Ö
-     * @param middleText ÖĞ¼äÎÄ×Ö
-     * @param rightText  ÓÒ²àÎÄ×Ö
+     * @param leftText   å·¦ä¾§æ–‡å­—
+     * @param middleText ä¸­é—´æ–‡å­—
+     * @param rightText  å³ä¾§æ–‡å­—
      * @return
      */
     @SuppressLint("NewApi")
     public static String printThreeData(String leftText, String middleText, String rightText) {
         StringBuilder sb = new StringBuilder();
-        // ×ó±ß×î¶àÏÔÊ¾ LEFT_TEXT_MAX_LENGTH ¸öºº×Ö + Á½¸öµã
+        // å·¦è¾¹æœ€å¤šæ˜¾ç¤º LEFT_TEXT_MAX_LENGTH ä¸ªæ±‰å­— + ä¸¤ä¸ªç‚¹
         if (leftText.length() > LEFT_TEXT_MAX_LENGTH) {
             leftText = leftText.substring(0, LEFT_TEXT_MAX_LENGTH) + "..";
         }
@@ -198,7 +198,7 @@ public class PrintUtils {
         int rightTextLength = getBytesLength(rightText);
 
         sb.append(leftText);
-        // ¼ÆËã×ó²àÎÄ×ÖºÍÖĞ¼äÎÄ×ÖµÄ¿Õ¸ñ³¤¶È
+        // è®¡ç®—å·¦ä¾§æ–‡å­—å’Œä¸­é—´æ–‡å­—çš„ç©ºæ ¼é•¿åº¦
         int marginBetweenLeftAndMiddle = LEFT_LENGTH - leftTextLength - middleTextLength / 2;
 
         for (int i = 0; i < marginBetweenLeftAndMiddle; i++) {
@@ -206,20 +206,20 @@ public class PrintUtils {
         }
         sb.append(middleText);
 
-        // ¼ÆËãÓÒ²àÎÄ×ÖºÍÖĞ¼äÎÄ×ÖµÄ¿Õ¸ñ³¤¶È
+        // è®¡ç®—å³ä¾§æ–‡å­—å’Œä¸­é—´æ–‡å­—çš„ç©ºæ ¼é•¿åº¦
         int marginBetweenMiddleAndRight = RIGHT_LENGTH - middleTextLength / 2 - rightTextLength;
 
         for (int i = 0; i < marginBetweenMiddleAndRight; i++) {
             sb.append(" ");
         }
 
-        // ´òÓ¡µÄÊ±ºò·¢ÏÖ£¬×îÓÒ±ßµÄÎÄ×Ö×ÜÊÇÆ«ÓÒÒ»¸ö×Ö·û£¬ËùÒÔĞèÒªÉ¾³ıÒ»¸ö¿Õ¸ñ
+        // æ‰“å°çš„æ—¶å€™å‘ç°ï¼Œæœ€å³è¾¹çš„æ–‡å­—æ€»æ˜¯åå³ä¸€ä¸ªå­—ç¬¦ï¼Œæ‰€ä»¥éœ€è¦åˆ é™¤ä¸€ä¸ªç©ºæ ¼
         sb.delete(sb.length() - 1, sb.length()).append(rightText);
         return sb.toString();
     }
 
     /**
-     * »ñÈ¡Êı¾İ³¤¶È
+     * è·å–æ•°æ®é•¿åº¦
      *
      * @param msg
      * @return
@@ -230,7 +230,7 @@ public class PrintUtils {
     }
 
     /**
-     * ¸ñÊ½»¯²ËÆ·Ãû³Æ£¬×î¶àÏÔÊ¾MEAL_NAME_MAX_LENGTH¸öÊı
+     * æ ¼å¼åŒ–èœå“åç§°ï¼Œæœ€å¤šæ˜¾ç¤ºMEAL_NAME_MAX_LENGTHä¸ªæ•°
      *
      * @param name
      * @return

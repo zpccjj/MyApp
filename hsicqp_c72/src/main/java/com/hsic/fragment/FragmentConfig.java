@@ -1,21 +1,5 @@
 package com.hsic.fragment;
 
-import hsic.ui.ConfirmDialog;
-
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import util.ToastUtil;
-import util.UiUtil;
-
-import bean.InfoItem;
-import bean.ResponseData;
-
-import com.hsic.qp.R;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -36,6 +20,20 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.util.Log;
+
+import com.hsic.qp.sz.R;
+
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import bean.InfoItem;
+import bean.ResponseData;
+import hsic.ui.ConfirmDialog;
+import util.ToastUtil;
+import util.UiUtil;
 
 public class FragmentConfig extends PreferenceFragment {
 	private SharedPreferences mPreferences;

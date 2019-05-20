@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hsic.qp"
+    package="com.hsic.qp.sz"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -88,7 +88,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.hsic.qp.ActivityFull"
+            android:name=".ActivityFull"
             android:screenOrientation="portrait">
         </activity>
         <activity

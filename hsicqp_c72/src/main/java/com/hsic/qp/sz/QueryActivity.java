@@ -1,18 +1,19 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
-import hsic.ui.ConfirmDialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 
-public class MyActivity extends Activity {
+import hsic.ui.ConfirmDialog;
+
+public class QueryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
     }
+
     public void onBackPressed() {
         ConfirmDialog dialog = new ConfirmDialog(this);
         dialog.setTitle("提示");

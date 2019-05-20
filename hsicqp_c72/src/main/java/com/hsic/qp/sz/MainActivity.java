@@ -1,4 +1,4 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 import android.app.TabActivity;
 import android.content.Intent;

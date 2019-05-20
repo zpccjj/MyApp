@@ -1,24 +1,22 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.RfidAdapter;
-import com.hsic.qp.listener.WsListener;
-import com.hsic.qp.task.CallRfidWsTask;
-import com.hsic.qp.task.ScanTask;
+import com.hsic.qp.sz.adapter.RfidAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 
 import java.text.SimpleDateFormat;
@@ -29,12 +27,10 @@ import java.util.List;
 import bean.FHLX;
 import bean.Rfid;
 import data.ConfigData;
-import hsic.ui.EditDate;
 import hsic.ui.HsicActivity;
 import util.ToastUtil;
-import util.UiUtil;
 
-public class ActivityFull extends HsicActivity implements WsListener{
+public class ActivityCheck extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
 
 	RfidAdapter mAdapter;
@@ -46,14 +42,9 @@ public class ActivityFull extends HsicActivity implements WsListener{
 	boolean isStart = false;
 
 	static class mView{
-		TextView full_0;
-		EditDate full_1;
-		EditText full_2;
-		EditText full_3;
-		EditText full_4;
-		EditText full_5;
-		Spinner full_6;
-		TextView full_7;
+		TextView check_0;
+		Spinner check_1;
+		TextView check_2;
 		ListView lv;
 
 		Button btn1;
@@ -63,13 +54,13 @@ public class ActivityFull extends HsicActivity implements WsListener{
 	mView mV;
 
 	private Context getContext(){
-		return ActivityFull.this;
+		return ActivityCheck.this;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_full);
+		setContentView(R.layout.activity_check);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -103,26 +94,19 @@ public class ActivityFull extends HsicActivity implements WsListener{
 
 	private void intiView(){
 		mV = new mView();
-		mV.full_0 = (TextView) findViewById(R.id.full_0);
-		mV.full_1 = (EditDate) findViewById(R.id.full_1);
-		mV.full_2 = (EditText) findViewById(R.id.full_2);
-		mV.full_3 = (EditText) findViewById(R.id.full_3);
-		mV.full_4 = (EditText) findViewById(R.id.full_4);
-		mV.full_5 = (EditText) findViewById(R.id.full_5);
-		mV.full_6 = (Spinner) findViewById(R.id.full_6);
-		mV.full_7 = (TextView) findViewById(R.id.full_7);
-		mV.lv = (ListView) findViewById(R.id.full_list);
+		mV.check_0 = (TextView) findViewById(R.id.check_0);
+		mV.check_1 = (Spinner) findViewById(R.id.check_1);
+		mV.check_2 = (TextView) findViewById(R.id.check_2);
+		mV.lv = (ListView) findViewById(R.id.check_list);
 
-		mV.btn1 = (Button) findViewById(R.id.full_btn1);
-		mV.btn2 = (Button) findViewById(R.id.full_btn2);
-		mV.btn3 = (Button) findViewById(R.id.full_btn3);
-
-		mV.full_1.setText( new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) );
+		mV.btn1 = (Button) findViewById(R.id.check_btn1);
+		mV.btn2 = (Button) findViewById(R.id.check_btn2);
+		mV.btn3 = (Button) findViewById(R.id.check_btn3);
 
 		mAdapter = new RfidAdapter(getContext(), rList);
 		mV.lv.setAdapter(mAdapter);
 
-		mV.full_0.setText("扫描数量:0");
+		mV.check_0.setText("扫描数量:0");
 	}
 
 	private void setListener(){
@@ -133,14 +117,11 @@ public class ActivityFull extends HsicActivity implements WsListener{
 				// TODO Auto-generated method stub
 				ScanRfid();
 			}
-
 		});
-
 		mV.btn2.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UiUtil.CloseKey(ActivityFull.this);
 				cleanView();
 			}
 		});
@@ -149,7 +130,6 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UiUtil.CloseKey(ActivityFull.this);
 				if(isStart){
 					ToastUtil.showToast(getContext(), "请先停止扫描");
 					return;
@@ -159,56 +139,17 @@ public class ActivityFull extends HsicActivity implements WsListener{
 					return;
 				}
 
-				if(mV.full_1.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "请填写充装日期");
-					return;
-				}
-				if(mV.full_2.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "请填写充装时间");
-					return;
-				}
-				if(mV.full_3.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "请填压力");
-					return;
-				}
-				if(mV.full_4.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "请填温度");
-					return;
-				}
-				if(mV.full_5.getText().toString().trim().length()==0){
-					ToastUtil.showToast(getContext(), "请填写重量");
-					return;
-				}
-
 				String DeviceSeq = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
 				String OPID = getApp().getLogin().getUserID();
 				for (int i = 0; i < rList.size(); i++) {
 					rList.get(i).setDeviceSeq(DeviceSeq);
 					rList.get(i).setOPID(OPID);
-					rList.get(i).setFaultDm(String.valueOf(mV.full_6.getSelectedItemPosition()));
-					rList.get(i).setFullDate(mV.full_1.getText().toString().trim());
-					rList.get(i).setFullTime(Integer.valueOf(mV.full_2.getText().toString().trim()));
-					rList.get(i).setWorkMpa(mV.full_3.getText().toString().trim());
-					rList.get(i).setTemperature(mV.full_4.getText().toString().trim());
-					rList.get(i).setWeight(mV.full_5.getText().toString().trim());
+					rList.get(i).setFaultDm(String.valueOf(mV.check_1.getSelectedItemPosition()));
 				}
-				//	ToastUtil.showToast(getContext(), util.json.JSONUtils.toJsonWithGson(rList));
 
-				new CallRfidWsTask(getContext(), ActivityFull.this, 4).execute(util.json.JSONUtils.toJsonWithGson(rList));
+				new CallRfidWsTask(getContext(), ActivityCheck.this, 5).execute(util.json.JSONUtils.toJsonWithGson(rList));
 			}
 		});
-	}
-
-	private void cleanView(){
-		rList.clear();
-//		mV.full_1.setText("");
-//		mV.full_2.setText("");
-//		mV.full_3.setText("");
-//		mV.full_4.setText("");
-//		mV.full_5.setText("");
-		mV.full_7.setText("");
-		overDue = "";
-		reflishView(false);
 	}
 
 	String LastCode="";
@@ -237,7 +178,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		}
 		String MediaName = ConfigData.getMediaName(rfid.getCZJZCode());
 		if(MediaName.length()==0) {
-			ToastUtil.showToast(getContext(), "无充装介质信息:"+String.valueOf(rfid.getCZJZCode()));
+			ToastUtil.showToast(getContext(), "无充装介质信息");
 			return ;
 		}
 
@@ -245,7 +186,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 
 		if(ConfigData.IsOverdue(rfid.getNextCheckDate()) == ConfigData.OVERDUE){
 			overDue += rfid.getQPDJCode() + ",";
-			if(overDue.length()>0) mV.full_7.setText("超期气瓶:" + overDue);
+			if(overDue.length()>0) mV.check_2.setText("超期气瓶:" + overDue);
 			return ;
 		}
 
@@ -262,6 +203,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			LastName = ConfigData.getMediaName(rfid.getCZJZCode());
 			rfid.setMediumName(LastName);
 		}
+		rfid.setCheckDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
 		rList.add(rfid);
 		reflishView(false);
@@ -275,6 +217,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		isStart = false;
 		mV.btn1.setText(getResources().getString(R.string.btn_string_12));
 	}
+
 	/**
 	 * 设备上电异步类
 	 */
@@ -298,16 +241,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			boolean init = mReader.init();
 			if(!init) return 2;
 
-			String txt = PreferenceManager.getDefaultSharedPreferences(mContext).getString("power_r", mContext.getResources().getString(R.string.config_power_r));
-			int power = 30;
-			try {
-				power = Integer.valueOf(txt);
-				if(power>30) power = 30;
-				else if (power<5) power = 5;
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			boolean pow = mReader.setPower(power);
+			boolean pow = mReader.setPower(30);//5-30
 			if(!pow) return 3;
 
 			return 0;
@@ -354,6 +288,8 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		}
 	}
 
+
+
 	private void reflishView(boolean isDelete){
 		if(isDelete){
 			mAdapter = new RfidAdapter(getContext(), rList);
@@ -361,9 +297,15 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		}else
 			mAdapter.notifyDataSetChanged();
 
-		mV.full_0.setText("扫描数量:" + String.valueOf(rList.size()));
+		mV.check_0.setText("扫描数量:" + String.valueOf(rList.size()));
 	}
 
+	private void cleanView(){
+		rList.clear();
+		mV.check_2.setText("");
+		overDue = "";
+		reflishView(false);
+	}
 
 	@Override
 	public void WsFinish(boolean isSuccess, int code, String retData) {
@@ -371,7 +313,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		if(isSuccess){
 			rList.clear();
 			reflishView(false);
-			ToastUtil.showToast(getContext(), "充装登记成功");
+			ToastUtil.showToast(getContext(), "上传气瓶检验信息成功");
 		}else{
 			rList.clear();
 			reflishView(false);
@@ -385,19 +327,18 @@ public class ActivityFull extends HsicActivity implements WsListener{
 							err += list.get(i).getType()+":"+list.get(i).getNum()+"，" + list.get(i).getTagID() + "。";
 					}
 					if(err.length()>0)
-						mV.full_7.setText("错误:"+err);
+						mV.check_2.setText("错误:"+err);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				//	mV.full_7.setText(retData);
+				mV.check_2.setText(retData);
 			}
 		}
 	}
 
 	@Override
 	public void ScanRfid(){
-		UiUtil.CloseKey(ActivityFull.this);
 		if(isStart){
 			if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
 				rfidTask.cancel(true);
@@ -414,4 +355,5 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			}
 		}
 	}
+
 }

@@ -1,4 +1,4 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.adapter.PrintAdapter;
-import com.hsic.qp.task.PrintfTask;
+import com.hsic.qp.sz.adapter.PrintAdapter;
+import com.hsic.qp.sz.task.PrintfTask;
 
 import java.util.List;
 

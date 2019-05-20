@@ -1,6 +1,5 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
-import bll.MyApplication;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
+import bll.MyApplication;
 import hsic.tmj.gridview.MyGridAdapter;
 import hsic.tmj.gridview.MyGridView;
 import hsic.ui.ConfirmDialog;
@@ -22,7 +22,7 @@ public class HomeActivity extends Activity {
 			R.string.txt_home_5, R.string.txt_home_6};
 
 	private int[] imgs = { R.drawable.icon_ccdj, R.drawable.icon_jcdj,
-			R.drawable.icon_clps,R.drawable.icon_qpbd,
+			R.drawable.icon_clps, R.drawable.icon_qpbd,
 			R.drawable.icon_qpjy, R.drawable.icon_qpbd};
 
 	private Intent[] Intents = new Intent[6];

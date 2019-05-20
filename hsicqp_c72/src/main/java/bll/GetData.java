@@ -1,7 +1,10 @@
 package bll;
 
-import java.util.List;
-import java.util.Map;
+import android.content.Context;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.hsic.qp.sz.R;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.KvmSerializable;
@@ -10,14 +13,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.List;
+import java.util.Map;
+
 import bean.WsInfo;
-
-import com.hsic.qp.R;
-
-
-import android.content.Context;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 /*
  * WebService 接口调用的方法

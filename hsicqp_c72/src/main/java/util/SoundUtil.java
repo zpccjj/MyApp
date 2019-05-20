@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import com.hsic.qp.R;
+import com.hsic.qp.sz.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class SoundUtil {
 	public static SoundPool sp ;
 	public static Map<Integer, Integer> suondMap;
 	public static Context mContext;
-	
+
 	//
 	public static void initSoundPool(Context context){
 		mContext = context;
@@ -21,32 +21,32 @@ public class SoundUtil {
 		suondMap = new HashMap<Integer, Integer>();
 		suondMap.put(1, sp.load(context, R.raw.barcodebeep, 1));
 	}
-	
+
 	public static  void play(){
 		AudioManager am = (AudioManager)mContext.getSystemService(mContext.AUDIO_SERVICE);
-		float audioMaxVolumn = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC); // ·µ»Øµ±Ç°AudioManager¶ÔÏóµÄ×î´óÒôÁ¿Öµ
-		float audioCurrentVolumn = am.getStreamVolume(AudioManager.STREAM_MUSIC);// ·µ»Øµ±Ç°AudioManager¶ÔÏóµÄÒôÁ¿Öµ
+		float audioMaxVolumn = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC); // è¿”å›å½“å‰AudioManagerå¯¹è±¡çš„æœ€å¤§éŸ³é‡å€¼
+		float audioCurrentVolumn = am.getStreamVolume(AudioManager.STREAM_MUSIC);// è¿”å›å½“å‰AudioManagerå¯¹è±¡çš„éŸ³é‡å€¼
 		float volumnRatio = audioCurrentVolumn / audioMaxVolumn;
-		
-        sp.play(suondMap.get(1), //
-        		volumnRatio, //
-        		volumnRatio, //
-                1, //
-                0, //
-                1);//
-    }
-	
+
+		sp.play(suondMap.get(1), //
+				volumnRatio, //
+				volumnRatio, //
+				1, //
+				0, //
+				1);//
+	}
+
 	public static  void play(int sound, int number){
 		AudioManager am = (AudioManager)mContext.getSystemService(mContext.AUDIO_SERVICE);
 
-        float audioCurrentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-        sp.play(suondMap.get(sound), //
-        		audioCurrentVolume, //
-        		audioCurrentVolume, //
-                1, //
-                number, //
-                1);//
-    }
+		float audioCurrentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+		sp.play(suondMap.get(sound), //
+				audioCurrentVolume, //
+				audioCurrentVolume, //
+				1, //
+				number, //
+				1);//
+	}
 	public static void pasue() {
 		sp.pause(0);
 	}

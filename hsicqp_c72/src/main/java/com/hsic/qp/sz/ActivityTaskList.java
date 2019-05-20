@@ -1,4 +1,4 @@
-package com.hsic.qp;
+package com.hsic.qp.sz;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hsic.qp.adapter.TaskAdapter;
-import com.hsic.qp.listener.WsListener;
-import com.hsic.qp.task.SaleInfoTask;
+import com.hsic.qp.sz.adapter.TaskAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.SaleInfoTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

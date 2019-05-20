@@ -1,5 +1,13 @@
 package util;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,23 +19,15 @@ import java.util.Set;
 import bean.InfoItem;
 import bean.Sale;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
-
 public class UiUtil {
 	public static void CloseDiag(final ProgressDialog dialog){
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(5000);//ÈÃËûÏÔÊ¾nºÄÃëºó£¬È¡ÏûProgressDialog
+					Thread.sleep(5000);//è®©ä»–æ˜¾ç¤ºnè€—ç§’åï¼Œå–æ¶ˆProgressDialog
 				} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				dialog.dismiss();
@@ -38,36 +38,36 @@ public class UiUtil {
 	}
 
 	public static void CloseKey(Activity activity){
-        try {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);  
-            boolean isOpen=imm.isActive();
-            
-            if(isOpen){
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); 
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        	e.printStackTrace();
-        }
-    }
-	
-	public static void setDiagBtn(DialogInterface dialog, boolean isDiss){
-		try { 
-			java.lang.reflect.Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing"); 
-			field.setAccessible(true); 
-    		field.set(dialog, isDiss);
-		} catch (Exception e) { 
-			e.printStackTrace(); 
+		try {
+			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			boolean isOpen=imm.isActive();
+
+			if(isOpen){
+				imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
-	
+
+	public static void setDiagBtn(DialogInterface dialog, boolean isDiss){
+		try {
+			java.lang.reflect.Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+			field.setAccessible(true);
+			field.set(dialog, isDiss);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static List<InfoItem> getBluetoothList(Set<BluetoothDevice> devices){
 		List<InfoItem> bList = new ArrayList<InfoItem>();
-		
+
 		if (devices.size()>0) {
 			for(Iterator<BluetoothDevice> iterator=devices.iterator();iterator.hasNext();){
 				BluetoothDevice bluetoothDevice=(BluetoothDevice)iterator.next();
-				System.out.println("-Éè±¸£º"+bluetoothDevice.getName() + " " + bluetoothDevice.getAddress()+ " " + bluetoothDevice.getBondState());
+				System.out.println("-è®¾å¤‡ï¼š"+bluetoothDevice.getName() + " " + bluetoothDevice.getAddress()+ " " + bluetoothDevice.getBondState());
 				InfoItem bInfo = new InfoItem();
 				bInfo.setKey(bluetoothDevice.getAddress());
 				bInfo.setValue(bluetoothDevice.getName() + ":" + bluetoothDevice.getAddress());
@@ -76,104 +76,102 @@ public class UiUtil {
 		}
 		return bList;
 	}
-	
+
 	public static boolean hasBluetoothInfoInDeviceList(List<InfoItem> bList, String Mac){
 		boolean has = false;
-		
+
 		if(bList==null || bList.size()==0) return false;
-		if(Mac==null || Mac.length()==0) return false; 
-		
+		if(Mac==null || Mac.length()==0) return false;
+
 		for (int i = 0; i < bList.size(); i++) {
 			if(bList.get(i).getKey().equals(Mac)){
 				has = true;
 				break;
 			}
 		}
-		
-		Log.e("hasBluetoothInfoInDeviceList", "="+has);
-		
+
 		return has;
 	}
-	
+
 	public static List<InfoItem>getPrintInfo(Sale sale, String Truck, String Persons){
 		List<InfoItem> list = new ArrayList<InfoItem>();
 		InfoItem  info = new InfoItem();
 		info.setKey("2");
-		info.setName("¿Í»§±àºÅ:");
+		info.setName("å®¢æˆ·ç¼–å·:");
 		info.setValue(sale.getCustomerID());
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("¿Í»§Ãû³Æ:");
+		info.setName("å®¢æˆ·åç§°:");
 		info.setValue(sale.getCustomerName());
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("¿Í»§ÀàĞÍ:");
-		info.setValue(sale.getCustomerType()==null ? "" : ( sale.getCustomerType().equals("CT01") ? "ÔÂ½áÓÃ»§" : "¸öÌå¿Í»§") );
+		info.setName("å®¢æˆ·ç±»å‹:");
+		info.setValue(sale.getCustomerType()==null ? "" : ( sale.getCustomerType().equals("CT01") ? "æœˆç»“ç”¨æˆ·" : "ä¸ªä½“å®¢æˆ·") );
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ÁªÏµµç»°:");
+		info.setName("è”ç³»ç”µè¯:");
 		info.setValue(sale.getCustomerTelephone());
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ÁªÏµµØÖ·:");
+		info.setName("è”ç³»åœ°å€:");
 		info.setValue(sale.getAddress());
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("¸¶·Ñ·½Ê½:");
+		info.setName("ä»˜è´¹æ–¹å¼:");
 		String PayType = "";
 		if(sale.getPayType()!=null){
-			if(sale.getPayType().equals("0")) PayType = "ÏÖ½ğ";
-			else if(sale.getPayType().equals("1")) PayType = "ÆøÆ±";
-			else if(sale.getPayType().equals("2")) PayType = "ÔÂ½á";
+			if(sale.getPayType().equals("0")) PayType = "ç°é‡‘";
+			else if(sale.getPayType().equals("1")) PayType = "æ°”ç¥¨";
+			else if(sale.getPayType().equals("2")) PayType = "æœˆç»“";
 		}
 		info.setValue(PayType);
 		list.add(info);
-		
-		
+
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ÅäËÍ³µÅÆºÅ:");
+		info.setName("é…é€è½¦ç‰Œå·:");
 		info.setValue(Truck);
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ÅäËÍÈËÔ±:");
+		info.setName("é…é€äººå‘˜:");
 		info.setValue(Persons);
 		list.add(info);
-		
-		
+
+
 		info = new InfoItem();
 		info.setKey("0");
 		list.add(info);
-		
+
 		info = new InfoItem();
 		if(sale.getCustomerType()!=null && sale.getCustomerType().equals("CT01")){
 			info.setKey("2");
-			info.setName("·¢Æ¿ĞÅÏ¢");
-			info.setValue("ÊıÁ¿");
+			info.setName("å‘ç“¶ä¿¡æ¯");
+			info.setValue("æ•°é‡");
 		}else{
 			info.setKey("3");
-			info.setName("·¢Æ¿ĞÅÏ¢");
-			info.setValue("ÊıÁ¿");
-			info.setValue2("½ğ¶î");
+			info.setName("å‘ç“¶ä¿¡æ¯");
+			info.setValue("æ•°é‡");
+			info.setValue2("é‡‘é¢");
 		}
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("-1");
 		list.add(info);
-		
+
 		int totle = 0; BigDecimal price = new BigDecimal("0.0");
 		for (int i = 0; i < sale.getSaleDetail().size(); i++) {
 			if(sale.getCustomerType()!=null && sale.getCustomerType().equals("CT01")){
@@ -209,42 +207,42 @@ public class UiUtil {
 					list.add(info);
 				}
 			}
-			
+
 		}
 		info = new InfoItem();
 		info.setKey("-1");
 		list.add(info);
-		
-		
+
+
 		if(sale.getCustomerType()!=null && sale.getCustomerType().equals("CT01")){
 			info = new InfoItem();
 			info.setKey("2");
-			info.setName("ºÏ¼Æ:");
+			info.setName("åˆè®¡:");
 			info.setValue(String.valueOf(totle));
 			list.add(info);
 		}else{
 			info = new InfoItem();
 			info.setKey("3");
-			info.setName("ºÏ¼Æ:");
+			info.setName("åˆè®¡:");
 			info.setValue(String.valueOf(totle));
 			info.setValue2(price.toString());
 			list.add(info);
 		}
-		
+
 		info = new InfoItem();
 		info.setKey("0");
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ÊÕÆ¿ĞÅÏ¢");
-		info.setValue("ÊıÁ¿");
+		info.setName("æ”¶ç“¶ä¿¡æ¯");
+		info.setValue("æ•°é‡");
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("-1");
 		list.add(info);
-		
+
 		int totle2 = 0;
 		for (int i = 0; i < sale.getSaleDetail().size(); i++) {
 			if(sale.getSaleDetail().get(i).getGoodsType()==1 && sale.getSaleDetail().get(i).getReceiveNum()>0){
@@ -256,7 +254,7 @@ public class UiUtil {
 				list.add(info);
 			}
 		}
-		
+
 		if(sale.getGoodsList()!=null && sale.getGoodsList().size()>0){
 			for (int i = 0; i < sale.getGoodsList().size(); i++) {
 				info = new InfoItem();
@@ -267,33 +265,33 @@ public class UiUtil {
 				list.add(info);
 			}
 		}
-		
+
 		info = new InfoItem();
 		info.setKey("-1");
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("ºÏ¼Æ:");
+		info.setName("åˆè®¡:");
 		info.setValue(String.valueOf(totle2));
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("0");
 		list.add(info);
-		
+
 		info = new InfoItem();
 		info.setKey("2");
-		info.setName("´òÓ¡Ê±¼ä:");
+		info.setName("æ‰“å°æ—¶é—´:");
 		info.setValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		list.add(info);
-		
+
 		Log.e("=====", util.json.JSONUtils.toJsonWithGson(list));
-		
+
 		return list;
 	}
-	
-	
-	
-	
+
+
+
+
 }

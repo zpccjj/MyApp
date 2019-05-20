@@ -1,19 +1,19 @@
 package util;
 
-import com.hsic.qp.ActivityConfig;
-import com.hsic.qp.ActivityPrint;
-import com.hsic.qp.ActivityQPReceive;
-import com.hsic.qp.ActivityReprint;
-import com.hsic.qp.ActivityRfid;
-import com.hsic.qp.ActivitySendReceive;
-import com.hsic.qp.ActivityTask;
-import com.hsic.qp.ActivityTaskList;
-import com.hsic.qp.MainActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.hsic.qp.sz.ActivityConfig;
+import com.hsic.qp.sz.ActivityPrint;
+import com.hsic.qp.sz.ActivityQPReceive;
+import com.hsic.qp.sz.ActivityReprint;
+import com.hsic.qp.sz.ActivityRfid;
+import com.hsic.qp.sz.ActivitySendReceive;
+import com.hsic.qp.sz.ActivityTask;
+import com.hsic.qp.sz.ActivityTaskList;
+import com.hsic.qp.sz.MainActivity;
 
 public class ActivityUtils {
 	public static void JumpToMain(Context context){
