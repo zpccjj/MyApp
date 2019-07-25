@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/txt_home_14"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/bound_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/bound_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+      <RadioButton
+          android:id="@+id/bound_rb_1"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="未绑定" />
+      <RadioButton
+          android:id="@+id/bound_rb_2"
+          android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="已绑定" />
+      </RadioGroup>
+      
+
+    <ListView
+        android:id="@+id/bound_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5sp">
+
+    </ListView>
+    
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+		<Button
+            android:id="@+id/bound_btn1"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_12" />
+    	<Button
+            android:id="@+id/bound_btn2"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_14" />
+    	
+    </TableRow>
+
+</LinearLayout>

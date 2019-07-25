@@ -42,7 +42,7 @@ public class FragmentConfig extends PreferenceFragment {
 	List<InfoItem> bList = new ArrayList<InfoItem>();
 	String btMac;
 
-	public Context getContext(){
+	private Context getContext(){
 		return getActivity();
 	}
 
@@ -59,6 +59,13 @@ public class FragmentConfig extends PreferenceFragment {
 
 		findPreference("overTime").setSummary(mPreferences.getString("overTime", getActivity().getResources().getString(R.string.config_time)));
 
+		findPreference("power_r").setSummary(mPreferences.getString("power_r", getActivity().getResources().getString(R.string.config_power_r)));
+
+		findPreference("power_w").setSummary(mPreferences.getString("power_w", getActivity().getResources().getString(R.string.config_power_w)));
+
+		findPreference("APKServer").setSummary(mPreferences.getString("APKServer", getActivity().getResources().getString(R.string.xml_default)));
+		findPreference("APKServerPort").setSummary(mPreferences.getString("APKServerPort", getActivity().getResources().getString(R.string.xml_port_default)));
+
 		findPreference("DeviceID").setSummary(DeviceID);
 
 		findPreference("bluetooth_mac").setSummary(btMac);
@@ -66,7 +73,7 @@ public class FragmentConfig extends PreferenceFragment {
 		String verString = "";
 		try {
 			PackageInfo packageinfo = getActivity().getPackageManager()
-					.getPackageInfo("com.hsic.qp", 0);
+					.getPackageInfo("com.hsic.qp.sz", 0);
 			verString = "V " + packageinfo.versionName;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
@@ -259,34 +266,48 @@ public class FragmentConfig extends PreferenceFragment {
 		protected ResponseData doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			ResponseData res = new ResponseData();
+			UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+			BluetoothDevice device = mBluetooth.getRemoteDevice(params[0]);
+			BluetoothSocket bluetoothSocket;
+			OutputStream outputStream;
 			try {
-				UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-				BluetoothDevice device = mBluetooth.getRemoteDevice(params[0]);
-				BluetoothSocket bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid);
+				bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid);
 
 				bluetoothSocket.connect();
 
-				OutputStream outputStream = bluetoothSocket.getOutputStream();
-
-				String Data = params[0] + "\n\n\n";
-				byte[] data = Data.getBytes("gbk");
-				outputStream.write(data, 0, data.length);
-
-				if (bluetoothSocket != null) {
-					bluetoothSocket.close();
-				}
-
-				if (outputStream != null) {
-					outputStream.close();
-				}
-
-				System.out.println("======");
-				res.setRespCode(0);
+				outputStream = bluetoothSocket.getOutputStream();
 			}catch (Exception ex) {
 				System.out.print("远程获取设备出现异常");
 				res.setRespCode(1);
 				res.setRespMsg("连接设备失败");
 				ex.printStackTrace();
+				return res;
+			}
+
+			try{
+				String Data = params[0] + "\n\n\n";
+				byte[] data = Data.getBytes("gbk");
+				outputStream.write(data, 0, data.length);
+				outputStream.flush();
+				res.setRespCode(0);
+			}catch (Exception ex) {
+				System.out.print("远程获取设备出现异常");
+				res.setRespCode(1);
+				res.setRespMsg("打印异常");
+				ex.printStackTrace();
+			}finally{
+				try {
+					if (bluetoothSocket != null) {
+						bluetoothSocket.close();
+					}
+
+					if (outputStream != null) {
+						outputStream.close();
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
 			}
 
 			return res;

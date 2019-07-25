@@ -28,8 +28,8 @@ public class DatePickerDialog extends Dialog {
     private Button button_1;
     private Button button_2;
 
-    private static final int MIN_YEAR = 1990;
-    private static final int MAX_YEAR = 2200;
+    private static final int MIN_YEAR = 1980;
+    private static final int MAX_YEAR = 2050;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

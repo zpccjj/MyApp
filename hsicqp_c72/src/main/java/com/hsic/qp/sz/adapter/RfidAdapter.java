@@ -1,6 +1,7 @@
 package com.hsic.qp.sz.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,19 +50,29 @@ public class RfidAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		if(convertView==null){
-			LayoutInflater inflater = (LayoutInflater) mContext
-					.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.item_rfid, null);
-		}
+		LayoutInflater inflater = (LayoutInflater) mContext
+				.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+		convertView = inflater.inflate(R.layout.item_rfid, null);
 
 		TextView LabelNo = (TextView) convertView.findViewById(R.id.rfid_item_1);
 		TextView MediumName = (TextView) convertView.findViewById(R.id.rfid_item_2);
 		TextView NextCheckDate = (TextView) convertView.findViewById(R.id.rfid_item_3);
 		TextView Overdue = (TextView) convertView.findViewById(R.id.rfid_item_4);
 
-		LabelNo.setText("标签号:" + (mList.get(position).getQPDJCode()!=null ? mList.get(position).getQPDJCode() : ""));
-		MediumName.setText("充装介质:"+ (mList.get(position).getMediumName()!=null ? mList.get(position).getMediumName() : ""));
+		LabelNo.setText("标签号:" + (mList.get(position).getQPDJCode()!=null ? mList.get(position).getQPDJCode() : "")
+				+ (mList.get(position).getIsJG()==1? "   集格瓶" : "   散瓶") );
+
+		String txt = "充装介质:"+ (mList.get(position).getMediumName()!=null ? mList.get(position).getMediumName() : "");
+		if(mList.get(position).getGoodsName()!=null && mList.get(position).getGoodsName().length()>0){
+			txt += ",  最新充装:" + mList.get(position).getGoodsName();
+		}
+		MediumName.setText(txt);
+		if(mList.get(position).getColor()==0){
+			MediumName.setTextColor(Color.rgb(0, 0, 255));
+		}else if(mList.get(position).getColor()==2){
+			MediumName.setTextColor(Color.rgb(255, 0, 0));
+		}
+
 		NextCheckDate.setText("下次检验日期:" + (mList.get(position).getNextCheckDate()!=null ? mList.get(position).getNextCheckDate() : ""));
 
 		if(mList.get(position).getNextCheckDate()!=null && mList.get(position).getNextCheckDate().length()==4){

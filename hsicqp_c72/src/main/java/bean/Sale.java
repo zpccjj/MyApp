@@ -34,6 +34,9 @@ public class Sale {
 	private String CustomerType;//CT01月结客户  CT02个体客户
 	private String CustomerTypeName;
 
+	private BigDecimal RealPirce;//实收款
+	private String RealPirceInfo;//实收款说明
+
 	private List<SaleDetail> SaleDetail;
 
 
@@ -150,6 +153,19 @@ public class Sale {
 	}
 	public void setCustomerTypeName(String customerTypeName) {
 		CustomerTypeName = customerTypeName;
+	}
+
+	public BigDecimal getRealPirce() {
+		return RealPirce;
+	}
+	public void setRealPirce(BigDecimal realPirce) {
+		RealPirce = realPirce;
+	}
+	public String getRealPirceInfo() {
+		return RealPirceInfo;
+	}
+	public void setRealPirceInfo(String realPirceInfo) {
+		RealPirceInfo = realPirceInfo;
 	}
 	public List<QPGoods> getGoodsList() {
 		return GoodsList;

@@ -1,7 +1,6 @@
 package util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ public class WsUtils {
 
         try {//getData WebService接口的方法名
             WsInfo res = orderdeclData.recevieData(Url, propertyList, null, null, true);
-            Log.e("object", res.getObj().toString());
             if(res.isOk())
                 msg = (ResponseData) util.json.JSONUtils.toObjectWithGson(res.getObj().toString(), ResponseData.class);
             else{

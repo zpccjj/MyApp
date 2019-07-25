@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.hsic.qp.sz.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
 
@@ -46,14 +45,13 @@ import util.WsUtils;
 public class ActivityRfid extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
 	private RFIDWithUHF mReader;
-	ScanTask rfidTask;
 	static class mView{
 		EditText rfid_1;
 		TextView rfid_2;
 		TextView rfid_3;
 		TextView rfid_4;
 		TextView rfid_5;
-
+		TextView rfid_6;
 
 		Button btn1;
 		Button btn2;
@@ -61,7 +59,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 	}
 	mView mV;
 	String DeviceID;
-
+	private boolean CanRfid = false;
 	private Context getContext(){
 		return ActivityRfid.this;
 	}
@@ -93,7 +91,6 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		// TODO Auto-generated method stub
 		if (mReader != null) {
 			boolean free = mReader.free();
-			Log.e("===========free", String.valueOf(free));
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -113,7 +110,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		mV.rfid_3 = (TextView) findViewById(R.id.rfid_3);
 		mV.rfid_4 = (TextView) findViewById(R.id.rfid_4);
 		mV.rfid_5 = (TextView) findViewById(R.id.rfid_5);
-
+		mV.rfid_6 = (TextView) findViewById(R.id.rfid_6);
 
 		mV.btn1 = (Button) findViewById(R.id.rfid_btn1);
 		mV.btn2 = (Button) findViewById(R.id.rfid_btn2);
@@ -123,6 +120,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				UiUtil.CloseKey(ActivityRfid.this);
 				if(mV.rfid_1.getText().toString().trim().length()==0){
 					ToastUtil.showToast(getContext(), "请输入钢瓶号");
 					return;
@@ -136,6 +134,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				UiUtil.CloseKey(ActivityRfid.this);
 				ScanRfid();
 			}
 		});
@@ -144,6 +143,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				UiUtil.CloseKey(ActivityRfid.this);
 				if(GBI==null){
 					ToastUtil.showToast(getContext(), "请先获取气瓶信息");
 					return;
@@ -162,12 +162,6 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		});
 	}
 
-	@Override
-	public void closeRFID(){
-		//	Log.e("HsicActivity closeRFID", txt);
-		//	ToastUtil.showToast(getContext(), "finish scan");
-		rfidTask = null;
-	}
 
 	Rfid LastRfid = null;
 	String UII = "";
@@ -181,13 +175,14 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			ToastUtil.showToast(getContext(), "标签数据错误");
 			return ;
 		}
 		if(rfid==null ||rfid.getCQDW()==null || rfid.getLabelNo()==null){
 
 			LastRfid = null;
 			mV.rfid_5.setText("");
-
+			ToastUtil.showToast(getContext(), "未读到标签");
 			return ;
 		}
 		rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
@@ -196,18 +191,18 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 
 			LastRfid = null;
 			mV.rfid_5.setText("");
-
+			ToastUtil.showToast(getContext(), "版本号错误");
 			return ;
 		}
 
-		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
+/*		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
 			ToastUtil.showToast(getContext(), "非产权单位标签");
 
 			LastRfid = null;
 			mV.rfid_5.setText("");
 
 			return;
-		}
+		}*/
 
 		LastRfid = rfid;
 		mV.rfid_5.setText(rfid.getQPDJCode());
@@ -273,6 +268,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 				}
 				ToastUtil.showToast(getContext(), txt);
 			}else{
+				CanRfid = true;
 				ToastUtil.showToast(getContext(), "RFID设备开启");
 				mV.btn1.setEnabled(true);
 				mV.btn2.setEnabled(true);
@@ -285,7 +281,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 
-			mV.btn1.setEnabled(false);
+			//mV.btn1.setEnabled(false);
 			mV.btn2.setEnabled(false);
 			mV.btn3.setEnabled(false);
 
@@ -388,7 +384,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 				e.printStackTrace();
 			}
 
-			//4位单位代码+7位追溯码 19-23
+			//4位单位代码+8位追溯码 19-23
 			String QPDJCODE = mRfid.getQPDJCode();
 			//5 byte
 			BigInteger big = new BigInteger(QPDJCODE, 10);
@@ -434,12 +430,20 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			String NextCheckDate = mGbi.getNextCheckDate();
 			NextCheckDate = NextCheckDate.replaceAll("-", "").substring(2,6);
 			BigInteger next = new BigInteger(NextCheckDate, 10);
-			BigInteger w2 = new BigInteger(RfidUtils.LeftAddString(next.toString(2), 14, "0") + "00", 2);//00合格01报废10停用
+			BigInteger w2 = new BigInteger(RfidUtils.LeftAddString(next.toString(2), 14, "0") + "00", 2);//00合格01报废10停用2
 			byte[] write2 = RfidUtils.hexStringToBytes(RfidUtils.LeftAddString(w2.toString(16), 4, "0"));
 			System.arraycopy(write2, 0, write_epc, 2, write2.length);
 
 			//4-5 气瓶种类+签发校验区
-			BigInteger w3 = new BigInteger("0011111111111111", 2);//起始2位二进制：00散瓶01集格02集格内瓶
+			String jgtype = mGbi.getJGType();
+			String tmp = "00";
+			if(jgtype!=null){
+				if(jgtype.equals("0")) tmp = "00";
+				else if(jgtype.equals("1")) tmp = "01";
+				else if(jgtype.equals("2")) tmp = "10";
+			}
+
+			BigInteger w3 = new BigInteger( tmp + "11111111111111", 2);//起始2位二进制：0:00散瓶, 1:01集格, 2:10集格内瓶
 			byte[] write3  = RfidUtils.hexStringToBytes(RfidUtils.LeftAddString(w3.toString(16), 4, "0"));//
 			System.arraycopy(write3, 0, write_epc, 4, write3.length);
 
@@ -543,7 +547,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 						DialogChoice(getContext(), list);
 					}
 				}else{
-					ToastUtil.showToast(getContext(), "无气瓶瓶信息");
+					ToastUtil.showToast(getContext(), "无该气瓶信息");
 				}
 			}
 		}
@@ -553,14 +557,27 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 	private void setQpInfo(GasBaseInfo gbi){
 		GBI = gbi;
 		if(GBI!=null){
-			mV.rfid_1.setText(GBI.getGPNO());
-			mV.rfid_2.setText(GBI.getMakeDate());
-			mV.rfid_3.setText(GBI.getNextCheckDate());
-			mV.rfid_4.setText(ConfigData.getMediaName(GBI.getMediumCode()));
+			if(GBI.getiStatus().equals("0")){
+				mV.rfid_2.setText(GBI.getMakeDate());
+				mV.rfid_3.setText(GBI.getNextCheckDate());
+				mV.rfid_4.setText(ConfigData.getMediaName(GBI.getMediumCode(), getApp().getMediaInfo()));
+
+				String jg = GBI.getJGType();
+				String tmp = "散瓶";
+				if(jg!=null){
+					if(jg.equals("1")) tmp = "集格";
+					else if(jg.equals("2")) tmp = "集格内瓶";
+				}
+				mV.rfid_6.setText(tmp);
+			}else{
+				GBI = null;
+				ToastUtil.showToast(getContext(), "该气瓶已绑定");
+			}
 		}else{
 			mV.rfid_2.setText("");
 			mV.rfid_3.setText("");
 			mV.rfid_4.setText("");
+			mV.rfid_6.setText("");
 		}
 	}
 
@@ -570,7 +587,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 		final String items[] = new String[list.size()];
 
 		for (int i = 0; i < list.size(); i++) {
-			items[i] = list.get(i).getGPNO();
+			items[i] = (list.get(i).getiStatus().equals("0") ? "未绑定," : "已绑定,") + list.get(i).getMadeNo() + "-" + list.get(i).getGPNO();
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context,3);
@@ -589,8 +606,13 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 					ToastUtil.showToast(getContext(),  "请选择气瓶号");
 					UiUtil.setDiagBtn(dialog, false);
 				}else{
-					setQpInfo(list.get(ChoiceID[0]));
-					UiUtil.setDiagBtn(dialog, true);
+					if(list.get(ChoiceID[0]).getiStatus().equals("0")){
+						setQpInfo(list.get(ChoiceID[0]));
+						UiUtil.setDiagBtn(dialog, true);
+					}else{
+						ToastUtil.showToast(getContext(),  "该气瓶已绑定");
+						UiUtil.setDiagBtn(dialog, false);
+					}
 				}
 			}
 		});
@@ -607,16 +629,18 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 
 	@Override
 	public void ScanRfid(){
-		LastRfid = null;
-		UII = "";
+		if(CanRfid){
+			LastRfid = null;
+			UII = "";
 
-		String uii = mReader.inventorySingleTag();
-		if (!TextUtils.isEmpty(uii)){
-			String epc = mReader.convertUiiToEPC(uii);
-			Log.e("inventorySingleTag", uii);
-			Log.e("convertUiiToEPC", epc);
+			String uii = mReader.inventorySingleTag();
+			if (!TextUtils.isEmpty(uii)){
+				String epc = mReader.convertUiiToEPC(uii);
+				Log.e("inventorySingleTag", uii);
+				Log.e("convertUiiToEPC", epc);
 
-			getRfid(RfidUtils.getDataFromEPC(epc));
+				getRfid(RfidUtils.getDataFromEPC(epc));
+			}
 		}
 	}
 }

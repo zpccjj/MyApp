@@ -10,6 +10,11 @@ public class GasBaseInfo {//气瓶基本信息
 	private String MediumCode ;
 	private String CheckDate ;
 	private String NextCheckDate ;
+	private String QPDJCode;
+	private String TagID;
+	private String iStatus;//0表示未绑定，1表示已绑定
+	private String MadeNo;
+	private String JGType;
 
 	public String getStandNo() {
 		return StandNo;
@@ -64,6 +69,36 @@ public class GasBaseInfo {//气瓶基本信息
 	}
 	public void setNextCheckDate(String nextCheckDate) {
 		NextCheckDate = nextCheckDate;
+	}
+	public String getJGType() {
+		return JGType;
+	}
+	public void setJGType(String jGType) {
+		JGType = jGType;
+	}
+	public String getQPDJCode() {
+		return QPDJCode;
+	}
+	public void setQPDJCode(String qPDJCode) {
+		QPDJCode = qPDJCode;
+	}
+	public String getTagID() {
+		return TagID;
+	}
+	public void setTagID(String tagID) {
+		TagID = tagID;
+	}
+	public String getiStatus() {
+		return iStatus;
+	}
+	public void setiStatus(String iStatus) {
+		this.iStatus = iStatus;
+	}
+	public String getMadeNo() {
+		return MadeNo;
+	}
+	public void setMadeNo(String madeNo) {
+		MadeNo = madeNo;
 	}
 
 

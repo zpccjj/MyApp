@@ -45,8 +45,6 @@ public class SubmitTask extends AsyncTask<String, Void, ResponseData> {
 		map2.put("propertyValue", util.json.JSONUtils.toJsonWithGson(info));
 		propertyList.add(map2);
 
-		Log.e("propertyList", util.json.JSONUtils.toJsonWithGson(propertyList));
-
 		return WsUtils.CallWs(mContext, "updateSaleInfo", propertyList);
 	}
 
@@ -65,9 +63,10 @@ public class SubmitTask extends AsyncTask<String, Void, ResponseData> {
 	protected void onPostExecute(ResponseData result) {
 		// TODO Auto-generated method stub
 		dialog.setCancelable(true);
+		Log.e("提交销售单返回", util.json.JSONUtils.toJsonWithGson(result));
 		if(result.getRespCode()==0){
 			dialog.dismiss();
-			if(mListener!=null) mListener.WsFinish(true, 1, result.getRespMsg());
+			if(mListener!=null) mListener.WsFinish(true, 0, result.getRespMsg());
 		}else{
 			dialog.setMessage(result.getRespMsg());
 		}

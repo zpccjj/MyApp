@@ -1,7 +1,8 @@
 <resources>
     <string name="no">取消</string>
     <string name="yes">确定</string>
-    
+    <string name="txt_ps">注:请输入集格的数量，不要输入集格中的瓶数</string>
+
     <string name="title_activity_home">首页</string>
     <string name="title_home">上海申中气体</string>
     <string name="txt_home_1">出厂登记</string>
@@ -12,11 +13,17 @@
     <string name="txt_home_6">气瓶绑定</string>
     <string name="txt_home_7">车牌号:</string>
     <string name="txt_home_8">操作人:</string>
-    <string name="txt_home_9">总数:</string>
+    <string name="txt_home_9">总瓶数:</string>
     <string name="txt_home_10">超期/即将超期:</string>
     <string name="txt_home_11">超期</string>
     <string name="txt_home_12">即将超期</string>
-    
+    <string name="txt_home_13">基本信息登记</string>
+    <string name="txt_home_14">绑定查询</string>
+    <string name="txt_home_15">信息登记并绑定</string>
+    <string name="txt_home_16">标签验证</string>
+    <string name="txt_home_17">其他操作</string>
+    <string name="txt_home_18">装车信息</string>
+
     <string name="txt_qp_1">充装日期</string>
     <string name="txt_qp_2">充装时间(分钟)</string>
     <string name="txt_qp_3">压力(MPa)</string>
@@ -29,12 +36,41 @@
     <string name="txt_qp_10">下次检验日期:</string>
     <string name="txt_qp_11">充装介质:</string>
     <string name="txt_qp_12">标签号:</string>
-    
+    <string name="txt_qp_13">标签类型:</string>
+    <string name="txt_qp_14">充装介质:</string>
+    <string name="txt_qp_15">商品名称:</string>
+    <string name="txt_qp_16">充装批次号:</string>
+    <string name="txt_qp_17">充装数量:</string>
+
+    <string name="txt_info_1">产权单位</string>
+    <string name="txt_info_2">气瓶类型</string>
+    <string name="txt_info_3">气瓶编号</string>
+    <string name="txt_info_4">企业自编号</string>
+    <string name="txt_info_5">气瓶制造单位代码</string>
+    <string name="txt_info_6">定期检验单位</string>
+    <string name="txt_info_7">气瓶制造日期</string>
+    <string name="txt_info_8">充装介质</string>
+    <string name="txt_info_9">实际容积(L)</string>
+    <string name="txt_info_10">瓶体壁厚(mm)</string>
+    <string name="txt_info_11">实际重量(Kg)</string>
+    <string name="txt_info_12">皮重(Kg)</string>
+    <string name="txt_info_13">公称工作压力(MPa)</string>
+    <string name="txt_info_14">水压测试压力(MPa)</string>
+    <string name="txt_info_15">瓶体材质</string>
+    <string name="txt_info_16">填料孔隙率</string>
+    <string name="txt_info_17">检验周期(年)</string>
+    <string name="txt_info_18">使用期限(年)</string>
+    <string name="txt_info_19">已检验次数</string>
+    <string name="txt_info_20">下次检验日期</string>
+    <string name="txt_info_21">标签号</string>
+
+
+
     <string name="title_activity_query">查询</string>
     <string name="title_activity_count">统计</string>
     <string name="title_activity_my">我的</string>
     <string name="app_name">申中气体</string>
-    
+
     <string name="back_string_1">退出</string>
     <string name="back_string_2">返回</string>
     <string name="btn_string_01">登录</string>
@@ -56,13 +92,20 @@
     <string name="btn_string_17">气瓶绑定</string>
     <string name="btn_string_18">添加收瓶</string>
     <string name="btn_string_19">删除</string>
-    
+    <string name="btn_string_20">详细</string>
+    <string name="btn_string_21">登记</string>
+    <string name="btn_string_22">扫描</string>
+    <string name="btn_string_23">绑定</string>
+    <string name="btn_string_24">拍照</string>
+    <string name="btn_string_25">上传</string>
+    <string name="btn_string_26">签名</string>
+
     <string name="title_string_01">用户登录</string>
     <string name="title_string_02">任务概况</string>
     <string name="title_string_03">收发瓶</string>
     <string name="title_string_04">打印</string>
     <string name="title_string_05">已完成任务</string>
-    
+
     <string name="txt_string_0">记住用户名密码</string>
     <string name="txt_string_01">用户名:</string>
     <string name="txt_string_02">密码:</string>
@@ -70,39 +113,50 @@
     <string name="txt_string_03">客户姓名:</string>
     <string name="txt_string_04">客户电话:</string>
     <string name="txt_string_05">客户地址:</string>
-    <string name="txt_string_06">钢瓶数量:</string>
-    
+    <string name="txt_string_06">订购气瓶:</string>
+
     <string name="txt_string_07">车牌号:</string>
     <string name="txt_string_08">设备编号:</string>
     <string name="txt_string_09">站点名称:</string>
     <string name="txt_string_10">配送日期:</string>
     <string name="txt_string_11">任务数量:</string>
-    <string name="txt_string_11s">任务备注:</string>
-    
-    <string name="txt_string_12">收瓶数量:</string>
+    <string name="txt_string_11s">下次发车信息:</string>
+    <string name="txt_string_11a">总瓶数:</string>
+    <string name="txt_string_11b">车次号:</string>
+    <string name="txt_string_12">实收总数:</string>
+    <string name="txt_string_12u">收瓶数量:</string>
+    <string name="txt_string_12r">发瓶数量:</string>
+    <string name="txt_string_12s">预收总数:</string>
+    <string name="txt_string_12a">收瓶扫描数:</string>
+    <string name="txt_string_12b">发瓶扫描数:</string>
     <string name="txt_string_13">发瓶情况</string>
-    
+
+
     <string name="txt_string_14">标签号</string>
     <string name="txt_string_15">选择商品</string>
     <string name="txt_string_16">是否为非本站气瓶</string>
-	<string name="txt_string_17">非本站气瓶总价(元):</string>
-	<string name="txt_string_18">付费方式:</string>
-	<string name="txt_string_18_0">现金</string>
-	<string name="txt_string_18_1">气票</string>
-	<string name="txt_string_18_2">月结</string>
-	<string name="txt_string_19">商品名称:</string>
-	
-	<string-array name="paytype">
+    <string name="txt_string_17">非本站气瓶总价(元):</string>
+    <string name="txt_string_18">付费方式:</string>
+    <string name="txt_string_18_0">现金</string>
+    <string name="txt_string_18_1">气票</string>
+    <string name="txt_string_18_2">月结</string>
+    <string name="txt_string_19">商品名称:</string>
+
+    <string name="txt_string_20">瓶数:</string>
+    <string name="txt_string_21">空瓶数:</string>
+    <string name="txt_string_22">满瓶数:</string>
+
+    <string-array name="paytype">
         <item>现金</item>
         <item>气票</item>
         <item>月结</item>
     </string-array>
-    
-	<string-array name="fulldm">
+
+    <string-array name="fulldm">
         <item>合格</item>
         <item>不合格</item>
     </string-array>
-	<string-array name="checkdm">
+    <string-array name="checkdm">
         <item>无缺陷</item>
         <item>阀杆歪断</item>
         <item>阀芯坏</item>
@@ -115,5 +169,5 @@
         <item>阀颈漏</item>
         <item>开关板断</item>
     </string-array>
-	
+
 </resources>

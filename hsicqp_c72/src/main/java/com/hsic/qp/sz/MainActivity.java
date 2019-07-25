@@ -35,10 +35,10 @@ public class MainActivity extends TabActivity{
         tab_host.addTab(getNewTab(SECOND_TAG, R.string.title_activity_query,new Intent(this, QueryActivity.class)));
         tab_host.addTab(getNewTab(THIRD_TAG, R.string.title_activity_count,new Intent(this, CountActivity.class)));
         tab_host.addTab(getNewTab(FORTH_TAG, R.string.title_activity_my,   new Intent(this, MyActivity.class)));
-        
+
         rg = (RadioGroup) findViewById(R.id.llyt_tab_group);
         rg.setOnCheckedChangeListener(RadioGroupCheckedChangeListener);
-        
+
         rb_1 = ((RadioButton) findViewById(R.id.rbtn_tab_1));
         rb_2 = ((RadioButton) findViewById(R.id.rbtn_tab_2));
         rb_3 = ((RadioButton) findViewById(R.id.rbtn_tab_3));
@@ -46,26 +46,26 @@ public class MainActivity extends TabActivity{
 
 
         rb_1.setChecked(true);
-   
+
     }
-    
+
     OnCheckedChangeListener RadioGroupCheckedChangeListener = new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			// TODO Auto-generated method stub
-			if(checkedId==rb_1.getId()){
-				tab_host.setCurrentTabByTag(FIRST_TAG);
-			}else if(checkedId==rb_2.getId()){
-				tab_host.setCurrentTabByTag(SECOND_TAG);
-			}else if(checkedId==rb_3.getId()){
-				tab_host.setCurrentTabByTag(THIRD_TAG);
-			}else if(checkedId==rb_4.getId()){
-				tab_host.setCurrentTabByTag(FORTH_TAG);
-			}
-			
-		}
-	};
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            // TODO Auto-generated method stub
+            if(checkedId==rb_1.getId()){
+                tab_host.setCurrentTabByTag(FIRST_TAG);
+            }else if(checkedId==rb_2.getId()){
+                tab_host.setCurrentTabByTag(SECOND_TAG);
+            }else if(checkedId==rb_3.getId()){
+                tab_host.setCurrentTabByTag(THIRD_TAG);
+            }else if(checkedId==rb_4.getId()){
+                tab_host.setCurrentTabByTag(FORTH_TAG);
+            }
+
+        }
+    };
     
     
     

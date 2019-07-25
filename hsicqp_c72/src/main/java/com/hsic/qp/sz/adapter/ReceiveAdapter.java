@@ -48,16 +48,17 @@ public class ReceiveAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		if(convertView==null){
-			LayoutInflater inflater = (LayoutInflater) mContext
-					.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.item_receive, null);
-		}
+		LayoutInflater inflater = (LayoutInflater) mContext
+				.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+		convertView = inflater.inflate(R.layout.item_receive, null);
+
 		TextView name = (TextView) convertView.findViewById(R.id.r_qp_1);
 		TextView num = (TextView) convertView.findViewById(R.id.r_qp_2);
 
 		name.setText(mList.get(position).getGoodsName()!=null ? mList.get(position).getGoodsName() : "");
-		num.setText(String.valueOf(mList.get(position).getGoodsNum()) + " ƿ");
+		if(mList.get(position).getIsJG()==1)
+			num.setText(String.valueOf(mList.get(position).getGoodsNum()) + "x" + String.valueOf(mList.get(position).getNum()) + " ƿ");
+		else num.setText(String.valueOf(mList.get(position).getGoodsNum()) + " ƿ");
 
 		return convertView;
 	}

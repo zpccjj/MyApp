@@ -3,7 +3,7 @@ package bean;
 public class QPDJCode {
 	private String BottleKindCode ;//
 	private String PropertyUnitCode ;//4位单位代码
-	private String UseRegCode ;//7位追溯码
+	private String UseRegCode ;//8位追溯码
 	private String MediumCode ;
 	private String TagID ;
 	private String MakeDate ;

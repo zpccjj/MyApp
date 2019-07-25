@@ -21,15 +21,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center"
         android:orientation="vertical" >
         
         <Button
             android:id="@+id/r_btn0"
             android:layout_marginLeft="5dp"
-        	android:layout_marginRight="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,7 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_string_18" />
-
+		<Button
+            android:id="@+id/r_btn2"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_22" />
     </TableRow>
 
 </LinearLayout>

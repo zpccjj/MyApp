@@ -3,51 +3,123 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView
-      android:id="@+id/print_1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:layout_marginTop="5dp"
-      android:textSize="20sp" />
-    
-    <ListView
-        android:id="@+id/print_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:divider="@android:color/transparent"
-        
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1" >
 
-    </ListView>
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" 
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginBottom="5dp">
+
+        <LinearLayout
+        android:id="@+id/print_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+	    <TextView
+	      android:id="@+id/print_1"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_gravity="center"
+	      android:layout_marginLeft="5dp"
+	      android:layout_marginRight="5dp"
+	      android:layout_marginTop="5dp"
+	      android:textSize="20sp" />
+	    
+	    <hsic.ui.MyListView
+	        android:id="@+id/print_list"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dip"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="5dp"
+	    	android:layout_marginRight="5dp"
+	        android:divider="@android:color/transparent" >
+	        </hsic.ui.MyListView>
+
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="5dp"
+	    	android:layout_marginRight="5dp" >
+
+	        <TextView
+	            android:id="@+id/textView1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="客户签字:" />
+	
+	        <ImageView
+	            android:id="@+id/image"
+	            android:layout_marginLeft="50dp"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"/>
+	
+	    </TableRow>
+
+    </LinearLayout>
+    </ScrollView>
+
+    
     
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+    	<Button
+            android:id="@+id/print_photo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/btn_string_24" />
+    	<Button
+            android:id="@+id/print_sign"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_26" />
+    	<Button
+            android:id="@+id/print_upload"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:text="@string/btn_string_25" />/>
+		
+    </TableRow>
+    
+       <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="vertical" >
 		<Button
-            android:id="@+id/print_back"
-            android:layout_marginLeft="5dp"
-        	android:layout_marginRight="5dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btn_string_06" />
-    	<Button
             android:id="@+id/print_btn"
-            android:layout_marginLeft="5dp"
-        	android:layout_marginRight="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="@string/btn_string_05" />
+
+    	<Button
+            android:id="@+id/print_back"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:text="@string/btn_string_06" />
     </TableRow>
 
 </LinearLayout>

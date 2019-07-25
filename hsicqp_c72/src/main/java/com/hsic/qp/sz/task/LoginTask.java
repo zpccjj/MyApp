@@ -3,7 +3,6 @@ package com.hsic.qp.sz.task;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.hsic.qp.sz.listener.WsListener;
 
@@ -51,8 +50,6 @@ public class LoginTask extends AsyncTask<String, Void, ResponseData> {
 		map2.put("propertyName", "RequestData");
 		map2.put("propertyValue", util.json.JSONUtils.toJsonWithGson(info));
 		propertyList.add(map2);
-
-		Log.e("propertyList", util.json.JSONUtils.toJsonWithGson(propertyList));
 
 		return WsUtils.CallWs(mContext, "EmployeeLogin", propertyList);
 	}

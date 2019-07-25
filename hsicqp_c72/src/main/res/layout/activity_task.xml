@@ -78,7 +78,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="3"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:text="@string/txt_string_12s" />
+
+        <TextView
+	        android:id="@+id/task_4s"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:textSize="16sp"
             android:text="@string/txt_string_12" />
 
@@ -90,7 +105,42 @@
 	        android:textSize="16sp"
 	        android:layout_weight="1"/>
     </TableRow>
+<TableRow
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:text="@string/txt_string_12a" />
+
+        <TextView
+	        android:id="@+id/task_4a"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:text="@string/txt_string_12b" />
+
+        <TextView
+	        android:id="@+id/task_4b"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textSize="16sp"
+	        android:layout_weight="1"/>
+    </TableRow>
 	<TextView
 	    android:layout_marginTop="5dp"
 	    android:layout_width="fill_parent"

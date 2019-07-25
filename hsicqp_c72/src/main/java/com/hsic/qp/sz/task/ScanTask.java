@@ -2,11 +2,11 @@ package com.hsic.qp.sz.task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.rscja.deviceapi.RFIDWithUHF;
 
 import util.RfidUtils;
+
 
 
 public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
@@ -17,10 +17,10 @@ public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
 
 	@Override
 	protected String doInBackground(RFIDWithUHF... params) {
-		// TODO Auto-generated method stubparams[0].setEPCTIDMode(true);
-		//
-		//		params[0].startInventoryTag((byte)0, (byte)0);
+		// TODO Auto-generated method stub
+		params[0].setEPCTIDMode(true);
 
+		params[0].startInventoryTag((byte)0, (byte)0);
 
 		while (true) {
 			if(isCancelled()){
@@ -39,7 +39,7 @@ public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
 				}
 
 				strEpc = params[0].convertUiiToEPC(res[1]);
-				Log.e("Tid="+strTid, "Epc="+strEpc);
+				//Log.e("Tid="+strTid, "Epc="+strEpc);
 				//
 				String ret = RfidUtils.getDataFromEPC(strEpc);
 				if(ret!=null){
@@ -49,7 +49,7 @@ public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
 					mHandler.sendMessage(msg);
 
 					try {
-						Thread.sleep(20);
+						Thread.sleep(50);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -68,13 +68,13 @@ public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
 //	private String getDataFromEPC(String epc){
 //		try {
 //			String epcX34 = RfidUtils.xorHex(epc, "34");
-//			
+//
 //			byte[] Data = RfidUtils.hexStringToBytes(epcX34);
 //			String bitString = "";
 //			for (int i = 0; i < Data.length; i++) {
 //				bitString+=RfidUtils.byteToBit(Data[i]);
 //			}
-//			
+//
 //			Rfid rfid = new Rfid();
 //			rfid.setEPC(epc);
 //			rfid.setVersion(bitString.substring(0, 4));//0101 标签类别 + 规范版本

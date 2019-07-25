@@ -5,7 +5,14 @@ import java.math.BigInteger;
 import bean.Rfid;
 
 public class RfidUtils {
+	public static boolean isBound(String EPC){
+		if(EPC.substring(16, 24).equals("FFFFFFFF"))
+			return false;
+		else return true;
+	}
+
 	public static String getDataFromEPC(String epc){
+		if(epc==null || epc.length()!=24) return null;
 		try {
 			String epcX34 = xorHex(epc, "34");
 
@@ -23,7 +30,11 @@ public class RfidUtils {
 			rfid.setCZJZCode(String.format("%05d", binaryToDecimal(bitString.substring(48, 64))));//5位充装介质
 			rfid.setNextCheckDate(String.format("%04d", binaryToDecimal(bitString.substring(64, 78))));//4位下次检验日期
 			rfid.setState(bitString.substring(78, 80)); //钢瓶状态 00合格 01 报废 10 停用
-			//bitString.substring(80, 82);//气瓶种类 00散瓶01集格02集格内瓶
+			rfid.setType(bitString.substring(80, 82));//气瓶种类 00散瓶01集格10集格内瓶
+			if(rfid.getType().equals("01")) rfid.setIsJG(1);
+			else rfid.setIsJG(0);
+			rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
+
 			return util.json.JSONUtils.toJsonWithGson(rfid);
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -14,9 +14,15 @@ public class TruckNoInfo {
 	private String FullQPNo;//车上满瓶瓶号
 	private String OPID;//操作人
 	private int CustomerNum ;//客户数量
-	private String Remark;//备注预计取货时间
+	private String Remark;//备注
+	private String ETD;//下次发车信息
 
 	private List<Sale> Sale;//销售详细信息表
+
+	@Override
+	public String toString(){
+		return License;
+	}
 
 	public int getTruckNoID() {
 		return TruckNoID;
@@ -120,6 +126,14 @@ public class TruckNoInfo {
 
 	public void setRemark(String remark) {
 		Remark = remark;
+	}
+
+	public String getETD() {
+		return ETD;
+	}
+
+	public void setETD(String eTD) {
+		ETD = eTD;
 	}
 
 

@@ -5,6 +5,8 @@
     <string name="config_no"></string>
     <string name="config_power_r">30</string>
     <string name="config_power_w">20</string>
+    <string name="xml_default">47.100.12.195</string>
+    <string name="xml_port_default">80</string>
 
     <string name="text_switch_on">YES</string>
     <string name="text_switch_off">NO</string>
@@ -20,6 +22,13 @@
     <string name="text_webserver">配置服务</string>
     <string name="hint_webserver">输入服务地址</string>
     <string name="title_webserver">服务</string>
+
+    <string name="text_apkserver">配置更新服务地址</string>
+    <string name="hint_apkserver">输入更新服务地址</string>
+    <string name="title_apkserver">更新服务地址</string>
+    <string name="text_apkserverpost">配置更新服务端口</string>
+    <string name="hint_apkserverpost">输入更新服务端口</string>
+    <string name="title_apkserverpost">更新服务端口</string>
 
     <string name="text_power_r">设备读卡功率参数</string>
     <string name="text_power_w">设备写卡功率参数</string>

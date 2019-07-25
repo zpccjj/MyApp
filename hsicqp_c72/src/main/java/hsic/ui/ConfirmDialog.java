@@ -21,9 +21,19 @@ public class ConfirmDialog extends AlertDialog {
 
 	}
 
+	public void setConfirmButton(String txt,
+								 DialogInterface.OnClickListener onConfirmClickListener) {
+		super.setButton(BUTTON_POSITIVE, txt, onConfirmClickListener);
+	}
+
 	public void setConfirmButton(
 			DialogInterface.OnClickListener onConfirmClickListener) {
 		super.setButton(BUTTON_POSITIVE, confirmButton, onConfirmClickListener);
+	}
+
+	public void setConfirmButtonWithTxt(String txt,
+										DialogInterface.OnClickListener onConfirmClickListener) {
+		super.setButton(BUTTON_POSITIVE, txt, onConfirmClickListener);
 	}
 
 	public void setCancelButton(

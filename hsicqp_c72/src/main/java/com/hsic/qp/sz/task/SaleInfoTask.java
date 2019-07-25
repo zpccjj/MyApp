@@ -65,7 +65,7 @@ public class SaleInfoTask extends AsyncTask<String, Void, ResponseData> {
 		// TODO Auto-generated method stub
 		dialog = new ProgressDialog(mContext);
 		dialog.setMessage("正在获取销售单信息...");
-		if(this.mType==1) dialog.setMessage("正在获取补打信息...");
+		if(this.mType==1) dialog.setMessage("正在获取打印信息...");
 		dialog.setCancelable(false);
 		dialog.show();
 
@@ -78,7 +78,7 @@ public class SaleInfoTask extends AsyncTask<String, Void, ResponseData> {
 		dialog.setCancelable(true);
 		if(result.getRespCode()==0){
 			dialog.dismiss();
-			if(mListener!=null) mListener.WsFinish(true, 1, result.getRespMsg());
+			if(mListener!=null) mListener.WsFinish(true, mType, result.getRespMsg());
 		}else{
 			dialog.setMessage("错误："+result.getRespMsg());
 			UiUtil.CloseDiag(dialog);

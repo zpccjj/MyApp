@@ -1,5 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
 <!--     <style name="NoActionBar" parent="@style/Theme.Holo.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -37,8 +37,8 @@
         <item name="android:paddingRight">4.0dip</item>
         <item name="android:layout_height">15.0dip</item>
     </style>
-    
-    
+
+
 	<style name="mBtn" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/abtns</item>
         <item name="android:textSize">18sp</item>
@@ -47,8 +47,8 @@
         <item name="android:layout_height">40dp</item>
 
     </style>
-    
-    
+
+
     <style name="AppTheme" parent="Theme.Sherlock.Light">
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>

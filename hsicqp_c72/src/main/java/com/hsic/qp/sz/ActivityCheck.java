@@ -1,39 +1,50 @@
 package com.hsic.qp.sz;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.sz.adapter.RfidAdapter;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.hsic.qp.sz.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
+import hsic.ui.HsicActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import bean.FHLX;
-import bean.Rfid;
-import data.ConfigData;
-import hsic.ui.HsicActivity;
 import util.ToastUtil;
+import util.UiUtil;
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+import bean.FHLX;
+import bean.GasBaseInfo;
+import bean.MediumStatistics;
+import bean.Rfid;
+
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.R;
+import com.hsic.qp.sz.adapter.RfidCheckAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+
+import data.ConfigData;
 
 public class ActivityCheck extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
 
-	RfidAdapter mAdapter;
+	RfidCheckAdapter mAdapter;
 	List<Rfid> rList = new ArrayList<Rfid>();
 	String overDue="";
 
@@ -41,9 +52,14 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 	ScanTask rfidTask;
 	boolean isStart = false;
 
+	String DeviceSeq;
+	String OPID;
+	String[] DM;
+
 	static class mView{
 		TextView check_0;
-		Spinner check_1;
+		//		Spinner check_1;
+		TextView check_1;
 		TextView check_2;
 		ListView lv;
 
@@ -65,6 +81,10 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(MenuHOME);
+
+		DeviceSeq = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
+		OPID = getApp().getLogin().getUserID();
+		DM = getResources().getStringArray(R.array.checkdm);
 
 		intiView();
 		setListener();
@@ -95,7 +115,8 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 	private void intiView(){
 		mV = new mView();
 		mV.check_0 = (TextView) findViewById(R.id.check_0);
-		mV.check_1 = (Spinner) findViewById(R.id.check_1);
+//		mV.check_1 = (Spinner) findViewById(R.id.check_1);
+		mV.check_1 = (TextView) findViewById(R.id.check_1);
 		mV.check_2 = (TextView) findViewById(R.id.check_2);
 		mV.lv = (ListView) findViewById(R.id.check_list);
 
@@ -103,7 +124,7 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 		mV.btn2 = (Button) findViewById(R.id.check_btn2);
 		mV.btn3 = (Button) findViewById(R.id.check_btn3);
 
-		mAdapter = new RfidAdapter(getContext(), rList);
+		mAdapter = new RfidCheckAdapter(getContext(), rList);
 		mV.lv.setAdapter(mAdapter);
 
 		mV.check_0.setText("扫描数量:0");
@@ -115,7 +136,17 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				ScanRfid();
+				if(isStart){
+					if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
+						rfidTask.cancel(true);
+					}
+					rfidTask = null;
+					isStart = false;
+					mV.btn1.setText(getResources().getString(R.string.btn_string_12));
+					mV.btn3.setEnabled(true);
+				}else{
+					ScanRfid();
+				}
 			}
 		});
 		mV.btn2.setOnClickListener(new OnClickListener(){
@@ -139,17 +170,68 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 					return;
 				}
 
-				String DeviceSeq = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
-				String OPID = getApp().getLogin().getUserID();
-				for (int i = 0; i < rList.size(); i++) {
-					rList.get(i).setDeviceSeq(DeviceSeq);
-					rList.get(i).setOPID(OPID);
-					rList.get(i).setFaultDm(String.valueOf(mV.check_1.getSelectedItemPosition()));
-				}
+//				String DeviceSeq = getSharedPreferences("DeviceSetting", 0).getString("DeviceID", "");
+//				String OPID = getApp().getLogin().getUserID();
+//				for (int i = 0; i < rList.size(); i++) {
+//					rList.get(i).setDeviceSeq(DeviceSeq);
+//					rList.get(i).setOPID(OPID);
+//					rList.get(i).setFaultDm(String.valueOf(mV.check_1.getSelectedItemPosition()));
+//				}
 
 				new CallRfidWsTask(getContext(), ActivityCheck.this, 5).execute(util.json.JSONUtils.toJsonWithGson(rList));
 			}
 		});
+
+		mV.lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
+				// TODO Auto-generated method stub
+				if(!isStart){
+					DialogChoice(getContext(), position);
+				}
+			}
+		});
+	}
+
+	AlertDialog mDialogChoice;
+	private void DialogChoice(final Context context, final int selectId) {
+		int cid = 0;
+		if(rList.get(selectId).getFaultDm()!=null && rList.get(selectId).getFaultDm().length()>0){
+			try {
+				cid = Integer.valueOf(rList.get(selectId).getFaultDm());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		final int[] ChoiceID = {cid};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context,3);
+		builder.setTitle("选择检验结果");
+		builder.setSingleChoiceItems(DM, ChoiceID[0],
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ChoiceID[0] = which;
+					}
+				});
+		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				rList.get(selectId).setFaultDm(String.valueOf(ChoiceID[0]));
+				mAdapter.notifyDataSetChanged();
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+
+		mDialogChoice = builder.create();
+		mDialogChoice.show();
 	}
 
 	String LastCode="";
@@ -172,11 +254,8 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 
 		if(!rfid.getVersion().equals("0101")) return ;
 
-		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
-			ToastUtil.showToast(getContext(), "非产权单位标签");
-			return;
-		}
-		String MediaName = ConfigData.getMediaName(rfid.getCZJZCode());
+
+		String MediaName = ConfigData.getMediaName(rfid.getCZJZCode(), getApp().getMediaInfo());
 		if(MediaName.length()==0) {
 			ToastUtil.showToast(getContext(), "无充装介质信息");
 			return ;
@@ -185,7 +264,7 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 		if(overDue.contains(rfid.getQPDJCode())) return ;
 
 		if(ConfigData.IsOverdue(rfid.getNextCheckDate()) == ConfigData.OVERDUE){
-			overDue += rfid.getQPDJCode() + ",";
+			overDue += rfid.getQPDJCode() + ", ";
 			if(overDue.length()>0) mV.check_2.setText("超期气瓶:" + overDue);
 			return ;
 		}
@@ -200,10 +279,14 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 			rfid.setMediumName(LastName);
 		}else{
 			LastCode = rfid.getCZJZCode();
-			LastName = ConfigData.getMediaName(rfid.getCZJZCode());
+			LastName = ConfigData.getMediaName(rfid.getCZJZCode(), getApp().getMediaInfo());
 			rfid.setMediumName(LastName);
 		}
 		rfid.setCheckDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+		rfid.setDeviceSeq(DeviceSeq);
+		rfid.setOPID(OPID);
+		rfid.setFaultDm("0");
 
 		rList.add(rfid);
 		reflishView(false);
@@ -241,7 +324,17 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 			boolean init = mReader.init();
 			if(!init) return 2;
 
-			boolean pow = mReader.setPower(30);//5-30
+			String txt = PreferenceManager.getDefaultSharedPreferences(mContext).getString("power_r", mContext.getResources().getString(R.string.config_power_r));
+			int power = 30;
+			try {
+				power = Integer.valueOf(txt);
+				if(power>30) power = 30;
+				else if (power<5) power = 5;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			boolean pow = mReader.setPower(power);//5-30
 			if(!pow) return 3;
 
 			return 0;
@@ -288,15 +381,45 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 		}
 	}
 
+	private String getMediumInfo(){
+		String info = "";
 
+		List<MediumStatistics> mlist = new ArrayList<MediumStatistics>();
+
+		for (int i = 0; i < rList.size(); i++) {
+			boolean isNew = true;
+			for (int j = 0; j < mlist.size(); j++) {
+				if(mlist.get(j).getMediumCode().equals(rList.get(i).getCZJZCode())){
+					isNew = false;
+					mlist.get(j).setMediumNameCount(mlist.get(j).getMediumNameCount()+1);
+					break;
+				}
+			}
+			if(isNew){
+				MediumStatistics ms = new MediumStatistics();
+				ms.setMediumCode(rList.get(i).getCZJZCode());
+				ms.setMediumName(rList.get(i).getMediumName());
+				ms.setMediumNameCount(1);
+				mlist.add(ms);
+			}
+		}
+
+		for (int i = 0; i < mlist.size(); i++) {
+			info += mlist.get(i).getMediumName()+":"+String.valueOf( mlist.get(i).getMediumNameCount()) + ", ";
+		}
+
+		return info;
+	}
 
 	private void reflishView(boolean isDelete){
 		if(isDelete){
-			mAdapter = new RfidAdapter(getContext(), rList);
+			mAdapter = new RfidCheckAdapter(getContext(), rList);
 			mV.lv.setAdapter(mAdapter);
 		}else
 			mAdapter.notifyDataSetChanged();
 
+
+		mV.check_1.setText(getMediumInfo());
 		mV.check_0.setText("扫描数量:" + String.valueOf(rList.size()));
 	}
 
@@ -340,18 +463,20 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 	@Override
 	public void ScanRfid(){
 		if(isStart){
-			if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
-				rfidTask.cancel(true);
-			}
-			rfidTask = null;
-			isStart = false;
-			mV.btn1.setText(getResources().getString(R.string.btn_string_12));
+//			if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
+//				rfidTask.cancel(true);
+//			}
+//			rfidTask = null;
+//			isStart = false;
+//			mV.btn1.setText(getResources().getString(R.string.btn_string_12));
+//			mV.btn3.setEnabled(true);
 		}else{
 			if(mReader!=null && rfidTask==null){
 				isStart = true;
 				mV.btn1.setText(getResources().getString(R.string.btn_string_13));
 				rfidTask = new ScanTask(myHandler);
 				rfidTask.execute(mReader);
+				mV.btn3.setEnabled(false);
 			}
 		}
 	}

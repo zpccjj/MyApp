@@ -3,6 +3,9 @@ package data;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import bean.MediaGoods;
 
 
 public class ConfigData {
@@ -225,13 +228,19 @@ public class ConfigData {
 			{"07","缠绕气瓶 "}
 	};
 
-	public static String getMediaName(String Code){
+	public static String getMediaName(String Code, List<MediaGoods> MG){
 
-		for (int i = 0; i < MediaInfo.length; i++) {
-			if(Code.equals(MediaInfo[i][0])){
-				return MediaInfo[i][1];
+//		for (int i = 0; i < MediaInfo.length; i++) {
+//			if(Code.equals(MediaInfo[i][0])){
+//				return MediaInfo[i][1];
+//			}
+//		}
+		for (int i = 0; i < MG.size(); i++) {
+			if(MG.get(i).getMediaCode().equals(Code)){
+				return MG.get(i).getMediaName();
 			}
 		}
+
 		return "";
 	}
 }

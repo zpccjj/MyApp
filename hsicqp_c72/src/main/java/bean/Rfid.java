@@ -4,11 +4,12 @@ public class Rfid {
 	private String EPC;
 	private String Version;//0101 标签类别 + 规范版本
 	private String CQDW;//产权单位代码 4位
-	private String LabelNo;//电子标签号7位
+	private String LabelNo;//电子标签号8位
 	private String MediumName;
 	private String NextCheckDate;//下次检验日期
 	private String State;//钢瓶状态 00合格 01 报废 10 停用
-
+	private String Type;//气瓶种类 00散瓶01集格10集格内瓶
+	private int IsJG=0;//气瓶类型 0散瓶 1集格
 	//基本信息
 	private String QPDJCode;//气瓶预付码11位  CQDW+LabelNo
 	private String DeviceSeq;//设备编号
@@ -28,10 +29,17 @@ public class Rfid {
 	//充前检
 	private String QPNO  ;//钢瓶编号
 	private String CheckDate   ;//检测日期
-	//错误代码 FaultDm
 
+	private String GoodsCode ;//商品代码
+	private String GoodsName ;//商品
+	private int color;//0蓝色 充装商品名称不确定，1黑色 充装商品名称确定 2红色 错误商品或者错误介质
 
-
+	public int getColor() {
+		return color;
+	}
+	public void setColor(int color) {
+		this.color = color;
+	}
 	public String getVersion() {
 		return Version;
 	}
@@ -73,6 +81,18 @@ public class Rfid {
 	}
 	public void setState(String state) {
 		State = state;
+	}
+	public String getType() {
+		return Type;
+	}
+	public void setType(String type) {
+		Type = type;
+	}
+	public int getIsJG() {
+		return IsJG;
+	}
+	public void setIsJG(int isJG) {
+		IsJG = isJG;
 	}
 	public String getQPDJCode() {
 		return QPDJCode;
@@ -163,6 +183,18 @@ public class Rfid {
 	}
 	public void setCheckDate(String checkDate) {
 		CheckDate = checkDate;
+	}
+	public String getGoodsCode() {
+		return GoodsCode;
+	}
+	public void setGoodsCode(String goodsCode) {
+		GoodsCode = goodsCode;
+	}
+	public String getGoodsName() {
+		return GoodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		GoodsName = goodsName;
 	}
 
 }

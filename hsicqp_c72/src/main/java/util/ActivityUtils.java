@@ -7,10 +7,13 @@ import android.os.Bundle;
 
 import com.hsic.qp.sz.ActivityConfig;
 import com.hsic.qp.sz.ActivityPrint;
+import com.hsic.qp.sz.ActivityQP;
 import com.hsic.qp.sz.ActivityQPReceive;
+import com.hsic.qp.sz.ActivityQpInfo;
 import com.hsic.qp.sz.ActivityReprint;
 import com.hsic.qp.sz.ActivityRfid;
 import com.hsic.qp.sz.ActivitySendReceive;
+import com.hsic.qp.sz.ActivitySign;
 import com.hsic.qp.sz.ActivityTask;
 import com.hsic.qp.sz.ActivityTaskList;
 import com.hsic.qp.sz.MainActivity;
@@ -55,10 +58,12 @@ public class ActivityUtils {
 		activity.startActivityForResult(intent, key);
 	}
 	
-	public static void JumpToReceive(Context context, Activity activity, String rlist){
+	public static void JumpToReceive(Context context, Activity activity, String mlist, String rlist, String slist){
 		Intent intent = new Intent();
 		Bundle bundle = new Bundle();
+        bundle.putString("mList", mlist);
         bundle.putString("rList", rlist);
+        bundle.putString("sList", slist);
         intent.putExtras(bundle);
 		intent.setClass(context, ActivityQPReceive.class);
 		
@@ -75,6 +80,15 @@ public class ActivityUtils {
 		context.startActivity(intent);
 	}
 	
+	public static void JumpToSign(Context context, String SaleID){
+		Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("SaleID", SaleID);
+        intent.putExtras(bundle);
+        intent.setClass(context, ActivitySign.class);
+		context.startActivity(intent);
+	}
+	
 	public static void JumpToReprint(Context context){
 		Intent intent = new Intent(context, ActivityReprint.class);
 		context.startActivity(intent);
@@ -82,6 +96,16 @@ public class ActivityUtils {
 	
 	public static void JumpToRfid(Context context){
 		Intent intent = new Intent(context, ActivityRfid.class);
+		context.startActivity(intent);
+	}
+	
+	public static void JumpToQP(Context context){
+		Intent intent = new Intent(context, ActivityQP.class);
+		context.startActivity(intent);
+	}
+	
+	public static void JumpToQpInfo(Context context){
+		Intent intent = new Intent(context, ActivityQpInfo.class);
 		context.startActivity(intent);
 	}
 }

@@ -9,7 +9,7 @@
     <file url="file://$PROJECT_DIR$/hsicqp_c72/src/main/java/com/hsic/qp/task/ScanTask.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hsicqp_c72/src/main/java/data/ConfigData.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hsicqp_c72/src/main/java/util/RfidUtils.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/hsicqp_c72/src/main/java/util/ToastUtil.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/hsicqp_c72/src/main/java/util/ToastUtil.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

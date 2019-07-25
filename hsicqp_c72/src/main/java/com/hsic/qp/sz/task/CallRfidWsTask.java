@@ -35,6 +35,10 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 		else if(code==5) mFun = "CBFullQP";
 		else if(code==6) mFun = "QPXXCJ";
 		else if(code==7) mFun = "getGasBaseInfo";
+		else if(code==8) mFun = "getInitInfo";
+		else if(code==9) mFun = "AddGasBaseInfo";
+		else if(code==10) mFun = "SearchSaleInfo";
+		else if(code==11) mFun = "getQPInfo";
 	}
 
 	@Override
@@ -46,7 +50,12 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 		else if(mCode==3) dialog.setMessage("正在上传进场登记...");
 		else if(mCode==4) dialog.setMessage("正在上传充装登记...");
 		else if(mCode==5) dialog.setMessage("正在上传气瓶检验信息...");
+		else if(mCode==6) dialog.setMessage("正在上传采集信息...");
 		else if(mCode==7) dialog.setMessage("正在获取气瓶信息...");
+		else if(mCode==8) dialog.setMessage("正在获取基础数据...");
+		else if(mCode==9) dialog.setMessage("正在提交基本信息...");
+		else if(mCode==10) dialog.setMessage("正在获取打印信息...");
+		else if(mCode==11) dialog.setMessage("正在校验气瓶充装商品...");
 
 		dialog.setCancelable(false);
 		dialog.show();
@@ -70,9 +79,21 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 			map2.put("propertyName", "Station");
 			map2.put("propertyValue", params[0]);
 			propertyList.add(map2);
+
+			HashMap<String, Object> map3 = new HashMap<String, Object>();
+			map3.put("propertyName", "iType");
+			map3.put("propertyValue", params[1].equals("0")? 7 : 1);
+			propertyList.add(map3);
+
 		}else if(mCode==7){
 			HashMap<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("propertyName", "GPNO");
+			map2.put("propertyValue", params[0]);
+			propertyList.add(map2);
+		}else if(mCode==8){
+		}else if(mCode==10){
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("propertyName", "SaleID");
 			map2.put("propertyValue", params[0]);
 			propertyList.add(map2);
 		}else{
@@ -84,7 +105,7 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 			propertyList.add(map2);
 		}
 
-		Log.e(mFun, util.json.JSONUtils.toJsonWithGson(propertyList));
+		Log.e(mFun, "mCode = " + mCode);
 
 		return WsUtils.CallWs(mContext, mFun, propertyList);
 	}
@@ -93,16 +114,18 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 	protected void onPostExecute(ResponseData result) {
 		// TODO Auto-generated method stub
 		dialog.setCancelable(true);
+		//Log.e("CallRfidWsTask", util.json.JSONUtils.toJsonWithGson(result));
 		if(result.getRespCode()==0){
 			dialog.dismiss();
 			if(mListener!=null) mListener.WsFinish(true, mCode, result.getRespMsg());
 		}else{
 			//	dialog.setMessage("错误："+result.getRespMsg());
-			if(mCode==1 || mCode==7){
+			if(mCode==1 || mCode==2 || mCode==3 || mCode==7 || mCode==8 || mCode==9 || mCode==10){
 				dialog.setMessage("错误："+result.getRespMsg());
+				if(mCode==1) dialog.setMessage(result.getRespMsg());
 				UiUtil.CloseDiag(dialog);
-			}
-			else{
+				if(mListener!=null) mListener.WsFinish(false, mCode, result.getRespMsg());
+			}else{
 				dialog.dismiss();
 				if(mListener!=null) mListener.WsFinish(false, mCode, result.getRespMsg());
 			}

@@ -10,6 +10,7 @@ public class SaleDetail {
 	private BigDecimal RealGoodsPrice;//实际气瓶价格
 
 	private int PlanSendNum;// 计划卖气瓶数量 <=PlanSendNum
+	private int PlanReceiveNum;// 计划收瓶气瓶数量
 
 	private int SendNum;//送瓶数量
 	private int ReceiveNum;//回收气瓶数量
@@ -17,6 +18,9 @@ public class SaleDetail {
 	private int GoodsType;//1气瓶 2液体 6配送费
 	private String MediumCode;//介质代码
 	private String CZJZ;//充装介质
+
+	private int Num=1;//集格瓶每组数量，默认1，散瓶1 集格>1
+	private int IsJG=0;//气瓶类型 0散瓶 1集格
 
 	public String getSaleID() {
 		return SaleID;
@@ -105,5 +109,30 @@ public class SaleDetail {
 	public void setReceiveNum(int receiveNum) {
 		ReceiveNum = receiveNum;
 	}
+
+	public int getPlanReceiveNum() {
+		return PlanReceiveNum;
+	}
+
+	public void setPlanReceiveNum(int planReceiveNum) {
+		PlanReceiveNum = planReceiveNum;
+	}
+
+	public int getNum() {
+		return Num;
+	}
+
+	public void setNum(int num) {
+		Num = num;
+	}
+
+	public int getIsJG() {
+		return IsJG;
+	}
+
+	public void setIsJG(int isJG) {
+		IsJG = isJG;
+	}
+
 
 }

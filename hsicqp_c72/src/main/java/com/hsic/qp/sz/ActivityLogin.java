@@ -17,12 +17,15 @@ import android.widget.EditText;
 import com.actionbarsherlock.view.MenuItem;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.LoginTask;
+import com.hsic.version.VersionAsyncTask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import bean.EmployeeInfo;
 import bean.InfoItem;
+import bean.MediaGoods;
 import hsic.ui.HsicActivity;
 import util.ActivityUtils;
 import util.MD5Utils;
@@ -73,6 +76,8 @@ public class ActivityLogin extends HsicActivity implements WsListener{
 		}
 		util.SoundUtil.initSoundPool(getContext());
 		getBluetoothMac();
+
+		new VersionAsyncTask(getContext(), ActivityLogin.this).execute();
 	}
 
 
@@ -155,6 +160,8 @@ public class ActivityLogin extends HsicActivity implements WsListener{
 				}
 
 				CallLogin(mV.user.getText().toString().trim(), mV.psw.getText().toString().trim());
+
+//				downing();
 			}
 		});
 
@@ -181,11 +188,31 @@ public class ActivityLogin extends HsicActivity implements WsListener{
 			//EmployeeInfo user = new EmployeeInfo();
 			user.setUserID(mV.user.getText().toString().trim());
 			//user.setPassword(MD5Utils.MD5(mV.psw.getText().toString().trim()));
+
+			List<MediaGoods> MG = new ArrayList<MediaGoods>();
+			for (int i = 0; i < user.getGoodsList().size(); i++) {
+				boolean hasMedia = false;
+
+				for (int j = 0; j < MG.size(); j++) {
+					if(MG.get(j).getMediaCode().equals(user.getGoodsList().get(i).getMediumCode())){
+						hasMedia = true;
+						MG.get(j).getGoods().add(user.getGoodsList().get(i));
+						break;
+					}
+				}
+				if(!hasMedia){
+					MediaGoods mgGoods = new MediaGoods();
+					mgGoods.setMediaCode(user.getGoodsList().get(i).getMediumCode());
+					mgGoods.setMediaName(user.getGoodsList().get(i).getCZJZ());
+					mgGoods.getGoods().add(user.getGoodsList().get(i));
+					MG.add(mgGoods);
+				}
+			}
+			Log.e("MG", util.json.JSONUtils.toJsonWithGson(MG));
+			getApp().setMediaInfo(MG);
 			getApp().setLogin(user);
 
 			ActivityUtils.JumpToMain(getContext());
-			//	ActivityUtils.JumpToTaskList(getContext());
-			//	ActivityUtils.JumpToRfid(getContext());
 
 			setLogin(mV.cb.isChecked(), mV.user.getText().toString().trim(), mV.psw.getText().toString().trim());
 		}

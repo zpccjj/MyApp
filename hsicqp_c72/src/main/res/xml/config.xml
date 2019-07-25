@@ -1,15 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/title_server" >
 
-        
+
         <EditTextPreference
             android:defaultValue="@string/config_ws"
             android:dialogTitle="@string/text_webserver"
             android:key="webServer"
             android:summary="@string/hint_webserver"
             android:title="@string/title_webserver" />
-        
+
         <EditTextPreference
             android:defaultValue="@string/config_time"
             android:dialogTitle="@string/text_ws_time"
@@ -17,19 +18,47 @@
             android:inputType="number"
             android:summary="@string/hint_ws_time"
             android:title="@string/title_ws_time" />
-        
+
+        <EditTextPreference
+            android:defaultValue="@string/xml_default"
+            android:dialogTitle="@string/text_apkserver"
+            android:key="APKServer"
+            android:summary="@string/hint_apkserver"
+            android:title="@string/title_apkserver" />
+        <EditTextPreference
+            android:defaultValue="@string/xml_port_default"
+            android:dialogTitle="@string/text_apkserverpost"
+            android:key="APKServerPort"
+            android:summary="@string/hint_apkserverpost"
+            android:title="@string/title_apkserverpost" />
+
+
+        <EditTextPreference
+            android:defaultValue="@string/config_power_r"
+            android:dialogTitle="@string/title_power"
+            android:key="power_r"
+            android:inputType="number"
+            android:summary="@string/hint_power"
+            android:title="@string/text_power_r" />
+        <EditTextPreference
+            android:defaultValue="@string/config_power_w"
+            android:dialogTitle="@string/title_power"
+            android:key="power_w"
+            android:inputType="number"
+            android:summary="@string/hint_power"
+            android:title="@string/text_power_w" />
         <Preference
             android:key="DeviceID"
             android:title="@string/title_no" />
-         
+
         <Preference
-	        android:key="bluetooth_mac"
-	        android:title="@string/bluetooth_add" />
-        
-         <Preference
-	        android:key="version"
-	        android:title="@string/title_show" />
-        
+            android:key="bluetooth_mac"
+            android:title="@string/bluetooth_add" />
+
+        <Preference
+            android:key="version"
+            android:title="@string/title_show" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -3,7 +3,7 @@ package bean;
 public class QPInfo {
 	private String Bot_type;//气瓶类别代码 2位
 	private String CQDW;//产权单位代码 4位
-	private String LabelNo;//电子标签号7位
+	private String LabelNo;//电子标签号8位
 	private String MediumCode;//介质代码
 	private String QPType ;//商品CODE
 
@@ -13,6 +13,11 @@ public class QPInfo {
 
 	private int IsByHand;//是否手输 0表示自动扫描 1表示手输电子标签号
 	private String Msg;
+
+	private int Num=1;//集格瓶每组数量，默认1，散瓶1 集格>1
+	private int IsJG=0;//气瓶类型 0散瓶 1集格
+
+	private int color= 0; //0蓝色 充装商品名称不确定，1黑色 充装商品名称确定 2红色充装商品名称确定 单不在订单中
 
 	public String getBot_type() {
 		return Bot_type;
@@ -92,6 +97,30 @@ public class QPInfo {
 
 	public void setMediumCode(String mediumCode) {
 		MediumCode = mediumCode;
+	}
+
+	public int getNum() {
+		return Num;
+	}
+
+	public void setNum(int num) {
+		Num = num;
+	}
+
+	public int getIsJG() {
+		return IsJG;
+	}
+
+	public void setIsJG(int isJG) {
+		IsJG = isJG;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 

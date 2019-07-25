@@ -1,12 +1,14 @@
 package com.hsic.qp.sz;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,13 +25,15 @@ import android.widget.TableRow;
 
 import com.google.gson.reflect.TypeToken;
 import com.hsic.qp.sz.adapter.SRAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
 import com.hsic.qp.sz.task.ScanTask;
 import com.rscja.deviceapi.RFIDWithUHF;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.InfoItem;
+import bean.QPGoods;
 import bean.QPInfo;
 import bean.Rfid;
 import bean.SaleDetail;
@@ -38,13 +42,12 @@ import hsic.ui.HsicActivity;
 import util.ToastUtil;
 import util.UiUtil;
 
-public class ActivitySendReceive extends HsicActivity {
-	private String TITLE = "发瓶";
+public class ActivitySendReceive extends HsicActivity implements WsListener{
+	private String TITLE = "发瓶扫描";
+	List<QPGoods> qpList = new ArrayList<QPGoods>();//商品信息列表
 
 	List<QPInfo> rList = new ArrayList<QPInfo>();//收瓶标签列表
 	List<QPInfo> sList = new ArrayList<QPInfo>();//发瓶标签列表
-
-	List<SaleDetail> SaleDetail;
 
 	int key;//key 1=Receive,2=Send
 
@@ -55,6 +58,7 @@ public class ActivitySendReceive extends HsicActivity {
 		TableRow tr;
 		Spinner good;
 		CheckBox others;
+		Button btnScan;
 		Button btnClear;
 		Button btnBack;
 		Button btnWrite;
@@ -62,12 +66,15 @@ public class ActivitySendReceive extends HsicActivity {
 		Button btnYes;
 	}
 
+
 	mView mV;
 	SRAdapter mAdapter;
+	ActionBar actionBar;
 
 	private RFIDWithUHF mReader;
 	ScanTask rfidTask;
-	boolean isInit = false;
+	boolean isStart = false;
+	boolean canRfid = false;
 
 	private Context getContext(){
 		return ActivitySendReceive.this;
@@ -78,53 +85,52 @@ public class ActivitySendReceive extends HsicActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sr);
+		actionBar = this.getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(false);
 
 		key = getIntent().getExtras().getInt("key");
-		if(key==1) TITLE = "收瓶";
+		if(key==1) TITLE = "收瓶扫描";
 		Log.e("ActivitySendReceive", "key = " + key);
+		actionBar.setTitle(TITLE);
 		try {
 			rList = util.json.JSONUtils.toListWithGson(getIntent().getExtras().getString("rList"),  new TypeToken<List<QPInfo>>(){}.getType());
 			sList = util.json.JSONUtils.toListWithGson(getIntent().getExtras().getString("sList"),  new TypeToken<List<QPInfo>>(){}.getType());
 
 			if(key==2){
-				SaleDetail = util.json.JSONUtils.toListWithGson(getIntent().getExtras().getString("Detail"),  new TypeToken<List<SaleDetail>>(){}.getType());
+				List<SaleDetail> SaleDetail = util.json.JSONUtils.toListWithGson(getIntent().getExtras().getString("Detail"),  new TypeToken<List<SaleDetail>>(){}.getType());
+				for (int i = 0; i < SaleDetail.size(); i++) {
+					QPGoods qp = new QPGoods();
+					qp.setMediumCode(SaleDetail.get(i).getMediumCode());
+					qp.setCZJZ(SaleDetail.get(i).getCZJZ());
+					qp.setGoodsNum(SaleDetail.get(i).getSendNum());
+					qp.setGoodsCode(SaleDetail.get(i).getGoodsCode());
+					qp.setGoodsName(SaleDetail.get(i).getGoodsName());
+					qp.setIsJG(SaleDetail.get(i).getIsJG());
+					qpList.add(qp);
+				}
+				Log.e("发", util.json.JSONUtils.toJsonWithGson(qpList));
 			}else{
-				Log.e( "rlist " , getIntent().getExtras().getString("rList"));
+				List<QPGoods> mList = util.json.JSONUtils.toListWithGson(getIntent().getExtras().getString("Detail"),  new TypeToken<List<QPGoods>>(){}.getType());
+				qpList.addAll(mList);
+				Log.e("收", util.json.JSONUtils.toJsonWithGson(qpList));
 			}
+
+			String num;
+			if(key==1){
+				num = String.valueOf(rList.size());
+			}else{
+				num = String.valueOf(sList.size());
+			}
+
+			actionBar.setTitle(TITLE + "   " + num);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
-		ActionBar actionBar = this.getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setTitle(TITLE);
-
 		initViews();
 		setListener();
-
 		new InitTask(getContext()).execute();
-	}
-
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		if(mReader!=null && rfidTask==null && isInit){
-			rfidTask = new ScanTask(myHandler);
-			rfidTask.execute(mReader);
-		}
-
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
-			rfidTask.cancel(true);
-		}
-
-		super.onStop();
 	}
 
 	@Override
@@ -143,16 +149,15 @@ public class ActivitySendReceive extends HsicActivity {
 		// TODO Auto-generated method stub
 		super.getRFID(txt);
 		Rfid rfid = (Rfid) util.json.JSONUtils.toObjectWithGson(txt, Rfid.class);
-
+		rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
 
 		if(!rfid.getVersion().equals("0101")) return ;
 
-		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
-			ToastUtil.showToast(getContext(), "非产权单位标签");
-			return;
-		}
-
-		int ret = CheckQP(rfid.getLabelNo());
+//		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
+//			ToastUtil.showToast(getContext(), "非产权单位标签");
+//			return;
+//		}
+		int ret = CheckQP(rfid.getQPDJCode());
 		if(ret==1){
 			ToastUtil.showToast(getContext(), "该气瓶已收瓶");
 			return;
@@ -161,34 +166,121 @@ public class ActivitySendReceive extends HsicActivity {
 			ToastUtil.showToast(getContext(), "该气瓶已发瓶");
 			return;
 		}
+		QPInfo qp = new QPInfo();
 
-		if(key==1){
-			QPInfo qp = new QPInfo();
-			qp.setLabelNo(rfid.getLabelNo());
-			qp.setCQDW(rfid.getCQDW());
-			qp.setOpType(mV.others.isChecked() ? 9 : 0);
-			qp.setIsByHand(0);
-			rList.add(qp);
-		}else{
-			String goodcode = isFull(null, rfid.getCZJZCode());
-			if(goodcode.length()>1){
-				QPInfo qp = new QPInfo();
-				qp.setLabelNo(rfid.getLabelNo());
-				qp.setCQDW(rfid.getCQDW());
-				qp.setQPType(goodcode);
-				qp.setMsg("商品名称："+ getGoodeName(goodcode));
-				qp.setMediumCode(rfid.getCZJZCode());
-				qp.setIsByHand(0);
-				qp.setOpType(1);
-				sList.add(qp);
-			}else if(goodcode.length()==1){
-				ToastUtil.showToast(getContext(), "该类气瓶已配送完毕");
-				return;
-			}else{
-				ToastUtil.showToast(getContext(), "充装介质错误");
-				return;
+		String MediumCode = ""; String MediumName="";
+		int CodeNum=0;
+//		String GoodsCode=""; String GoodsName="";
+		for (int i = 0; i < qpList.size(); i++) {
+			if(qpList.get(i).getMediumCode().equals(rfid.getCZJZCode()) && qpList.get(i).getIsJG()==rfid.getIsJG()){
+				MediumCode = qpList.get(i).getMediumCode();
+				MediumName = qpList.get(i).getCZJZ();
+				CodeNum++;
+//				GoodsCode = qpList.get(i).getGoodsCode();
+//				GoodsName = qpList.get(i).getGoodsName();
 			}
 		}
+//
+		if(CodeNum==0){
+			ToastUtil.showToast(getContext(), "介质不符");
+			return;
+		}
+//		else if(CodeNum==1){//介质+是否集格 找到唯一商品
+//			qp.setLabelNo(rfid.getLabelNo());
+//			qp.setCQDW(rfid.getCQDW());
+//			qp.setIsJG(rfid.getIsJG());
+//			qp.setQPType(GoodsCode);
+//			qp.setMsg("商品名称："+ GoodsName);
+//			qp.setMediumCode(MediumCode);
+//			qp.setIsByHand(0);
+//
+//			List<QPInfo> cList = new ArrayList<QPInfo>();
+//			if(key==1) cList.addAll(rList);
+//			else cList.addAll(sList);
+//
+//			int res = isFull(qp, true, cList, true);
+//			if(res==1){
+//				ToastUtil.showToast(getContext(), "该商品扫描数量已满");
+//				return;
+//			}else if(res==2){
+//				ToastUtil.showToast(getContext(), "该介质扫描数量已满");
+//				return;
+//			}
+//
+//			if(key==1){
+//				qp.setOpType(0);
+//				rList.add(qp);
+//			}else{
+//				qp.setOpType(1);
+//				sList.add(qp);
+//			}
+//		}else{//介质+是否集格 找到多个商品
+//			qp.setLabelNo(rfid.getLabelNo());
+//			qp.setCQDW(rfid.getCQDW());
+//			qp.setIsJG(rfid.getIsJG());
+//			qp.setQPType("");
+//			qp.setMsg("充装介质："+ MediumName);
+//			qp.setMediumCode(MediumCode);
+//			qp.setIsByHand(0);
+//
+//			List<QPInfo> cList = new ArrayList<QPInfo>();
+//			if(key==1) cList.addAll(rList);
+//			else cList.addAll(sList);
+//
+//			int res = isFull(qp, false, cList, false);
+//			if(res==1){
+//				ToastUtil.showToast(getContext(), "该商品扫描数量已满");
+//				return;
+//			}else if(res==2){
+//				ToastUtil.showToast(getContext(), "该介质扫描数量已满");
+//				return;
+//			}
+//			if(key==1){
+//				qp.setOpType(0);
+//				rList.add(qp);
+//			}else{
+//				qp.setOpType(1);
+//				sList.add(qp);
+//			}
+//		}
+
+		qp.setLabelNo(rfid.getLabelNo());
+		qp.setCQDW(rfid.getCQDW());
+		qp.setIsJG(rfid.getIsJG());
+		qp.setQPType("");
+		qp.setMsg("充装介质："+ MediumName);
+		qp.setMediumCode(MediumCode);
+		qp.setIsByHand(0);
+
+		List<QPInfo> cList = new ArrayList<QPInfo>();
+		if(key==1) cList.addAll(rList);
+		else cList.addAll(sList);
+
+		int res = isFull(qp, false, cList, false);
+		if(res==1){
+			ToastUtil.showToast(getContext(), "该商品扫描数量已满");
+			return;
+		}else if(res==2){
+			ToastUtil.showToast(getContext(), "该介质扫描数量已满");
+			return;
+		}else if(res==3){
+			ToastUtil.showToast(getContext(), "该商品扫描数量已超出");
+			return;
+		}else if(res==4){
+			ToastUtil.showToast(getContext(), "该介质数量为0，无需扫描");
+			return;
+		}else if(res==5){
+			ToastUtil.showToast(getContext(), "该商品数量为0，无需扫描");
+			return;
+		}
+		if(key==1){
+			qp.setOpType(0);
+			rList.add(qp);
+		}else{
+			qp.setOpType(1);
+			sList.add(qp);
+		}
+
 		reflishListView();
 		util.SoundUtil.play();
 	}
@@ -222,7 +314,16 @@ public class ActivitySendReceive extends HsicActivity {
 			boolean init = mReader.init();
 			if(!init) return 2;
 
-			boolean pow = mReader.setPower(15);
+			String txt = PreferenceManager.getDefaultSharedPreferences(mContext).getString("power_r", mContext.getResources().getString(R.string.config_power_r));
+			int power = 30;
+			try {
+				power = Integer.valueOf(txt);
+				if(power>30) power = 30;
+				else if (power<5) power = 5;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			boolean pow = mReader.setPower(power);
 			if(!pow) return 3;
 
 			return 0;
@@ -248,12 +349,11 @@ public class ActivitySendReceive extends HsicActivity {
 						break;
 				}
 				ToastUtil.showToast(getContext(), txt);
+				mV.btnScan.setEnabled(false);
 			}else{
 				ToastUtil.showToast(getContext(), "RFID设备开启");
-
-				isInit = true;
-				rfidTask = new ScanTask(myHandler);
-				rfidTask.execute(mReader);
+				canRfid = true;
+				mV.btnScan.setEnabled(true);
 			}
 		}
 
@@ -261,7 +361,7 @@ public class ActivitySendReceive extends HsicActivity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-
+			mV.btnScan.setEnabled(false);
 			mypDialog = new ProgressDialog(mContext);
 			mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			mypDialog.setMessage("正在打开RFID设备...");
@@ -288,35 +388,22 @@ public class ActivitySendReceive extends HsicActivity {
 		mV.btnWrite = (Button) findViewById(R.id.sr_btn1);
 		mV.btnNo = (Button) findViewById(R.id.sr_btn2);
 		mV.btnYes = (Button) findViewById(R.id.sr_btn3);
+		mV.btnScan = (Button) findViewById(R.id.sr_btn5);
 
 		//初始化Spinner
+		ArrayAdapter<QPGoods> orgAdapter = new ArrayAdapter<QPGoods>(getContext(),android.R.layout.simple_spinner_item, qpList);
+		orgAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mV.good.setAdapter(orgAdapter);
+
 		if(key==1){//收
-			mV.tr.setVisibility(View.GONE);
-			mV.others.setVisibility(View.VISIBLE);
+			mV.others.setVisibility(View.GONE);
 			mAdapter = new SRAdapter(getContext(), rList, 1);
 			mV.lv.setAdapter(mAdapter);
+
 		}else{//发
-			mV.tr.setVisibility(View.VISIBLE);
 			mV.others.setVisibility(View.GONE);
 			mAdapter = new SRAdapter(getContext(), sList, 2);
 			mV.lv.setAdapter(mAdapter);
-
-			List<InfoItem> items = new ArrayList<InfoItem>();
-
-			for (int i = 0; i < SaleDetail.size(); i++) {
-				if(SaleDetail.get(i).getGoodsType()==1){
-					InfoItem item = new InfoItem();
-					item.setKey(SaleDetail.get(i).getGoodsCode());
-					item.setName(SaleDetail.get(i).getGoodsName());
-					item.setValue(SaleDetail.get(i).getMediumCode());
-
-					items.add(item);
-				}
-			}
-
-			ArrayAdapter<InfoItem> orgAdapter = new ArrayAdapter<InfoItem>(getContext(),android.R.layout.simple_spinner_item, items);
-			orgAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			mV.good.setAdapter(orgAdapter);
 		}
 	}
 
@@ -346,6 +433,15 @@ public class ActivitySendReceive extends HsicActivity {
 
 	private void reflishListView(){
 		mAdapter.notifyDataSetChanged();
+
+		String num;
+		if(key==1){
+			num = String.valueOf(rList.size());
+		}else{
+			num = String.valueOf(sList.size());
+		}
+
+		actionBar.setTitle(TITLE + "   " + num);
 	}
 
 	private void deleteSelect(final int id){
@@ -368,7 +464,105 @@ public class ActivitySendReceive extends HsicActivity {
 
 	}
 
+	AlertDialog mDialogChoice;
+	private void DialogChoice(final Context context, final int id){
+		QPInfo old;
+		if(key==1) old = rList.get(id);
+		else old = sList.get(id);
+
+		final List<QPGoods> list = new ArrayList<QPGoods>();
+		for (int i = 0; i < qpList.size(); i++) {
+			if(qpList.get(i).getMediumCode().equals(old.getMediumCode()) && qpList.get(i).getIsJG()==old.getIsJG()){
+				list.add(qpList.get(i));
+			}
+		}
+
+		final int[] ChoiceID = {-1};
+		final String items[] = new String[list.size()];
+
+
+		for (int i = 0; i < list.size(); i++) {
+			items[i] = list.get(i).getGoodsName();
+			if(old.getQPType()!=null && old.getQPType().length()>0 && old.getQPType().equals(list.get(i).getGoodsCode()))
+				ChoiceID[0] = i;
+		}
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context,3);
+		builder.setTitle("修改");
+		builder.setSingleChoiceItems(items, ChoiceID[0],
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ChoiceID[0] = which;
+					}
+				});
+		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Log.e("ChoiceID[0]", "="+ChoiceID[0]);
+				if(ChoiceID[0]==-1){
+					ToastUtil.showToast(getContext(),  "请选择商品");
+					UiUtil.setDiagBtn(dialog, false);
+				}else{
+					Log.e("select", list.get(ChoiceID[0]).getGoodsCode());
+
+					if(key==1){
+						rList.get(id).setQPType(list.get(ChoiceID[0]).getGoodsCode());
+						rList.get(id).setMsg("商品名称："+list.get(ChoiceID[0]).getGoodsName());
+					}else{
+						sList.get(id).setQPType(list.get(ChoiceID[0]).getGoodsCode());
+						sList.get(id).setMsg("商品名称："+list.get(ChoiceID[0]).getGoodsName());
+					}
+					reflishListView();
+					UiUtil.setDiagBtn(dialog, true);
+				}
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				UiUtil.setDiagBtn(dialog, true);
+			}
+		});
+		builder.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				UiUtil.setDiagBtn(dialog, true);
+				if(key==1) rList.remove(id);
+				else sList.remove(id);
+				reflishListView();
+			}
+		});
+
+		mDialogChoice = builder.create();
+		mDialogChoice.show();
+	}
+
 	private void setListener(){
+		mV.btnScan.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(isStart){
+					if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
+						rfidTask.cancel(true);
+					}
+					rfidTask = null;
+					isStart = false;
+					mV.btnScan.setText(getResources().getString(R.string.btn_string_12));
+					mV.btnBack.setEnabled(true);
+					mV.btnClear.setEnabled(true);
+					mV.btnWrite.setEnabled(true);
+					//校验标签
+					CheckRfid();
+				}else{
+					ScanRfid();
+				}
+			}
+		});
+
+
 		mV.lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -376,6 +570,10 @@ public class ActivitySendReceive extends HsicActivity {
 									int position, long id) {
 				// TODO Auto-generated method stub
 				deleteSelect(position);
+
+//				QPInfo qp = (QPInfo)parent.getAdapter().getItem(position);
+//				if(qp.getIsByHand()==1) deleteSelect(position);
+//				else DialogChoice(getContext(), position);
 			}
 		});
 
@@ -414,15 +612,6 @@ public class ActivitySendReceive extends HsicActivity {
 					return ;
 				}
 
-				int ret = CheckQP(mV.number.getText().toString().trim());
-				if(ret==1){
-					ToastUtil.showToast(getContext(), "该气瓶已收瓶");
-					return;
-				}
-				if(ret==2){
-					ToastUtil.showToast(getContext(), "发瓶列表已存在此气瓶");
-					return;
-				}
 				String lno = mV.number.getText().toString().trim();
 				if(lno.length()<8){
 					String txt = "";
@@ -431,16 +620,21 @@ public class ActivitySendReceive extends HsicActivity {
 					}
 					mV.number.setText(txt + lno);
 				}
-				if(key==1)//收
-					addQPByHand(mV.number.getText().toString().trim(), mV.others.isChecked() ? 9 : 0);
-				else{
-					if((InfoItem) mV.good.getAdapter().getItem(mV.good.getSelectedItemPosition()) == null){
-						ToastUtil.showToast(getContext(), "请选择商品");
-						return;
-					}
-
-					addQPByHand(mV.number.getText().toString().trim(), mV.good.getSelectedItemPosition());
+				int ret = CheckQP("1702"+mV.number.getText().toString().trim());
+				if(ret==1){
+					ToastUtil.showToast(getContext(), "该气瓶已收瓶");
+					return;
 				}
+				if(ret==2){
+					ToastUtil.showToast(getContext(), "该气瓶已发瓶");
+					return;
+				}
+				if((QPGoods) mV.good.getAdapter().getItem(mV.good.getSelectedItemPosition()) == null){
+					ToastUtil.showToast(getContext(), "请选择商品");
+					return;
+				}
+				addQPByHand(mV.number.getText().toString().trim(), mV.good.getSelectedItemPosition());
+
 			}
 		});
 
@@ -459,90 +653,131 @@ public class ActivitySendReceive extends HsicActivity {
 
 	}
 
-	private void addQPByHand(String LabelNo, int code){
-		if(key==1){
-			QPInfo qp = new QPInfo();
-			qp.setLabelNo(LabelNo);
-			qp.setOpType(code);
-			if(code==0) qp.setCQDW(getApp().getLogin().getStation());
-			else qp.setCQDW("");
+	private void addQPByHand(String LabelNo, int position){
+		QPGoods goodInfo = (QPGoods) mV.good.getAdapter().getItem(position);
+		QPInfo qp = new QPInfo();
+		qp.setCQDW("1702");
+		qp.setLabelNo(LabelNo);
+		qp.setQPType(goodInfo.getGoodsCode());//goodInfo.getGoodsCode()
+		qp.setMsg("商品名称："+goodInfo.getGoodsName());
+//		qp.setMsg("充装介质："+goodInfo.getCZJZ());
+		qp.setMediumCode(goodInfo.getMediumCode());
+		qp.setIsJG(goodInfo.getIsJG());
+		qp.setIsByHand(1);//
+		qp.setOpType(0);
 
-			qp.setIsByHand(1);
+		int CodeNum=0;
+		for (int i = 0; i < qpList.size(); i++) {
+			if(qpList.get(i).getMediumCode().equals(goodInfo.getMediumCode()) && qpList.get(i).getIsJG()==goodInfo.getIsJG()){
+				CodeNum++;
+			}
+		}
+		boolean uniqueGood = false;
+		if(CodeNum==1) uniqueGood = true;
+
+		List<QPInfo> cList = new ArrayList<QPInfo>();
+		if(key==1) cList.addAll(rList);
+		else cList.addAll(sList);
+//		Log.e("介质："+ goodInfo.getCZJZ(), "是否唯一："+uniqueGood);
+		int ret = isFull(qp, true, cList, uniqueGood);
+//		int ret = isFull(qp, false, cList, false);
+		if(ret==1){
+			ToastUtil.showToast(getContext(), "该商品扫描数量已满");
+			return;
+		}else if(ret==2){
+			ToastUtil.showToast(getContext(), "该介质扫描数量已满");
+			return;
+		}else if(ret==3){
+			ToastUtil.showToast(getContext(), "该商品扫描数量已超出");
+			return;
+		}else if(ret==4){
+			ToastUtil.showToast(getContext(), "该介质数量为0，无需扫描");
+			return;
+		}else if(ret==5){
+			ToastUtil.showToast(getContext(), "该商品数量为0，无需扫描");
+			return;
+		}
+
+		if(key==1){
+			qp.setOpType(0);
 			rList.add(qp);
 		}else{
-			InfoItem goodInfo = (InfoItem) mV.good.getAdapter().getItem(code);
-			if(isFull(goodInfo.getKey(), goodInfo.getValue()).length()>0){
-				QPInfo qp = new QPInfo();
-				qp.setCQDW(getApp().getLogin().getStation());
-				qp.setLabelNo(LabelNo);
-				qp.setQPType(goodInfo.getKey());
-				qp.setMsg("商品名称："+goodInfo.getName());
-				qp.setMediumCode(goodInfo.getValue());
-				qp.setIsByHand(1);
-				qp.setOpType(1);
-				sList.add(qp);
-			}else{
-				ToastUtil.showToast(getContext(), "该类气瓶已配送完毕");
-				return;
-			}
+			qp.setOpType(1);
+			sList.add(qp);
 		}
 		mV.number.setText("");
 		setView(true);
 		reflishListView();
+
+		CheckRfid();
 	}
 
-	private String isFull(String GoodCode, String MediumCode){
-		//goodcode
-		if(GoodCode!=null){
-			int snum = 0;
-			for (int i = 0; i < sList.size(); i++) {
-				if(sList.get(i).getQPType().equals(GoodCode)) snum ++;
+	private int isFull(QPInfo addInfo, boolean isGood, List<QPInfo> cList, boolean uniqueGood){//0可添加 1商品已满 2介质已满 3商品超出
+		//isGood是否已知商品code uniqueGood介质+集是否唯一
+		int ret = 0;
+		if(uniqueGood){//uniqueGood介质+集 唯一
+			int num = 0;
+			for (int i = 0; i < cList.size(); i++) {
+				if(addInfo.getQPType().equals(cList.get(i).getQPType())) num++;
 			}
-			for (int i = 0; i < SaleDetail.size(); i++) {
-				if(SaleDetail.get(i).getGoodsCode().equals(GoodCode)){
-					if(snum==SaleDetail.get(i).getPlanSendNum()) return "";
+			for (int i = 0; i < qpList.size(); i++) {
+				if(qpList.get(i).getGoodsCode().equals(addInfo.getQPType())){
+					if(qpList.get(i).getGoodsNum()==0) return 5;
+					if(num<qpList.get(i).getGoodsNum()) return 0;
+					else if(num==qpList.get(i).getGoodsNum()) return 1;
+					else return 3;
 				}
 			}
-			return GoodCode;
-
-		}else{
-			String ret = "";
-			for(int i = 0; i < SaleDetail.size(); i++) {
-				if(SaleDetail.get(i).getMediumCode().equals(MediumCode)){
-					ret = "1";
-					int snum = 0;
-					for (int j = 0; j < sList.size(); j++) {
-						if(sList.get(j).getQPType().equals(SaleDetail.get(i).getGoodsCode())) snum ++;
+		}else{//uniqueGood介质+集 不唯一
+			if(isGood){//已知商品code
+				int num = 0;
+				for (int i = 0; i < cList.size(); i++) {
+					if(addInfo.getQPType().equals(cList.get(i).getQPType())) num++;
+				}
+				for (int i = 0; i < qpList.size(); i++) {
+					if(qpList.get(i).getGoodsCode().equals(addInfo.getQPType())){
+						if(qpList.get(i).getGoodsNum()==0) return 5;
+						if(num<qpList.get(i).getGoodsNum()) ret = 0;
+						else return 1;
 					}
-					if(snum<SaleDetail.get(i).getPlanSendNum()) return SaleDetail.get(i).getGoodsCode();
 				}
 			}
 
-			return ret;
-		}
-	}
-
-	private String getGoodeName(String GoodCode){
-		for (int i = 0; i < SaleDetail.size(); i++) {
-			if(SaleDetail.get(i).getGoodsCode().equals(GoodCode)){
-				return SaleDetail.get(i).getGoodsName();
+			int sum = 0;//该介质总数
+			for (int i = 0; i < qpList.size(); i++) {
+				if(qpList.get(i).getMediumCode().equals(addInfo.getMediumCode())
+						&& qpList.get(i).getIsJG()==addInfo.getIsJG()){
+					sum += qpList.get(i).getGoodsNum();
+				}
 			}
+			if(sum==0) return 4;
+
+			int num = 0;//已扫描到该介质数量
+			for (int i = 0; i < cList.size(); i++) {
+				if(addInfo.getMediumCode().equals(cList.get(i).getMediumCode())
+						&& addInfo.getIsJG()==cList.get(i).getIsJG()) num++;
+			}
+			Log.e("addInfo", util.json.JSONUtils.toJsonWithGson(addInfo));
+			Log.e("MediumCode="+addInfo.getMediumCode(), String.valueOf(num) + " , " + String.valueOf(sum));
+			if(num<sum) ret = 0;
+			else return 2;
 		}
 
-		return "";
+		return ret;
 	}
 
-	private int CheckQP(String LabelNo){
+
+	private int CheckQP(String QPDJCode){
 		int ret = 0;
 		for (int i = 0; i < rList.size(); i++) {
-			if(rList.get(i).getLabelNo().equals(LabelNo)){
+			if(QPDJCode.equals(rList.get(i).getCQDW()+rList.get(i).getLabelNo())){
 				ret = 1;
 				return ret;
 			}
 		}
 
 		for (int i = 0; i < sList.size(); i++) {
-			if(sList.get(i).getLabelNo().equals(LabelNo)){
+			if(QPDJCode.equals(sList.get(i).getCQDW()+sList.get(i).getLabelNo())){
 				ret = 2;
 				return ret;
 			}
@@ -560,4 +795,109 @@ public class ActivitySendReceive extends HsicActivity {
 		finish();
 	}
 
+	private void CheckRfid(){
+		List<QPInfo> res = new ArrayList<QPInfo>();
+		if(key==1){
+			res.addAll(rList);
+		}else{
+			res.addAll(sList);
+		}
+		if(res.size()>0){
+			Log.e("CheckRfid", util.json.JSONUtils.toJsonWithGson(res));
+			new CallRfidWsTask(getContext(), this, 11).execute(util.json.JSONUtils.toJsonWithGson(res));
+		}
+	}
+
+	@Override
+	public void ScanRfid(){
+		if(canRfid){
+			if(isStart){
+				//			if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
+				//				rfidTask.cancel(true);
+				//			}
+				//			rfidTask = null;
+				//			isStart = false;
+				//			mV.btn1.setText(getResources().getString(R.string.btn_string_12));
+				//			mV.btn3.setEnabled(true);
+			}else{
+				if(mReader!=null && rfidTask==null){
+					isStart = true;
+					mV.btnScan.setText(getResources().getString(R.string.btn_string_13));
+					rfidTask = new ScanTask(myHandler);
+					rfidTask.execute(mReader);
+					mV.btnBack.setEnabled(false);
+					mV.btnClear.setEnabled(false);
+					mV.btnWrite.setEnabled(false);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void WsFinish(boolean isSuccess, int code, String retData) {
+		// TODO Auto-generated method stub
+		if(isSuccess){
+			if(key==1){
+				rList.clear();
+				//reflishListView();
+
+				List<QPInfo> res = util.json.JSONUtils.toListWithGson(retData,  new TypeToken<List<QPInfo>>(){}.getType());
+				rList.addAll(CheckGoods(res));
+				Log.e("---", util.json.JSONUtils.toJsonWithGson(rList));
+				reflishListView();
+			}else{
+				sList.clear();
+				//reflishListView();
+
+				List<QPInfo> res = util.json.JSONUtils.toListWithGson(retData,  new TypeToken<List<QPInfo>>(){}.getType());
+				sList.addAll(CheckGoods(res));
+				Log.e("---", util.json.JSONUtils.toJsonWithGson(sList));
+				reflishListView();
+			}
+
+
+		}else{
+			ToastUtil.showToast(getContext(), retData);
+		}
+	}
+
+	//
+	private List<QPInfo> CheckGoods(List<QPInfo> list){
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getQPType()!=null && list.get(i).getQPType().length()>0){
+				//找到商品
+				boolean isFind = false;
+				for (int j = 0; j < qpList.size(); j++) {
+					if(list.get(i).getQPType().equals(qpList.get(j).getGoodsCode())){
+						list.get(i).setMsg("商品名称："+qpList.get(j).getGoodsName());
+						list.get(i).setColor(1);
+						isFind = true;
+						break;
+					}
+				}
+				if(!isFind){
+					list.get(i).setColor(2);
+					for (int j = 0; j < getApp().getLogin().getGoodsList().size(); j++) {
+						if(getApp().getLogin().getGoodsList().get(j).getGoodsCode().equals(list.get(i).getQPType())){
+							list.get(i).setMsg("商品名称："+getApp().getLogin().getGoodsList().get(j).getGoodsName());
+							break;
+						}else{
+							list.get(i).setMsg("商品名称：未知商品,代码("+list.get(i).getQPType()+")");
+						}
+					}
+				}else{
+
+				}
+			}else{
+				for (int j = 0; j < qpList.size(); j++) {
+					if(list.get(i).getMediumCode().equals(qpList.get(j).getMediumCode())){
+						list.get(i).setMsg("充装介质："+qpList.get(j).getCZJZ());
+						list.get(i).setColor(0);
+						break;
+					}
+				}
+			}
+		}
+		return list;
+	}
 }

@@ -1,17 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 14
-
-
+    compileSdkVersion 17
 
     defaultConfig {
-        applicationId "com.hsic.qp"
+        applicationId "com.hsic.qp.sz"
         minSdkVersion 14
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 14
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 17
+        versionCode 13
+        versionName "1.1.10"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -23,7 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 dependencies {
     testImplementation 'junit:junit:4.12'
@@ -34,6 +36,7 @@ dependencies {
     implementation files('libs/cw-deviceapi20180628.jar')
     implementation files('libs/ksoap2.jar')
     implementation files('libs/locSDK_3.3.jar')
+    implementation files('libs/jsch-0.1.49.jar')
     implementation project(':actionbarsherlock')
     implementation project(':wheel')
 }

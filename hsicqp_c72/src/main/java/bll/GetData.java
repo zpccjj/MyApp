@@ -82,8 +82,7 @@ public class GetData {
 			}
 		}
 		// 设置soap的版本
-		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-				SoapEnvelope.VER11);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		// 添加类映射
 		if (mappingName != null) {
 			if (mappingName.size() == mappingList.size()) {
@@ -106,7 +105,7 @@ public class GetData {
 			hts.call(soapAction, envelope);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("WebService", "WebService call error!");
+			Log.e("Error ", e.getMessage());
 			resInfo.setOk(false);
 			resInfo.setObj(e.getMessage());
 			return resInfo;
