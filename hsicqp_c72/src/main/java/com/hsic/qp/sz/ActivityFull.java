@@ -27,6 +27,7 @@ import com.hsic.qp.sz.adapter.RfidAdapter;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.CallRfidWsTask;
 import com.hsic.qp.sz.task.ScanTask;
+import com.hsic.qp.sz.ui.SelectDialog;
 import com.rscja.deviceapi.RFIDWithUHF;
 
 import java.text.DecimalFormat;
@@ -60,7 +61,8 @@ public class ActivityFull extends HsicActivity implements WsListener{
 
 	static class mView{
 		Spinner full_a;
-		Spinner full_b;
+		//Spinner full_b;
+		EditText full_b;
 		TextView full_c;
 		TextView full_d;
 
@@ -84,6 +86,9 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		RadioButton full_rb_2;
 	}
 	mView mV;
+	List<QPGoods> selectGoods = null;
+	QPGoods nowGood = new QPGoods();
+
 
 	private Context getContext(){
 		return ActivityFull.this;
@@ -127,7 +132,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 	private void intiView(){
 		mV = new mView();
 		mV.full_a = (Spinner) findViewById(R.id.full_a);
-		mV.full_b = (Spinner) findViewById(R.id.full_b);
+		mV.full_b = (EditText) findViewById(R.id.full_b);
 		mV.full_c = (TextView) findViewById(R.id.full_c);
 		mV.full_d = (TextView) findViewById(R.id.full_d);
 		mV.full_1 = (EditTime) findViewById(R.id.full_1);
@@ -187,9 +192,10 @@ public class ActivityFull extends HsicActivity implements WsListener{
 				cleanView();
 
 				MediaGoods mgGoods = (MediaGoods) parent.getAdapter().getItem(position);
-				ArrayAdapter<QPGoods> bAdapter = new ArrayAdapter<QPGoods>(getContext(), android.R.layout.simple_spinner_item, mgGoods.getGoods());
-				bAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				mV.full_b.setAdapter(bAdapter);
+//				ArrayAdapter<QPGoods> bAdapter = new ArrayAdapter<QPGoods>(getContext(), android.R.layout.simple_spinner_item, mgGoods.getGoods());
+//				bAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//				mV.full_b.setAdapter(bAdapter);
+				selectGoods = mgGoods.getGoods();
 			}
 
 			@Override
@@ -199,22 +205,33 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			}
 		});
 
-		mV.full_b.setOnItemSelectedListener(new OnItemSelectedListener() {
+//		mV.full_b.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				UiUtil.CloseKey(ActivityFull.this);
+//				cleanView();
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
+		mV.full_b.setFocusable(false);
+		mV.full_b.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-									   int position, long id) {
-				// TODO Auto-generated method stub
-				UiUtil.CloseKey(ActivityFull.this);
-				cleanView();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-
+			public void onClick(View v) {
+				nowGood = new QPGoods();
+				SelectDialog dialog = new SelectDialog(getContext(), mV.full_b, selectGoods, nowGood);
+				dialog.show();
 			}
 		});
+
 
 		mV.btn1.setOnClickListener(new OnClickListener(){
 
@@ -226,8 +243,8 @@ public class ActivityFull extends HsicActivity implements WsListener{
 					ToastUtil.showToast(getContext(), "请选择充装介质");
 					return;
 				}
-				QPGoods opgs = (QPGoods)mV.full_b.getSelectedItem();
-				if(opgs==null || opgs.getGoodsCode()==null){
+
+				if(mV.full_b.getText().toString().trim().length()==0 || nowGood==null){
 					ToastUtil.showToast(getContext(), "请选择商品");
 					return;
 				}
@@ -292,8 +309,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 					ToastUtil.showToast(getContext(), "请选择充装介质");
 					return;
 				}
-				QPGoods opgs = (QPGoods)mV.full_b.getSelectedItem();
-				if(opgs==null || opgs.getGoodsCode()==null){
+				if(mV.full_b.getText().toString().trim().length()==0 || nowGood==null){
 					ToastUtil.showToast(getContext(), "请选择商品");
 					return;
 				}
@@ -360,7 +376,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 					rList.get(i).setWorkMpa(mV.full_3.getText().toString().trim());
 					rList.get(i).setTemperature(mV.full_4.getText().toString().trim());
 					rList.get(i).setWeight(mV.full_5.getText().toString().trim());
-					rList.get(i).setGoodsCode(opgs.getGoodsCode());
+					rList.get(i).setGoodsCode(nowGood.getGoodsCode());
 				}
 
 				FullInfo fullinfo = new FullInfo();
@@ -379,8 +395,8 @@ public class ActivityFull extends HsicActivity implements WsListener{
 				fullinfo.setFullNum(fullnum);
 				fullinfo.setMediumCode(mgGoods.getMediaCode());
 				fullinfo.setCZJZ(mgGoods.getMediaName());
-				fullinfo.setGoodsCode(opgs.getGoodsCode());
-				fullinfo.setGoodsName(opgs.getGoodsName());
+				fullinfo.setGoodsCode(nowGood.getGoodsCode());
+				fullinfo.setGoodsName(nowGood.getGoodsName());
 
 				fullinfo.setrList(rList);
 
@@ -395,6 +411,10 @@ public class ActivityFull extends HsicActivity implements WsListener{
 	private void cleanView(){
 		rList.clear();
 		wList.clear();
+
+		nowGood = new QPGoods();
+		mV.full_b.setText("");
+
 		mV.full_c.setText("");
 		mV.full_d.setText("");
 		mV.full_1.setText("");
@@ -429,13 +449,10 @@ public class ActivityFull extends HsicActivity implements WsListener{
 //			return;
 //		}
 
-
-		QPGoods mgGoods = (QPGoods)mV.full_b.getSelectedItem();
-
 		for (int i = 0; i < wList.size(); i++) {
 			if(wList.get(i).getQPDJCode().equals(rfid.getQPDJCode())) return;
 		}
-		if(rfid.getCZJZCode().equals(mgGoods.getMediumCode()) && rfid.getIsJG()==mgGoods.getIsJG()){
+		if(rfid.getCZJZCode().equals(nowGood.getMediumCode()) && rfid.getIsJG()==nowGood.getIsJG()){
 		}else{
 			String Media = ConfigData.getMediaName(rfid.getCZJZCode(), getApp().getMediaInfo());
 			rfid.setMediumName(Media);
@@ -455,9 +472,9 @@ public class ActivityFull extends HsicActivity implements WsListener{
 		for (int i = 0; i < rList.size(); i++) {
 			if(rList.get(i).getQPDJCode().equals(rfid.getQPDJCode())) return ;
 		}
-		rfid.setMediumName(mgGoods.getCZJZ());
-		rfid.setGoodsCode(mgGoods.getGoodsCode());
-		rfid.setGoodsName(mgGoods.getGoodsName());
+		rfid.setMediumName(nowGood.getCZJZ());
+		rfid.setGoodsCode(nowGood.getGoodsCode());
+		rfid.setGoodsName(nowGood.getGoodsName());
 
 //		//介质代码获取名称
 //		if(LastCode.equals(rfid.getCZJZCode())){

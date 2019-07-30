@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.hsic.gps.GPSHelper;
 import com.hsic.qp.sz.adapter.QpAdapter;
+import com.hsic.qp.sz.adapter.QpInfoAdapter;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.CallRfidWsTask;
 import com.hsic.qp.sz.task.SubmitTask;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.InfoItem;
+import bean.ItemQpInfo;
 import bean.QPGoods;
 import bean.QPInfo;
 import bean.Sale;
@@ -140,10 +142,10 @@ public class ActivityTask extends HsicActivity implements WsListener{
 		mV.txt1.setText(info.getCustomerName()!=null ? info.getCustomerName() : "");
 		mV.txt2.setText(info.getCustomerTelephone()!=null ? info.getCustomerTelephone() : "");
 		mV.txt3.setText(info.getAddress()!=null ? info.getAddress() : "");
-		mV.txt4.setText("0");
 		mV.txt4a.setText("0");
 		mV.txt4b.setText("0");
 
+		int num = 0;
 		if(info.getSaleDetail()!=null && info.getSaleDetail().size()>0){
 			for (int i = 0; i < info.getSaleDetail().size(); i++) {
 				info.getSaleDetail().get(i).setRealGoodsPrice(info.getSaleDetail().get(i).getGoodsPrice());
@@ -161,7 +163,11 @@ public class ActivityTask extends HsicActivity implements WsListener{
 					goods.setCZJZ(info.getSaleDetail().get(i).getCZJZ());
 					goods.setIsJG(info.getSaleDetail().get(i).getIsJG());
 					goods.setNum(info.getSaleDetail().get(i).getNum());
+					goods.setGoodsNum(info.getSaleDetail().get(i).getPlanReceiveNum());
 					mList.add(goods);
+
+					if(info.getSaleDetail().get(i).getIsJG()==1) num+= info.getSaleDetail().get(i).getPlanReceiveNum() * info.getSaleDetail().get(i).getNum();
+					else num+= info.getSaleDetail().get(i).getPlanReceiveNum();
 
 					//计算发瓶介质列表
 					boolean isExist = false;
@@ -183,6 +189,7 @@ public class ActivityTask extends HsicActivity implements WsListener{
 				}
 			}
 		}
+		mV.txt4.setText(String.valueOf(num));
 		setListView();
 	}
 
@@ -262,6 +269,106 @@ public class ActivityTask extends HsicActivity implements WsListener{
 		}
 	}
 
+	AlertDialog SbDialog;
+	private void showDialog(){
+		AlertDialog.Builder builder = new Builder(getContext());
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+		final View modifyView = inflater.inflate(R.layout.diag_sb,null);
+
+		List<ItemQpInfo> sbList = new ArrayList<ItemQpInfo>();
+		for (int i = 0; i < info.getSaleDetail().size(); i++) {
+			if(info.getSaleDetail().get(i).getGoodsType()==1){
+				ItemQpInfo itemInfo = new ItemQpInfo();
+				itemInfo.setGoodsName(info.getSaleDetail().get(i).getGoodsName());
+				itemInfo.setSendNum(String.valueOf(info.getSaleDetail().get(i).getSendNum()) );
+				itemInfo.setReceiveNum(String.valueOf(mList.get(i).getGoodsNum()) + (mList.get(i).getIsJG()==1 ? "x" + String.valueOf(mList.get(i).getNum()) : ""));
+				sbList.add(itemInfo);
+			}
+		}
+		if(mList.size()>info.getSaleDetail().size()){
+			for (int i = info.getSaleDetail().size(); i < mList.size(); i++) {
+				ItemQpInfo itemInfo = new ItemQpInfo();
+				itemInfo.setGoodsName(mList.get(i).getGoodsName());
+				itemInfo.setSendNum("-");
+				itemInfo.setReceiveNum(String.valueOf(mList.get(i).getGoodsNum()) + (mList.get(i).getIsJG()==1 ? "x" + String.valueOf(mList.get(i).getNum()) : ""));
+				sbList.add(itemInfo);
+			}
+		}
+		((ListView) modifyView.findViewById(R.id.sb_list)).setAdapter(new QpInfoAdapter(getContext(), sbList));
+		((Button) modifyView.findViewById(R.id.sb_yes)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TaskCheckReceive();
+				SbDialog.dismiss();
+			}
+
+		});
+		((Button) modifyView.findViewById(R.id.sb_no)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				SbDialog.dismiss();
+			}
+		});
+		builder.setView(modifyView);
+
+		SbDialog = builder.create();
+		SbDialog.setTitle("收发确认");
+		SbDialog.setCancelable(false);
+		SbDialog.show();
+	}
+	AlertDialog OtherDialog;
+	private void other(){
+		AlertDialog.Builder builder = new Builder(getContext());
+
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+
+		final View modifyView = inflater.inflate(R.layout.diag_other,null);
+
+		final EditText Remark = (EditText) modifyView.findViewById(R.id.other_1);
+		final EditText OtherPirce = (EditText) modifyView.findViewById(R.id.other_2);
+
+		((Button) modifyView.findViewById(R.id.other_yes)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(Remark.getText().toString().trim().length()==0 && OtherPirce.getText().toString().trim().length()>0){
+					ToastUtil.showToast(getContext(), "请填写备注");
+					return ;
+				}else if(Remark.getText().toString().trim().length()>0 && OtherPirce.getText().toString().trim().length()==0){
+					ToastUtil.showToast(getContext(), "请填写费用");
+					return ;
+				}
+				info.setRemark(Remark.getText().toString().trim().length()>0 ? Remark.getText().toString().trim() : null);
+				info.setOtherPirce(OtherPirce.getText().toString().trim().length()>0 ? new BigDecimal(OtherPirce.getText().toString().trim()) : null);
+
+				SubmitDiag(hasOtherQp());
+				OtherDialog.dismiss();
+
+			}
+		});
+		((Button) modifyView.findViewById(R.id.other_no)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				OtherDialog.dismiss();
+			}
+		});
+
+		builder.setView(modifyView);
+
+		OtherDialog = builder.create();
+		OtherDialog.setTitle("其他费用");
+		OtherDialog.setCancelable(false);
+		OtherDialog.show();
+	}
+
+
 	private boolean isFinishSend(){
 		boolean ret = true;
 		if(info.getSaleDetail()!=null && info.getSaleDetail().size()>0){
@@ -310,8 +417,8 @@ public class ActivityTask extends HsicActivity implements WsListener{
 //						util.json.JSONUtils.toJsonWithGson(sList),
 //						util.json.JSONUtils.toJsonWithGson(info.getSaleDetail()));
 
-				Log.e("util.json.JSONUtils.toJsonWithGson(rList)", util.json.JSONUtils.toJsonWithGson(rList));
-				Log.e("util.json.JSONUtils.toJsonWithGson(sList)", util.json.JSONUtils.toJsonWithGson(sList));
+				Log.e("rList", util.json.JSONUtils.toJsonWithGson(rList));
+				Log.e("sList", util.json.JSONUtils.toJsonWithGson(sList));
 				ActivityUtils.JumpToReceive(getContext(), ActivityTask.this,
 						util.json.JSONUtils.toJsonWithGson(mList),
 						util.json.JSONUtils.toJsonWithGson(rList),
@@ -324,8 +431,8 @@ public class ActivityTask extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.e("util.json.JSONUtils.toJsonWithGson(rList)", util.json.JSONUtils.toJsonWithGson(rList));
-				Log.e("util.json.JSONUtils.toJsonWithGson(sList)", util.json.JSONUtils.toJsonWithGson(sList));
+				Log.e("rList", util.json.JSONUtils.toJsonWithGson(rList));
+				Log.e("sList", util.json.JSONUtils.toJsonWithGson(sList));
 				ActivityUtils.JumpToSendReceive(getContext(), ActivityTask.this, 2,
 						util.json.JSONUtils.toJsonWithGson(rList),
 						util.json.JSONUtils.toJsonWithGson(sList),
@@ -339,7 +446,7 @@ public class ActivityTask extends HsicActivity implements WsListener{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(!Submitted){
-					TaskCheckReceive();
+					showDialog();
 				}else{
 					new CallRfidWsTask(getContext(), ActivityTask.this, 10).execute(info.getSaleID());
 				}
@@ -439,13 +546,13 @@ public class ActivityTask extends HsicActivity implements WsListener{
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
-					SubmitDiag(hasOtherQp());
+					other();
 				}
 
 			});
 			dialog.show();
 		}else{
-			SubmitDiag(hasOtherQp());
+			other();
 		}
 	}
 

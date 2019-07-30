@@ -1,5 +1,11 @@
 package util;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,15 +16,6 @@ import java.util.Set;
 
 import bean.InfoItem;
 import bean.Sale;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 public class UiUtil {
 	public static void CloseDiag(final ProgressDialog dialog){
@@ -68,7 +65,6 @@ public class UiUtil {
 		if (devices.size()>0) {
 			for(Iterator<BluetoothDevice> iterator=devices.iterator();iterator.hasNext();){
 				BluetoothDevice bluetoothDevice=(BluetoothDevice)iterator.next();
-				System.out.println("-设备："+bluetoothDevice.getName() + " " + bluetoothDevice.getAddress()+ " " + bluetoothDevice.getBondState());
 				InfoItem bInfo = new InfoItem();
 				bInfo.setKey(bluetoothDevice.getAddress());
 				bInfo.setValue(bluetoothDevice.getName() + ":" + bluetoothDevice.getAddress());
@@ -91,13 +87,10 @@ public class UiUtil {
 			}
 		}
 
-		Log.e("hasBluetoothInfoInDeviceList", "="+has);
-
 		return has;
 	}
 
 	public static List<InfoItem>getPrintInfo(Sale sale, String Truck, String Persons){
-		Log.e("getPrintInfo", util.json.JSONUtils.toJsonWithGson(sale));
 		List<InfoItem> list = new ArrayList<InfoItem>();
 		InfoItem  info = new InfoItem();
 		info.setKey("2");
@@ -256,7 +249,18 @@ public class UiUtil {
 			info.setKey("3");
 			info.setName("合计:");
 			info.setValue(String.valueOf(totleS) + " / " + String.valueOf(totleR));
-			info.setValue2(price.toString());
+			info.setValue2(price.toString()+ "元");
+			list.add(info);
+		}
+		info = new InfoItem();
+		info.setKey("-1");
+		list.add(info);
+
+		if(sale.getRemark()!=null && sale.getRemark().length()>0 && sale.getOtherPirce()!=null){
+			info = new InfoItem();
+			info.setKey("2");
+			info.setName(sale.getRemark()+ ":");
+			info.setValue(sale.getOtherPirce().toString() + "元");
 			list.add(info);
 		}
 
@@ -277,8 +281,4 @@ public class UiUtil {
 
 		return list;
 	}
-
-
-
-
 }

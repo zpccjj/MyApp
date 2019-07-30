@@ -91,7 +91,6 @@ public class PrintfTask extends AsyncTask<String, Void, ResponseData> {
 								printBytes.add(PrintUtils.test(mData.get(i).getName()));
 								printBytes.add(GPrinterCommand.print);
 								printBytes.add(PrintUtils.test(PrintUtils.printTwoData("", mData.get(i).getValue())));
-							}else{
 								printBytes.add(PrintUtils.test(PrintUtils.printTwoData(mData.get(i).getName(), mData.get(i).getValue())));
 							}
 							printBytes.add(GPrinterCommand.print);

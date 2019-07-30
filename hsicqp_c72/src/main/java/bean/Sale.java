@@ -26,7 +26,8 @@ public class Sale {
 	private String GPS_W;
 
 	private String SaleAddress  ;//地址---
-	private String Remark ;
+	private String Remark ;//备注
+	private BigDecimal OtherPirce;//其他费用
 
 	private String Station;//所属站点号
 	private String StationName;
@@ -38,7 +39,6 @@ public class Sale {
 	private String RealPirceInfo;//实收款说明
 
 	private List<SaleDetail> SaleDetail;
-
 
 	public String getSaleID() {
 		return SaleID;
@@ -123,6 +123,12 @@ public class Sale {
 	}
 	public void setRemark(String remark) {
 		Remark = remark;
+	}
+	public BigDecimal getOtherPirce() {
+		return OtherPirce;
+	}
+	public void setOtherPirce(BigDecimal otherPirce) {
+		OtherPirce = otherPirce;
 	}
 	public List<SaleDetail> getSaleDetail() {
 		return SaleDetail;
