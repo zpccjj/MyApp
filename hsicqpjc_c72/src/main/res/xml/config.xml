@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/menu_config" >
+
+        <EditTextPreference
+            android:dialogTitle="@string/text_no"
+            android:key="DeviceID"
+            android:inputType="number"
+            android:summary="@string/hint_no"
+            android:title="@string/title_no" />
+        
+        <EditTextPreference
+            android:defaultValue="@string/config_ws"
+            android:dialogTitle="@string/text_webserver"
+            android:key="webServer"
+            android:summary="@string/hint_webserver"
+            android:title="@string/title_webserver" />
+        
+        <EditTextPreference
+            android:defaultValue="@string/config_time"
+            android:dialogTitle="@string/text_ws_time"
+            android:key="overTime"
+            android:inputType="number"
+            android:summary="@string/hint_ws_time"
+            android:title="@string/title_ws_time" />
+
+        <EditTextPreference
+            android:defaultValue="@string/config_power_w"
+            android:dialogTitle="@string/title_power"
+            android:key="power_w"
+            android:inputType="number"
+            android:summary="@string/hint_power"
+            android:title="@string/text_power_w" />
+        
+         <Preference
+	        android:key="version"
+	        android:title="@string/title_show" />
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>

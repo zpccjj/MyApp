@@ -1,0 +1,69 @@
+<resources>
+    <string name="no">取消</string>
+    <string name="yes">确定</string>
+    <string name="app_name">申中气体检验</string>
+    
+    <string name="title_string_01">用户登录</string>
+    <string name="back_string_1">退出</string>
+    <string name="back_string_2">返回</string>
+    
+    <string name="btn_string_00">开始检验</string>
+    <string name="btn_string_01">  登    录  </string>
+    <string name="btn_string_02">下载基本信息</string>
+    <string name="btn_string_03">检验结果登记</string>
+    <string name="btn_string_04">检验记录上传</string>
+    <string name="btn_string_05">检验记录统计</string>
+    <string name="btn_string_06">清除检验记录</string>
+    <string name="btn_string_07">标签信息浏览</string>
+    <string name="btn_string_08">修改登录密码</string>
+    <string name="btn_string_09">外观</string>
+    <string name="btn_string_10">音响</string>
+    <string name="btn_string_11">瓶口螺纹</string>
+    <string name="btn_string_12">内部检查</string>
+    <string name="btn_string_13">重量与容积</string>
+    <string name="btn_string_14">水压</string>
+    <string name="btn_string_15">气密性</string>
+    <string name="btn_string_16">气瓶检验</string>
+    <string name="btn_string_17">检验完成</string>
+    <string name="btn_string_18">标签浏览</string>
+    
+    <string name="txt_string_0">记住用户名密码</string>
+    <string name="txt_string_01">用户名:</string>
+    <string name="txt_string_02">密码:</string>
+    <string name="txt_string_03">登录人员:</string>
+    <string name="txt_string_04">部门名称:</string>
+    <string name="txt_string_05">原密码:</string>
+    <string name="txt_string_06">新密码:</string>
+    <string name="txt_string_07">确认密码:</string>
+    <string name="txt_string_08">气瓶类型:</string>
+    <string name="txt_string_08t">钢质无缝气瓶</string>
+    <string name="txt_string_09">检验日期:</string>
+    <string name="txt_string_10">下检年份:</string>
+    <string name="txt_string_11">检验结果:</string>
+    <string name="txt_string_12">检验人员:</string>
+    <string name="txt_string_13">审核人员:</string>
+    <string name="txt_string_14">标签号:</string>
+    <string name="txt_string_15">钢瓶号:</string>
+    <string name="txt_string_16">检验数量:</string>
+    <string name="txt_string_17">下检日期:</string>
+    <string name="txt_string_18">制造日期:</string>
+    <string name="txt_string_19">检验结果:</string>
+    <string name="txt_string_20">是否超限:</string>
+    <string name="txt_string_21">检验日期</string>
+    <string name="txt_string_22">总数量</string>
+    <string name="txt_string_23">已上传</string>
+    <string name="txt_string_24">未上传</string>
+	
+    <string name="txt_rg_01">合格</string>
+    <string name="txt_rg_02">报废</string>
+    
+	<string-array name="qptype">
+        <item>液化石油气钢瓶</item>
+        <item>钢质无缝气瓶</item>
+        <item>钢质焊接气瓶</item>
+        <item>铝合金无缝气瓶</item>
+    </string-array>
+    
+
+	
+</resources>

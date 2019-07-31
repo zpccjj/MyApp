@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_ws">http://192.168.1.92/SHQPMTWs/SHQPMT.asmx</string>
+    <string name="config_time">30</string>
+    <string name="config_power_w">15</string>
+    
+    <string name="text_switch_on">YES</string>
+    <string name="text_switch_off">NO</string>
+    
+
+    <string name="menu_config">设置</string>
+    
+    <string name="title_server">服务</string>
+    <string name="text_ws_time">配置服务响应时间</string>
+    <string name="hint_ws_time">输入服务响应时间</string>
+    <string name="title_ws_time">服务响应时间 (秒)</string>
+    
+    <string name="text_webserver">配置服务</string>
+    <string name="hint_webserver">输入服务地址</string>
+    <string name="title_webserver">服务</string>
+    
+
+    <string name="text_power_w">设备写卡功率参数</string>
+    <string name="title_power">设置功率参数(5 ~ 30)</string>
+    <string name="hint_power">输入功率参数(5 ~ 30)</string>
+    
+    <string name="text_no">配置设备编号</string>
+    <string name="hint_no">输入设备编号</string>
+    <string name="title_no">设备编号</string>
+    
+    <string name="title_show">应用版本</string>
+</resources>

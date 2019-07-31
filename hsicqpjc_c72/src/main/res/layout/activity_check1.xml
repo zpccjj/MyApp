@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_08"
+		            android:textSize="18sp" />
+		
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"
+		            android:text="@string/txt_string_08t"
+		            android:textSize="18sp" />
+
+		   </TableRow>
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_09"
+		            android:textSize="18sp" />
+		
+		        <TextView
+		            android:id="@+id/check1_1"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"
+		            android:textSize="18sp" />
+		   </TableRow>            
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_10"
+		            android:textSize="18sp" />
+
+		        <Spinner
+		            android:id="@+id/check1_2"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"/>
+		   </TableRow>
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_11"
+		            android:textSize="18sp" />
+
+		        <RadioGroup
+		            android:id="@+id/check1_3"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+
+			        <RadioButton
+			            android:id="@+id/check1_3_y"
+			            android:layout_width="fill_parent"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:text="@string/txt_rg_01"
+			            android:textSize="18sp" />
+			        <RadioButton
+			            android:id="@+id/check1_3_n"
+			            android:layout_width="fill_parent"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:text="@string/txt_rg_02" 
+			            android:textSize="18sp"/>
+		        </RadioGroup>
+		   </TableRow> 	
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_12"
+		            android:textSize="18sp" />
+
+		        <Spinner
+		            android:id="@+id/check1_4"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"/>
+		   </TableRow>		   
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+        
+		        <TextView
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:layout_weight="2"
+		            android:gravity="right"
+		            android:text="@string/txt_string_13"
+		            android:textSize="18sp" />
+
+		        <Spinner
+		            android:id="@+id/check1_5"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:layout_weight="1"/>
+		   </TableRow>            
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+		        <Button
+		            android:id="@+id/check1_6_0"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_09" />
+		    	<Button
+		            android:id="@+id/check1_6_1"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_10" />
+		   </TableRow>
+		   <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+		        <Button
+		            android:id="@+id/check1_6_2"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_11" />
+		    	<Button
+		            android:id="@+id/check1_6_3"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_12" />
+		   </TableRow>               
+            <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+		        <Button
+		            android:id="@+id/check1_6_4"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_13" />
+		    	<Button
+		            android:id="@+id/check1_6_5"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_14" />
+		   </TableRow>  	
+		   <TableRow
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp">
+		        <Button
+		            android:id="@+id/check1_6_6"
+		            android:layout_marginLeft="10dp"
+		        	android:layout_marginRight="10dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:text="@string/btn_string_15" />
+
+		    	<Button
+		    	    android:layout_width="fill_parent"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_marginLeft="10dp"
+		    	    android:layout_marginRight="10dp"
+		    	    android:layout_weight="1"
+		    	    android:visibility="invisible" />
+
+		   </TableRow> 		    	   	                 
+        </LinearLayout>
+    </ScrollView>
+    
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+    	<Button
+            android:id="@+id/check1_btn2"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/back_string_1" />
+ 		<Button
+            android:id="@+id/check1_btn1"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_string_00" />
+    </TableRow>
+</LinearLayout>
