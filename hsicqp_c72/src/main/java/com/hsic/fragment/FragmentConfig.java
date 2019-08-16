@@ -20,15 +20,12 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.util.Log;
-
 import com.hsic.qp.sz.R;
-
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import bean.InfoItem;
 import bean.ResponseData;
 import hsic.ui.ConfirmDialog;

@@ -7,13 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.hsic.qp.sz.adapter.TaskAdapter;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.SaleInfoTask;
-
 import java.util.List;
-
 import bean.Sale;
 import bean.TruckNoInfo;
 import hsic.ui.HsicActivity;

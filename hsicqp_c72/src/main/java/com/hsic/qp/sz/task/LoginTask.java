@@ -3,14 +3,11 @@ package com.hsic.qp.sz.task;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.hsic.qp.sz.listener.WsListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import bean.EmployeeInfo;
 import bean.ResponseData;
 import util.UiUtil;

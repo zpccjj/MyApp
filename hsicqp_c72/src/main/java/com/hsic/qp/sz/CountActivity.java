@@ -1,10 +1,9 @@
 package com.hsic.qp.sz;
 
+import hsic.ui.ConfirmDialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import hsic.ui.ConfirmDialog;
 
 public class CountActivity extends Activity {
 

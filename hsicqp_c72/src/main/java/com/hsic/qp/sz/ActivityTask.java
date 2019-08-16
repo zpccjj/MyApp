@@ -1,6 +1,24 @@
 package com.hsic.qp.sz;
 
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.reflect.TypeToken;
+import com.hsic.gps.GPSHelper;
+import com.hsic.qp.sz.adapter.QpAdapter;
+import com.hsic.qp.sz.adapter.QpInfoAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.SubmitTask;
+import util.ActivityUtils;
+import util.ToastUtil;
+import util.UiUtil;
+import bean.InfoItem;
+import bean.ItemQpInfo;
+import bean.QPGoods;
+import bean.QPInfo;
+import bean.Sale;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,29 +40,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.gps.GPSHelper;
-import com.hsic.qp.sz.adapter.QpAdapter;
-import com.hsic.qp.sz.adapter.QpInfoAdapter;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.hsic.qp.sz.task.SubmitTask;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import bean.InfoItem;
-import bean.ItemQpInfo;
-import bean.QPGoods;
-import bean.QPInfo;
-import bean.Sale;
 import hsic.ui.ConfirmDialog;
 import hsic.ui.HsicActivity;
-import util.ActivityUtils;
-import util.ToastUtil;
-import util.UiUtil;
 
 public class ActivityTask extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "退出任务";
@@ -417,8 +414,8 @@ public class ActivityTask extends HsicActivity implements WsListener{
 //						util.json.JSONUtils.toJsonWithGson(sList),
 //						util.json.JSONUtils.toJsonWithGson(info.getSaleDetail()));
 
-				Log.e("rList", util.json.JSONUtils.toJsonWithGson(rList));
-				Log.e("sList", util.json.JSONUtils.toJsonWithGson(sList));
+				Log.e("util.json.JSONUtils.toJsonWithGson(rList)", util.json.JSONUtils.toJsonWithGson(rList));
+				Log.e("util.json.JSONUtils.toJsonWithGson(sList)", util.json.JSONUtils.toJsonWithGson(sList));
 				ActivityUtils.JumpToReceive(getContext(), ActivityTask.this,
 						util.json.JSONUtils.toJsonWithGson(mList),
 						util.json.JSONUtils.toJsonWithGson(rList),
@@ -431,8 +428,8 @@ public class ActivityTask extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.e("rList", util.json.JSONUtils.toJsonWithGson(rList));
-				Log.e("sList", util.json.JSONUtils.toJsonWithGson(sList));
+				Log.e("util.json.JSONUtils.toJsonWithGson(rList)", util.json.JSONUtils.toJsonWithGson(rList));
+				Log.e("util.json.JSONUtils.toJsonWithGson(sList)", util.json.JSONUtils.toJsonWithGson(sList));
 				ActivityUtils.JumpToSendReceive(getContext(), ActivityTask.this, 2,
 						util.json.JSONUtils.toJsonWithGson(rList),
 						util.json.JSONUtils.toJsonWithGson(sList),

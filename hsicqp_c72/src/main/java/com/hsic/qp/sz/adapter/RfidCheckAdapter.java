@@ -1,18 +1,18 @@
 package com.hsic.qp.sz.adapter;
 
+import java.util.List;
+
+import com.hsic.qp.sz.R;
+
+import data.ConfigData;
+
+import bean.Rfid;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.hsic.qp.sz.R;
-
-import java.util.List;
-
-import bean.Rfid;
-import data.ConfigData;
 
 public class RfidCheckAdapter extends BaseAdapter {
     List<Rfid> mList;
@@ -58,6 +58,7 @@ public class RfidCheckAdapter extends BaseAdapter {
         TextView NextCheckDate = (TextView) convertView.findViewById(R.id.rfid_check_item_3);
         TextView Overdue = (TextView) convertView.findViewById(R.id.rfid_check_item_4);
         TextView Dm = (TextView) convertView.findViewById(R.id.rfid_check_item_5);
+        TextView JG = (TextView) convertView.findViewById(R.id.rfid_check_item_6);
 
         LabelNo.setText("标签号:" + (mList.get(position).getQPDJCode()!=null ? mList.get(position).getQPDJCode() : ""));
         MediumName.setText("充装介质:"+ (mList.get(position).getMediumName()!=null ? mList.get(position).getMediumName() : ""));
@@ -82,6 +83,8 @@ public class RfidCheckAdapter extends BaseAdapter {
         }else{
             Dm.setText("检验结果:");
         }
+        if(mList.get(position).getIsJG()==1) JG.setText("集格瓶");
+        else JG.setText("散瓶");
 
         return convertView;
 

@@ -1,5 +1,21 @@
 package com.hsic.qp.sz;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import util.AllCapTransformationMethod;
+import util.ToastUtil;
+import util.UiUtil;
+import bean.BasicInfo;
+import bean.BasicQPInfo;
+import bean.BasicQPInfo2;
+import bean.BasicUnit;
+import bean.SubmitQP;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import hsic.ui.EditDate;
+import hsic.ui.HsicActivity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,25 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import bean.BasicInfo;
-import bean.BasicQPInfo;
-import bean.BasicQPInfo2;
-import bean.BasicUnit;
-import bean.SubmitQP;
-import hsic.ui.EditDate;
-import hsic.ui.HsicActivity;
-import util.AllCapTransformationMethod;
-import util.ToastUtil;
-import util.UiUtil;
 
 public class ActivityQpInfo extends HsicActivity implements WsListener{
     private final static String MenuHOME = "返回";
@@ -527,7 +524,7 @@ public class ActivityQpInfo extends HsicActivity implements WsListener{
         // TODO Auto-generated method stub
         if(isSuccess){
             if(code==9){
-                ToastUtil.showToast(getContext(), "提交基本信息成功");
+                ToastUtil.showToast(getContext(), "登记气瓶基本信息成功");
                 clean();
 
                 mView.info_3.setFocusable(true);

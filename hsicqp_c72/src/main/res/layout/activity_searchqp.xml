@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+    </RelativeLayout>   
+    <TableRow
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginTop="5dp">
+
+	       <TextView
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_gravity="center"
+	           android:layout_marginRight="3dp"
+	           android:layout_weight="3"
+	           android:gravity="right"
+	           android:text="@string/txt_info_1"
+	           android:textSize="18sp" />
+
+	       <Spinner
+	           android:id="@+id/searchqp_1"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_weight="1"/>
+	  </TableRow>
+	   <TableRow
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginTop="5dp">
+
+	       <TextView
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_gravity="center"
+	           android:layout_marginRight="3dp"
+	           android:layout_weight="3"
+	           android:gravity="right"
+	           android:text="@string/txt_info_21"
+	           android:textSize="18sp" />
+	
+	       <EditText
+	           android:id="@+id/searchqp_2"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_weight="1"
+	           android:inputType="number"
+	           android:maxLength="8"/>
+	  </TableRow>
+	  <ListView
+	        android:id="@+id/searchqp_list"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dip"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginBottom="5dp"
+	        android:layout_weight="1">
+	    </ListView>
+	<TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+		<Button
+		    android:id="@+id/searchqp_btn"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="50dp"
+		    android:layout_marginRight="50dp"
+		    android:layout_weight="1"
+		    android:text="@string/title_activity_query"/>
+    </TableRow>
+</LinearLayout>

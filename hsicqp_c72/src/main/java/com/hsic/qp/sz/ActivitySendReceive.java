@@ -1,5 +1,15 @@
 package com.hsic.qp.sz;
 
+import java.util.ArrayList;
+import java.util.List;
+import util.ToastUtil;
+import util.UiUtil;
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.adapter.SRAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,25 +32,12 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.sz.adapter.SRAdapter;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.hsic.qp.sz.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import bean.QPGoods;
 import bean.QPInfo;
 import bean.Rfid;
 import bean.SaleDetail;
 import hsic.ui.ConfirmDialog;
 import hsic.ui.HsicActivity;
-import util.ToastUtil;
-import util.UiUtil;
 
 public class ActivitySendReceive extends HsicActivity implements WsListener{
 	private String TITLE = "发瓶扫描";
@@ -275,10 +272,10 @@ public class ActivitySendReceive extends HsicActivity implements WsListener{
 		}
 		if(key==1){
 			qp.setOpType(0);
-			rList.add(qp);
+			rList.add(0,qp);
 		}else{
 			qp.setOpType(1);
-			sList.add(qp);
+			sList.add(0,qp);
 		}
 
 		reflishListView();
@@ -700,10 +697,10 @@ public class ActivitySendReceive extends HsicActivity implements WsListener{
 
 		if(key==1){
 			qp.setOpType(0);
-			rList.add(qp);
+			rList.add(0,qp);
 		}else{
 			qp.setOpType(1);
-			sList.add(qp);
+			sList.add(0,qp);
 		}
 		mV.number.setText("");
 		setView(true);

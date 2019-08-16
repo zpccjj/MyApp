@@ -1,11 +1,5 @@
 package util;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
-import android.util.Log;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,9 +7,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import bean.InfoItem;
 import bean.Sale;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 public class UiUtil {
 	public static void CloseDiag(final ProgressDialog dialog){
@@ -23,7 +23,7 @@ public class UiUtil {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(3000);//让他显示n耗秒后，取消ProgressDialog
+					Thread.sleep(5000);//让他显示n耗秒后，取消ProgressDialog
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -36,17 +36,17 @@ public class UiUtil {
 	}
 
 	public static void CloseKey(Activity activity){
-//        try {
-//            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-//            boolean isOpen=imm.isActive();
-//
-//            if(isOpen){
-//                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//            }
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//        	e.printStackTrace();
-//        }
+		try {
+			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			boolean isOpen=imm.isActive();
+
+			if(isOpen){
+				imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	public static void setDiagBtn(DialogInterface dialog, boolean isDiss){
@@ -65,6 +65,7 @@ public class UiUtil {
 		if (devices.size()>0) {
 			for(Iterator<BluetoothDevice> iterator=devices.iterator();iterator.hasNext();){
 				BluetoothDevice bluetoothDevice=(BluetoothDevice)iterator.next();
+				System.out.println("-设备："+bluetoothDevice.getName() + " " + bluetoothDevice.getAddress()+ " " + bluetoothDevice.getBondState());
 				InfoItem bInfo = new InfoItem();
 				bInfo.setKey(bluetoothDevice.getAddress());
 				bInfo.setValue(bluetoothDevice.getName() + ":" + bluetoothDevice.getAddress());
@@ -87,10 +88,13 @@ public class UiUtil {
 			}
 		}
 
+		Log.e("hasBluetoothInfoInDeviceList", "="+has);
+
 		return has;
 	}
 
 	public static List<InfoItem>getPrintInfo(Sale sale, String Truck, String Persons){
+		Log.e("getPrintInfo", util.json.JSONUtils.toJsonWithGson(sale));
 		List<InfoItem> list = new ArrayList<InfoItem>();
 		InfoItem  info = new InfoItem();
 		info.setKey("2");
@@ -281,4 +285,8 @@ public class UiUtil {
 
 		return list;
 	}
+
+
+
+
 }

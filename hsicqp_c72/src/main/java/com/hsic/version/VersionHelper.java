@@ -8,11 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
-
 import java.io.File;
-
-//import com.hsic.ftp.MySFTP;
-//import com.jcraft.jsch.ChannelSftp;
 
 public class VersionHelper {
 	public Context context;

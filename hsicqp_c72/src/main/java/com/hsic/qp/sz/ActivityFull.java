@@ -1,5 +1,14 @@
 package com.hsic.qp.sz;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import util.ToastUtil;
+import util.UiUtil;
+import hsic.ui.EditTime;
+import hsic.ui.HsicActivity;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,17 +20,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import bean.FullInfo;
+import bean.MediaGoods;
+import bean.QPGoods;
+import bean.Rfid;
 import com.actionbarsherlock.view.MenuItem;
 import com.hsic.qp.sz.adapter.RfidAdapter;
 import com.hsic.qp.sz.listener.WsListener;
@@ -30,21 +42,7 @@ import com.hsic.qp.sz.task.ScanTask;
 import com.hsic.qp.sz.ui.SelectDialog;
 import com.rscja.deviceapi.RFIDWithUHF;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import bean.FullInfo;
-import bean.MediaGoods;
-import bean.QPGoods;
-import bean.Rfid;
 import data.ConfigData;
-import hsic.ui.EditTime;
-import hsic.ui.HsicActivity;
-import util.ToastUtil;
-import util.UiUtil;
 
 public class ActivityFull extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
@@ -238,16 +236,6 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				MediaGoods mgGoods = (MediaGoods)mV.full_a.getSelectedItem();
-				if(mgGoods==null || mgGoods.getMediaCode()==null){
-					ToastUtil.showToast(getContext(), "请选择充装介质");
-					return;
-				}
-
-				if(mV.full_b.getText().toString().trim().length()==0 || nowGood==null){
-					ToastUtil.showToast(getContext(), "请选择商品");
-					return;
-				}
 				if(isStart){
 					if(mReader!=null && rfidTask!=null && rfidTask.getStatus()==AsyncTask.Status.RUNNING){
 						rfidTask.cancel(true);
@@ -457,13 +445,13 @@ public class ActivityFull extends HsicActivity implements WsListener{
 			String Media = ConfigData.getMediaName(rfid.getCZJZCode(), getApp().getMediaInfo());
 			rfid.setMediumName(Media);
 			if(Media.length()==0) rfid.setNextCheckDate(null);
-			wList.add(rfid);
+			wList.add(0, rfid);
 			reflishView();
 			return ;
 		}
 
 		if(ConfigData.IsOverdue(rfid.getNextCheckDate()) == ConfigData.OVERDUE){
-			wList.add(rfid);
+			wList.add(0, rfid);
 			reflishView();
 			return ;
 		}
@@ -485,7 +473,7 @@ public class ActivityFull extends HsicActivity implements WsListener{
 //			rfid.setMediumName(LastName);
 //		}
 
-		rList.add(rfid);
+		rList.add(0, rfid);
 		reflishView();
 		util.SoundUtil.play();
 	}
@@ -630,6 +618,17 @@ public class ActivityFull extends HsicActivity implements WsListener{
 //			mV.full_a.setEnabled(true);
 //			mV.full_b.setEnabled(true);
 		}else{
+			MediaGoods mgGoods = (MediaGoods)mV.full_a.getSelectedItem();
+			if(mgGoods==null || mgGoods.getMediaCode()==null){
+				ToastUtil.showToast(getContext(), "请选择充装介质");
+				return;
+			}
+
+			if(mV.full_b.getText().toString().trim().length()==0 || nowGood==null){
+				ToastUtil.showToast(getContext(), "请选择商品");
+				return;
+			}
+
 			if(mReader!=null && rfidTask==null){
 				isStart = true;
 				mV.btn1.setText(getResources().getString(R.string.btn_string_13));

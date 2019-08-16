@@ -6,11 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.hsic.qp.sz.R;
-
 import java.util.List;
-
 import bean.QPGoods;
 
 public class SelectAdapter extends BaseAdapter {

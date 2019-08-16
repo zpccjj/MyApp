@@ -19,20 +19,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.gson.reflect.TypeToken;
 import com.hsic.qp.sz.adapter.PrintAdapter;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.PrintfTask;
 import com.hsic.qp.sz.task.UploadTask;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import bean.InfoItem;
 import hsic.ui.HsicActivity;
 import util.ActivityUtils;

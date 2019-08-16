@@ -2,7 +2,6 @@ package util.print;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;

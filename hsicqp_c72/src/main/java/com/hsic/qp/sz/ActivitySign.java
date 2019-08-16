@@ -1,5 +1,15 @@
 package com.hsic.qp.sz;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import com.hsic.qp.sz.listener.WsListener;
+import util.PathFileUtils;
+import util.ToastUtil;
+import hsic.ui.SignatureView;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -12,20 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.hsic.qp.sz.listener.WsListener;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import bll.MyApplication;
-import hsic.ui.SignatureView;
-import util.PathFileUtils;
-import util.ToastUtil;
-
 public class ActivitySign extends Activity implements WsListener{
     private SignatureView mSignaturePad;
     private Button mClearButton;
@@ -35,10 +31,6 @@ public class ActivitySign extends Activity implements WsListener{
 
     private Context getContext(){
         return ActivitySign.this;
-    }
-
-    private MyApplication getApp(){
-        return (MyApplication) super.getApplication();
     }
 
     @Override

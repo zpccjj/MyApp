@@ -1,5 +1,13 @@
 package com.hsic.qp.sz;
 
+import java.util.ArrayList;
+import java.util.List;
+import util.RfidUtils;
+import util.ToastUtil;
+import bean.Rfid;
+import com.hsic.qp.sz.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+import hsic.ui.HsicActivity;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,17 +24,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-
-import com.hsic.qp.sz.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import bean.Rfid;
-import hsic.ui.HsicActivity;
-import util.RfidUtils;
-import util.ToastUtil;
 
 public class ActivitySelectBound extends HsicActivity{
     private final static String MenuHOME = "返回";

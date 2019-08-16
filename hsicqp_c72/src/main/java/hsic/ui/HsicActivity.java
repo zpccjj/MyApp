@@ -3,7 +3,6 @@ package hsic.ui;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
-
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 

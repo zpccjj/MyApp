@@ -1,13 +1,11 @@
 package com.hsic.qp.sz;
 
 import hsic.ui.HsicActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import util.ToastUtil;
-import util.UiUtil;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,23 +14,17 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import bean.FHLX;
-import bean.GasBaseInfo;
 import bean.MediumStatistics;
 import bean.Rfid;
-
 import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.sz.R;
 import com.hsic.qp.sz.adapter.RfidCheckAdapter;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.CallRfidWsTask;
@@ -288,7 +280,7 @@ public class ActivityCheck extends HsicActivity implements WsListener{
 		rfid.setOPID(OPID);
 		rfid.setFaultDm("0");
 
-		rList.add(rfid);
+		rList.add(0, rfid);
 		reflishView(false);
 		util.SoundUtil.play();
 	}

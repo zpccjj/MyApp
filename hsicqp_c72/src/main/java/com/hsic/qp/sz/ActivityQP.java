@@ -3,9 +3,6 @@ package com.hsic.qp.sz;
 import hsic.tmj.gridview.MyGridAdapter;
 import hsic.tmj.gridview.MyGridView;
 import hsic.ui.HsicActivity;
-
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +11,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ActivityQP extends HsicActivity {
-    private final static String MenuHOME = "их╗п";
+    private final static String MenuHOME = "返回";
 
     private MyGridView gridview;
 
-    private int[] img_text = { R.string.txt_home_13, R.string.txt_home_6, R.string.txt_home_15, R.string.txt_home_14, R.string.txt_home_16};
+    private int[] img_text = { R.string.txt_home_13, R.string.txt_home_6, R.string.txt_home_15, R.string.txt_home_19, R.string.txt_home_14, R.string.txt_home_16, R.string.txt_home_20};
 
-    private int[] imgs = { R.drawable.icon_qpbd,  R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd};
+    private int[] imgs = { R.drawable.icon_qpbd,  R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd, R.drawable.icon_qpbd};
 
-    private Intent[] Intents = new Intent[5];
+    private Intent[] Intents = new Intent[7];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +51,16 @@ public class ActivityQP extends HsicActivity {
                     Intents[i] =  new Intent(ActivityQP.this, ActivityQpInfo2.class);
                     break;
                 case 3:
-                    Intents[i] =  new Intent(ActivityQP.this, ActivitySelectBound.class);
+                    Intents[i] =  new Intent(ActivityQP.this, ActivityQpInfo3.class);
                     break;
                 case 4:
+                    Intents[i] =  new Intent(ActivityQP.this, ActivitySelectBound.class);
+                    break;
+                case 5:
                     Intents[i] =  new Intent(ActivityQP.this, ActivityRfidRead.class);
+                    break;
+                case 6:
+                    Intents[i] =  new Intent(ActivityQP.this, ActivitySearchQP.class);
                     break;
             }
         }

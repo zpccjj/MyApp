@@ -4,7 +4,6 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import bean.ResponseData;
 
 public class NetWorkUtils {

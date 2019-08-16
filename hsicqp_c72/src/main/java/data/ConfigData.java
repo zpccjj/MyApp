@@ -4,9 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import bean.MediaGoods;
-
 
 public class ConfigData {
 	public static int OVERDUE = 2 ;//超期

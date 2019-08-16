@@ -1,16 +1,7 @@
 package com.hsic.qp.sz.task;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import bean.InfoItem;
-import bean.ResponseData;
 import util.PathFileUtils;
 import util.print.Barcode;
 import util.print.GPrinterCommand;
@@ -18,6 +9,13 @@ import util.print.PrintPic;
 import util.print.PrintQueue;
 import util.print.PrintUtils;
 import util.print.PrinterUtils;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import bean.InfoItem;
+import bean.ResponseData;
 
 public class PrintfTask extends AsyncTask<String, Void, ResponseData> {
 	ProgressDialog dialog;
@@ -72,7 +70,7 @@ public class PrintfTask extends AsyncTask<String, Void, ResponseData> {
 				printBytes.add(GPrinterCommand.print);
 				printBytes.add(GPrinterCommand.left);
 				printBytes.add(GPrinterCommand.text_normal_size);
-				printBytes.add(PrintUtils.test("订单号:"+SaleID));
+				printBytes.add(PrintUtils.test(PrintUtils.printTwoData("订单号:", SaleID)));
 				printBytes.add(GPrinterCommand.print);
 
 				for (int i = 0; i < mData.size(); i++) {
@@ -85,12 +83,12 @@ public class PrintfTask extends AsyncTask<String, Void, ResponseData> {
 						}else if(mData.get(i).getKey().equals("1")){
 							printBytes.add(PrintUtils.test(mData.get(i).getName()));
 							printBytes.add(GPrinterCommand.print);
-							PrintUtils.printText(mData.get(i).getName() + "\n");
 						}else if(mData.get(i).getKey().equals("2")){
 							if(mData.get(i).getName().length()>8){
 								printBytes.add(PrintUtils.test(mData.get(i).getName()));
 								printBytes.add(GPrinterCommand.print);
 								printBytes.add(PrintUtils.test(PrintUtils.printTwoData("", mData.get(i).getValue())));
+							}else{
 								printBytes.add(PrintUtils.test(PrintUtils.printTwoData(mData.get(i).getName(), mData.get(i).getValue())));
 							}
 							printBytes.add(GPrinterCommand.print);
@@ -109,7 +107,7 @@ public class PrintfTask extends AsyncTask<String, Void, ResponseData> {
 				}
 				printBytes.add(GPrinterCommand.print);
 				printBytes.add(PrintUtils.test("客户签字:"));
-				if(SignFile==null && SignFile.length()>0){
+				if(SignFile==null || SignFile.length()==0){
 					printBytes.add(GPrinterCommand.print);
 					printBytes.add(GPrinterCommand.print);
 					printBytes.add(GPrinterCommand.print);

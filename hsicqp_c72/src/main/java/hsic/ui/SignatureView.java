@@ -17,9 +17,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.hsic.qp.sz.R;
-
 import java.util.ArrayList;
 import java.util.List;
 

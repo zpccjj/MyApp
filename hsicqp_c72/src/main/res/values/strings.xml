@@ -11,19 +11,21 @@
     <string name="txt_home_3">车辆配送</string>
     <string name="txt_home_4">充装登记</string>
     <string name="txt_home_5">充前检验</string>
-    <string name="txt_home_6">气瓶绑定</string>
+    <string name="txt_home_6">标签绑定</string>
     <string name="txt_home_7">车牌号:</string>
     <string name="txt_home_8">操作人:</string>
     <string name="txt_home_9">总瓶数:</string>
     <string name="txt_home_10">超期/即将超期:</string>
     <string name="txt_home_11">超期</string>
     <string name="txt_home_12">即将超期</string>
-    <string name="txt_home_13">基本信息登记</string>
+    <string name="txt_home_13">散瓶登记</string>
     <string name="txt_home_14">绑定查询</string>
-    <string name="txt_home_15">信息登记并绑定</string>
+    <string name="txt_home_15">散瓶登记绑定</string>
     <string name="txt_home_16">标签验证</string>
     <string name="txt_home_17">其他操作</string>
     <string name="txt_home_18">装车信息</string>
+    <string name="txt_home_19">集格登记绑定</string>
+    <string name="txt_home_20">集格气瓶查询</string>
 
     <string name="txt_qp_1">充装日期</string>
     <string name="txt_qp_2">充装时间(分钟)</string>
@@ -42,6 +44,8 @@
     <string name="txt_qp_15">商品名称:</string>
     <string name="txt_qp_16">充装批次号:</string>
     <string name="txt_qp_17">充装数量:</string>
+    <string name="txt_qp_18">瓶号/集格号:</string>
+    <string name="txt_qp_19">集格瓶数:</string>
 
     <string name="txt_info_1">产权单位</string>
     <string name="txt_info_2">气瓶类型</string>
@@ -64,8 +68,10 @@
     <string name="txt_info_19">已检验次数</string>
     <string name="txt_info_20">下次检验日期</string>
     <string name="txt_info_21">标签号</string>
-
-
+    <string name="txt_info_22">集格编号</string>
+    <string name="txt_info_23">集格内瓶数</string>
+    <string name="txt_info_24">最早制造日期</string>
+    <string name="txt_info_25">瓶号:</string>
 
     <string name="title_activity_query">查询</string>
     <string name="title_activity_count">统计</string>
@@ -100,6 +106,8 @@
     <string name="btn_string_24">拍照</string>
     <string name="btn_string_25">上传</string>
     <string name="btn_string_26">签名</string>
+    <string name="btn_string_27">加瓶</string>
+    <string name="btn_string_28">添加</string>
 
     <string name="title_string_01">用户登录</string>
     <string name="title_string_02">任务概况</string>
@@ -176,6 +184,12 @@
         <item>调瓶阀</item>
         <item>阀颈漏</item>
         <item>开关板断</item>
+    </string-array>
+
+    <string-array name="jgnum">
+        <item>9</item>
+        <item>15</item>
+        <item>16</item>
     </string-array>
 
 </resources>

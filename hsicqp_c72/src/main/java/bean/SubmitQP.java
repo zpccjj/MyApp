@@ -7,7 +7,7 @@ public class SubmitQP {
     private String MadeName;//制造单位名称
     private String MakeDate;//制造日期
     private String MediumCode;//介质代码
-    private String CZDW;//
+    private String CZDW;//充装单位，同产权单位
     private String CQDW;//产权单位
     private String JCDW;//检测单位
     private String JCZQ;//检测周期

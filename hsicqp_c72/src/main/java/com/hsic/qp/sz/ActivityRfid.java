@@ -1,6 +1,26 @@
 package com.hsic.qp.sz;
 
-
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import util.RfidUtils;
+import util.ToastUtil;
+import util.UiUtil;
+import util.WsUtils;
+import bean.GasBaseInfo;
+import bean.QPDJCode;
+import bean.ResponseData;
+import bean.Rfid;
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
+import data.ConfigData;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,31 +36,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
-
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import bean.GasBaseInfo;
-import bean.QPDJCode;
-import bean.ResponseData;
-import bean.Rfid;
-import data.ConfigData;
 import hsic.ui.HsicActivity;
-import util.RfidUtils;
-import util.ToastUtil;
-import util.UiUtil;
-import util.WsUtils;
 
 public class ActivityRfid extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
@@ -194,6 +190,8 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			ToastUtil.showToast(getContext(), "版本号错误");
 			return ;
 		}
+
+
 
 /*		if(!rfid.getCQDW().equals(getApp().getLogin().getStation())){
 			ToastUtil.showToast(getContext(), "非产权单位标签");
@@ -468,7 +466,7 @@ public class ActivityRfid extends HsicActivity implements WsListener{
 			//ws
 			QPDJCode info = new QPDJCode();
 			info.setBottleKindCode(mGbi.getStandNo().substring(0,2));
-			info.setPropertyUnitCode(mGbi.getCZDW());
+			info.setPropertyUnitCode(mRfid.getCQDW());
 			info.setUseRegCode(mRfid.getLabelNo());
 			info.setMediumCode(mGbi.getMediumCode());
 			info.setMakeDate(mGbi.getMakeDate());

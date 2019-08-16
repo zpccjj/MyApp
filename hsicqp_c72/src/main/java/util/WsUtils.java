@@ -1,10 +1,8 @@
 package util;
 
 import android.content.Context;
-
 import java.util.List;
 import java.util.Map;
-
 import bean.ResponseData;
 import bean.WsInfo;
 import bll.GetData;

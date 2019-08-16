@@ -10,9 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.hsic.qp.sz.R;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;

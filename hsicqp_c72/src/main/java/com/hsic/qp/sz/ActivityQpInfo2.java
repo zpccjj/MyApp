@@ -1,5 +1,32 @@
 package com.hsic.qp.sz;
 
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import util.AllCapTransformationMethod;
+import util.RfidUtils;
+import util.ToastUtil;
+import util.UiUtil;
+import util.WsUtils;
+import bean.BasicInfo;
+import bean.BasicQPInfo;
+import bean.BasicQPInfo2;
+import bean.BasicUnit;
+import bean.QPDJCode;
+import bean.ResponseData;
+import bean.Rfid;
+import bean.SubmitQP;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
+import hsic.ui.ConfirmDialog;
+import hsic.ui.EditDate;
+import hsic.ui.HsicActivity;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,36 +46,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-import com.rscja.deviceapi.RFIDWithUHF.BankEnum;
-
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import bean.BasicInfo;
-import bean.BasicQPInfo;
-import bean.BasicQPInfo2;
-import bean.BasicUnit;
-import bean.QPDJCode;
-import bean.ResponseData;
-import bean.Rfid;
-import bean.SubmitQP;
-import hsic.ui.ConfirmDialog;
-import hsic.ui.EditDate;
-import hsic.ui.HsicActivity;
-import util.AllCapTransformationMethod;
-import util.RfidUtils;
-import util.ToastUtil;
-import util.UiUtil;
-import util.WsUtils;
 
 public class ActivityQpInfo2 extends HsicActivity implements WsListener{
     private final static String MenuHOME = "返回";
@@ -222,27 +219,20 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-                setCheckTimes();
-            }
-        });
+                if(s.toString().length()>0 && mView.info_17.getText().toString().length()>0){
+                    try {
+                        int start = Integer.valueOf(s.toString().substring(0, 4));
+                        int zq = Integer.valueOf(mView.info_17.getText().toString());
+                        int now = Integer.valueOf(new SimpleDateFormat("yyyy").format(new Date()));
 
-        mView.info_17.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-                setCheckTimes();
+                        mView.info_19.setText(String.valueOf( ((now-start) / zq )) );
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        mView.info_19.setText("0");
+                    }
+                }else{
+                    mView.info_19.setText("0");
+                }
             }
         });
 
@@ -372,30 +362,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
             }
         });
 
-        mView.btn_submit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                UiUtil.CloseKey(ActivityQpInfo2.this);
-
-                if(mQp==null){
-                    ToastUtil.showToast(getContext(), "请先登记基本基本信息");
-                    return ;
-                }
-
-                if(LastRfid==null){
-                    ToastUtil.showToast(getContext(), "请先读取标签号");
-                    return ;
-                }
-                if(mView.info_tag.getText().toString().trim().length()==0){
-                    ToastUtil.showToast(getContext(), "请先读取标签号");
-                    return ;
-                }
-
-                new RfidTask(getContext(), LastRfid, mQp).execute(mReader);
-
-            }
-        });
     }
 
     private class RfidTask  extends AsyncTask<RFIDWithUHF, Void, ResponseData> {
@@ -565,7 +531,7 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
             //ws
             QPDJCode info = new QPDJCode();
             info.setBottleKindCode(mSubmitQP.getStandNo().substring(0,2));
-            info.setPropertyUnitCode(mSubmitQP.getCZDW());
+            info.setPropertyUnitCode(mRfid.getCQDW());
             info.setUseRegCode(mRfid.getLabelNo());
             info.setMediumCode(mSubmitQP.getMediumCode());
             info.setMakeDate(mSubmitQP.getMakeDate());
@@ -601,7 +567,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
             dialog.show();
 
             mView.btn_read.setEnabled(false);
-            mView.btn_submit.setEnabled(false);
             super.onPreExecute();
         }
 
@@ -609,7 +574,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
         protected void onPostExecute(ResponseData result) {
             // TODO Auto-generated method stub
             mView.btn_read.setEnabled(false);
-            mView.btn_submit.setEnabled(true);
             dialog.setCancelable(true);
 
             if(result.getRespCode()==0){
@@ -651,22 +615,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
         mView.info_20.setText("");
     }
 
-    private void setCheckTimes(){
-        if(mView.info_7.getText().toString().length()>0 && mView.info_17.getText().toString().length()>0){
-            try {
-                int start = Integer.valueOf(mView.info_7.getText().toString().substring(0, 4));
-                int zq = Integer.valueOf(mView.info_17.getText().toString());
-                int now = Integer.valueOf(new SimpleDateFormat("yyyy").format(new Date()));
-
-                mView.info_19.setText(String.valueOf( ((now-start) / zq )) );
-            } catch (Exception e) {
-                // TODO: handle exception
-                mView.info_19.setText("");
-            }
-        }else{
-            mView.info_19.setText("");
-        }
-    }
 
     private void initView(){
         mView = new InfoView();
@@ -694,7 +642,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
         mView.info_20 = (EditDate) findViewById(R.id.info_20);
 
         mView.btn_clean = (Button) findViewById(R.id.qpinfo_clean);
-        mView.btn_submit = (Button) findViewById(R.id.qpinfo_submit);
         mView.btn_read = (Button) findViewById(R.id.qpinfo_read);
         mView.btn_save = (Button) findViewById(R.id.qpinfo_save);
 
@@ -731,7 +678,6 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
 
         Button btn_clean;
         Button btn_save;
-        Button btn_submit;
         Button btn_read;
     }
 
@@ -868,11 +814,12 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
         // TODO Auto-generated method stub
         if(isSuccess){
             if(code==9){
-                ToastUtil.showToast(getContext(), "提交基本信息成功");
+                ToastUtil.showToast(getContext(), "登记气瓶基本信息成功");
 
                 setViewsEnabled(false);
                 CanRead = true;
-                mView.btn_read.setEnabled(true);
+                if(hasRfid)
+                    mView.btn_read.setEnabled(true);
             }else if(code==8){
                 setData(retData);
             }
@@ -935,7 +882,7 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
                 UiUtil.CloseKey(ActivityQpInfo2.this);
 
                 if(mQp==null){
-                    ToastUtil.showToast(getContext(), "请先登记基本基本信息");
+                    ToastUtil.showToast(getContext(), "请先登记气瓶基本信息");
                     return ;
                 }
 
@@ -969,7 +916,7 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
 
     @Override
     public void ScanRfid(){
-        if(CanRead){
+        if(hasRfid && CanRead){
             LastRfid = null;
             mView.info_tag.setText("");
 
@@ -986,6 +933,7 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
     /**
      * 设备上电异步类
      */
+    private boolean hasRfid = false;
     private class InitTask extends AsyncTask<String, Integer, Integer> {
         ProgressDialog mypDialog;
         Context mContext;
@@ -1041,14 +989,13 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
                         break;
                 }
                 ToastUtil.showToast(getContext(), txt);
-                mView.btn_submit.setEnabled(false);
                 mView.btn_read.setEnabled(false);
                 mView.btn_save.setEnabled(false);
                 mView.btn_clean.setEnabled(false);
             }else{
                 ToastUtil.showToast(getContext(), "RFID设备开启");
+                hasRfid = true;
                 mView.btn_read.setEnabled(false);
-                mView.btn_submit.setEnabled(true);
                 mView.btn_save.setEnabled(true);
                 mView.btn_clean.setEnabled(true);
             }
@@ -1066,4 +1013,5 @@ public class ActivityQpInfo2 extends HsicActivity implements WsListener{
             mypDialog.show();
         }
     }
+
 }

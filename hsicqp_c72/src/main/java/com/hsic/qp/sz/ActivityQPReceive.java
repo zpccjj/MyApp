@@ -20,13 +20,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.google.gson.reflect.TypeToken;
 import com.hsic.qp.sz.adapter.ReceiveAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import bean.QPGoods;
 import bean.QPInfo;
 import hsic.ui.HsicActivity;

@@ -1,5 +1,6 @@
 package com.hsic.qp.sz;
 
+import bll.MyApplication;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-import bll.MyApplication;
 import hsic.tmj.gridview.MyGridAdapter;
 import hsic.tmj.gridview.MyGridView;
 import hsic.ui.ConfirmDialog;

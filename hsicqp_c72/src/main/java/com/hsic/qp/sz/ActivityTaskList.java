@@ -1,5 +1,16 @@
 package com.hsic.qp.sz;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import util.ActivityUtils;
+import com.hsic.qp.sz.adapter.TaskAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.SaleInfoTask;
+import bean.QPGoods;
+import bean.Sale;
+import bean.TruckNoInfo;
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,21 +23,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.hsic.qp.sz.adapter.TaskAdapter;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.SaleInfoTask;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import bean.QPGoods;
-import bean.Sale;
-import bean.TruckNoInfo;
 import hsic.ui.HsicActivity;
-import util.ActivityUtils;
 
 public class ActivityTaskList extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";

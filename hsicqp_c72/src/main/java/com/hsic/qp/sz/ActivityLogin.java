@@ -1,5 +1,12 @@
 package com.hsic.qp.sz;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import util.ActivityUtils;
+import util.MD5Utils;
+import util.ToastUtil;
+import util.UiUtil;
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,24 +20,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-
+import bean.InfoItem;
+import bean.EmployeeInfo;
+import bean.MediaGoods;
 import com.actionbarsherlock.view.MenuItem;
 import com.hsic.qp.sz.listener.WsListener;
 import com.hsic.qp.sz.task.LoginTask;
 import com.hsic.version.VersionAsyncTask;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import bean.EmployeeInfo;
-import bean.InfoItem;
-import bean.MediaGoods;
 import hsic.ui.HsicActivity;
-import util.ActivityUtils;
-import util.MD5Utils;
-import util.ToastUtil;
-import util.UiUtil;
 
 public class ActivityLogin extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "设置";

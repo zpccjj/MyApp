@@ -1,20 +1,17 @@
 package com.hsic.qp.sz.task;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.hsic.qp.sz.listener.WsListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import bean.ResponseData;
 import util.UiUtil;
 import util.WsUtils;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+import bean.ResponseData;
+import com.hsic.qp.sz.listener.WsListener;
 
 public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 	private Context mContext;
@@ -39,6 +36,8 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 		else if(code==9) mFun = "AddGasBaseInfo";
 		else if(code==10) mFun = "SearchSaleInfo";
 		else if(code==11) mFun = "getQPInfo";
+		else if(code==12) mFun = "AddJGGasBaseInfo";
+		else if(code==13) mFun = "getJGQPInfo";
 	}
 
 	@Override
@@ -53,9 +52,11 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 		else if(mCode==6) dialog.setMessage("正在上传采集信息...");
 		else if(mCode==7) dialog.setMessage("正在获取气瓶信息...");
 		else if(mCode==8) dialog.setMessage("正在获取基础数据...");
-		else if(mCode==9) dialog.setMessage("正在提交基本信息...");
+		else if(mCode==9) dialog.setMessage("正在登记气瓶基本信息...");
 		else if(mCode==10) dialog.setMessage("正在获取打印信息...");
 		else if(mCode==11) dialog.setMessage("正在校验气瓶充装商品...");
+		else if(mCode==12) dialog.setMessage("正在登记集格气瓶信息...");
+		else if(mCode==13) dialog.setMessage("正在集格内气瓶信息...");
 
 		dialog.setCancelable(false);
 		dialog.show();
@@ -96,6 +97,11 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 			map2.put("propertyName", "SaleID");
 			map2.put("propertyValue", params[0]);
 			propertyList.add(map2);
+		}else if(mCode==13){
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("propertyName", "QPDJCode");
+			map2.put("propertyValue", params[0]);
+			propertyList.add(map2);
 		}else{
 			ResponseData info = new ResponseData();
 			info.setRespMsg(params[0]);
@@ -120,7 +126,7 @@ public class CallRfidWsTask extends AsyncTask<String, Void, ResponseData> {
 			if(mListener!=null) mListener.WsFinish(true, mCode, result.getRespMsg());
 		}else{
 			//	dialog.setMessage("错误："+result.getRespMsg());
-			if(mCode==1 || mCode==2 || mCode==3 || mCode==7 || mCode==8 || mCode==9 || mCode==10){
+			if(mCode==1 || mCode==2 || mCode==3 || mCode==7 || mCode==8 || mCode==9 || mCode==10 || mCode==12){
 				dialog.setMessage("错误："+result.getRespMsg());
 				if(mCode==1) dialog.setMessage(result.getRespMsg());
 				UiUtil.CloseDiag(dialog);

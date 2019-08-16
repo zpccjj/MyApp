@@ -1,9 +1,29 @@
 package com.hsic.qp.sz;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import util.ToastUtil;
+import bean.FHLX;
+import bean.MediumStatistics;
+import bean.QPInfo;
+import bean.Rfid;
+import bean.TruckGoods;
+import bean.TruckQPInfo;
+import com.actionbarsherlock.view.MenuItem;
+import com.google.gson.reflect.TypeToken;
+import com.hsic.qp.sz.adapter.RfidAdapter;
+import com.hsic.qp.sz.adapter.TruckGoodsAdapter;
+import com.hsic.qp.sz.listener.WsListener;
+import com.hsic.qp.sz.task.CallRfidWsTask;
+import com.hsic.qp.sz.task.ScanTask;
+import com.rscja.deviceapi.RFIDWithUHF;
+import data.ConfigData;
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -16,42 +36,19 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.MenuItem;
-import com.google.gson.reflect.TypeToken;
-import com.hsic.qp.sz.adapter.RfidAdapter;
-import com.hsic.qp.sz.adapter.TruckGoodsAdapter;
-import com.hsic.qp.sz.listener.WsListener;
-import com.hsic.qp.sz.task.CallRfidWsTask;
-import com.hsic.qp.sz.task.ScanTask;
-import com.rscja.deviceapi.RFIDWithUHF;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import bean.FHLX;
-import bean.MediumStatistics;
-import bean.QPInfo;
-import bean.Rfid;
-import bean.TruckGoods;
-import bean.TruckQPInfo;
-import data.ConfigData;
 import hsic.ui.ConfirmDialog;
 import hsic.ui.HsicActivity;
-import util.ToastUtil;
 
 public class ActivityTruckInOut extends HsicActivity implements WsListener{
 	private final static String MenuHOME = "返回";
@@ -578,7 +575,7 @@ public class ActivityTruckInOut extends HsicActivity implements WsListener{
 				rfid.setMediumName(Media);
 				if(Media.length()==0) rfid.setNextCheckDate(null);
 			}
-			wList.add(rfid);
+			wList.add(0,rfid);
 			reflishView(false);
 			return ;
 		}else{
@@ -612,7 +609,7 @@ public class ActivityTruckInOut extends HsicActivity implements WsListener{
 		if(IO==0){
 
 			if(ConfigData.IsOverdue(rfid.getNextCheckDate()) == ConfigData.OVERDUE){
-				wList.add(rfid);
+				wList.add(0,rfid);
 				reflishView(false);
 				return ;
 			}
@@ -622,7 +619,7 @@ public class ActivityTruckInOut extends HsicActivity implements WsListener{
 			rfid.setReceiveDate(sdf.format(new Date()));
 		}
 
-		rList.add(rfid);
+		rList.add(0,rfid);
 
 
 		reflishView(false);
@@ -890,10 +887,10 @@ public class ActivityTruckInOut extends HsicActivity implements WsListener{
 										}
 									}
 									oldList.get(i).setColor(1);
-									wList.add(oldList.get(i));
+									wList.add(0,oldList.get(i));
 								}
 							}else{
-								wList.add(oldList.get(i));
+								wList.add(0,oldList.get(i));
 							}
 
 							break;

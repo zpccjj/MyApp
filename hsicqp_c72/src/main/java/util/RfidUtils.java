@@ -1,7 +1,9 @@
 package util;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
+import android.util.Log;
 import bean.Rfid;
 
 public class RfidUtils {
@@ -34,13 +36,36 @@ public class RfidUtils {
 			if(rfid.getType().equals("01")) rfid.setIsJG(1);
 			else rfid.setIsJG(0);
 			rfid.setQPDJCode(rfid.getCQDW() + rfid.getLabelNo());
-
+			Log.e("="+rfid.getCQDW()+rfid.getLabelNo(), "rfid.getType()="+rfid.getType());
 			return util.json.JSONUtils.toJsonWithGson(rfid);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static void getDataFromUser(Rfid rfid, String user){
+		if(user==null || user.length()!=52) return ;
+		String userX34 = xorHex(user, "34");
+		Log.e("userX34", userX34);
+		byte[] Data = hexStringToBytes(userX34);
+		String bitString = "";
+		for (int i = 0; i < Data.length; i++) {
+			bitString+=byteToBit(Data[i]);
+		}
+
+		rfid.setCheckDate(String.format("%04d", binaryToDecimal(bitString.substring(24, 44))));
+		String qp = "";
+		try {
+			qp = new String(RfidUtils.hexStringToBytes(userX34.substring(14, 38)), "UTF-8").replace(" ", "");
+			Log.e("气瓶号", qp);
+			rfid.setQPNO(qp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		rfid.setQPNO(qp);
 	}
 
 

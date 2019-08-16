@@ -10,12 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import com.hsic.qp.sz.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import bean.QPGoods;
 
 public class SelectDialog extends Dialog{

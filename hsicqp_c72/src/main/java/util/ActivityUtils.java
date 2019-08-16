@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.hsic.qp.sz.ActivityConfig;
 import com.hsic.qp.sz.ActivityPrint;
 import com.hsic.qp.sz.ActivityQP;

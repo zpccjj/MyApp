@@ -1,13 +1,10 @@
 package com.hsic.qp.sz.task;
+
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-
 import com.rscja.deviceapi.RFIDWithUHF;
-
 import util.RfidUtils;
-
-
 
 public class ScanTask  extends AsyncTask<RFIDWithUHF, Void, String> {
 	Handler mHandler;

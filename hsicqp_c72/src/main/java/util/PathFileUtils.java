@@ -2,7 +2,6 @@ package util;
 
 import android.graphics.BitmapFactory.Options;
 import android.os.Environment;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
